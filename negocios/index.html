@@ -341,7 +341,8 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 .rc.hi .i,.rc.hi .rk,.rc.hi strong,.rc.hi strong small,.rc.hi .rs{color:var(--ink)}
 .nextstep{font-size:21px;line-height:1.45;color:var(--muted);max-width:1100px}
 .nextstep b{color:var(--cream)}
-.zapbox{display:flex;align-items:center;gap:18px;padding:18px 26px;border-radius:22px;background:rgba(30,24,19,.92);border:2px solid var(--orange)}
+.zapbox{text-decoration:none;color:inherit;transition:transform .15s,background .2s;display:flex;align-items:center;gap:18px;padding:18px 26px;border-radius:22px;background:rgba(30,24,19,.92);border:2px solid var(--orange)}
+.zapbox:hover{transform:translateY(-2px);background:rgba(255,90,31,.18)}
 .zapbox .i{font-size:44px;color:var(--orange)}
 .zapbox small{display:block;font-size:16px;color:var(--muted)}
 .cta .zapbox .phone-n{font:800 40px var(--display);font-variant-numeric:tabular-nums;color:var(--cream)}
@@ -599,23 +600,23 @@ body.stack #bar{display:none}
 <section class="slide light" id="s-pacotes" aria-label="Pacotes">
   <div class="head"><p class="eyebrow a" style="--d:1">Como posso te ajudar</p><h2 class="a" style="--d:2">Qual faz mais sentido para o seu momento?</h2></div>
   <div class="packs" id="packs">
-    <div class="pack a" style="--d:3" data-name="Essencial">
+    <div class="pack a" style="--d:3" data-name="Essencial" data-key="essencial">
       <p class="kick">Para começar</p><h3>Essencial</h3>
       <p class="price num">R$ 2.000</p><p class="per">por mês + R$ 1.900 na vitrine · fidelidade de 6 meses</p><p class="old">Avulso: R$ 2.000/mês + R$ 2.800</p>
       <ul><li><svg class="i"><use href="#i-check"/></svg>Social media + audiovisual</li><li><svg class="i"><use href="#i-check"/></svg>Vitrine e oferta com R$ 900 off</li><li class="off"><svg class="i"><use href="#i-x"/></svg>Tráfego pago e rastreamento</li><li class="off"><svg class="i"><use href="#i-x"/></svg>Site, CRM e vídeos com rosto</li></ul>
-      <button type="button" class="btn">Quero o Essencial</button>
+      <a class="btn wa-btn" href="https://wa.me/5521967640607" target="_blank" rel="noopener">Quero o Essencial</a>
     </div>
-    <div class="pack featured a" style="--d:4" data-name="Crescimento">
+    <div class="pack featured a" style="--d:4" data-name="Crescimento" data-key="crescimento">
       <p class="kick">Mais escolhido</p><h3>Crescimento</h3>
       <p class="price num">R$ 3.300</p><p class="per">por mês · fidelidade de 6 meses</p><p class="old">Avulso: R$ 3.500/mês + R$ 3.700</p>
       <ul><li><svg class="i"><use href="#i-check"/></svg>Social media + audiovisual</li><li><svg class="i"><use href="#i-check"/></svg>Vitrine e oferta inclusas</li><li><svg class="i"><use href="#i-check"/></svg>Tráfego pago</li><li><svg class="i"><use href="#i-check"/></svg>Rastreamento com setup grátis</li><li class="off"><svg class="i"><use href="#i-x"/></svg>Site, CRM e vídeos com rosto</li></ul>
-      <button type="button" class="btn solid">Quero o Crescimento</button>
+      <a class="btn solid wa-btn" href="https://wa.me/5521967640607" target="_blank" rel="noopener">Quero o Crescimento</a>
     </div>
-    <div class="pack a" style="--d:5" data-name="Domínio">
+    <div class="pack a" style="--d:5" data-name="Domínio" data-key="dominio">
       <p class="kick">Completo</p><h3>Domínio</h3>
       <p class="price num">R$ 5.490</p><p class="per">por mês · fidelidade de 12 meses</p><p class="old">Avulso: R$ 6.100/mês + a partir de R$ 7.700</p>
       <ul><li><svg class="i"><use href="#i-check"/></svg>Tudo do Crescimento</li><li><svg class="i"><use href="#i-check"/></svg>Site próprio incluso</li><li><svg class="i"><use href="#i-check"/></svg>CRM com implantação grátis</li><li><svg class="i"><use href="#i-check"/></svg>4 vídeos por mês com rosto</li><li><svg class="i"><use href="#i-check"/></svg>Posicionamento com 50% off</li></ul>
-      <button type="button" class="btn">Quero o Domínio</button>
+      <a class="btn wa-btn" href="https://wa.me/5521967640607" target="_blank" rel="noopener">Quero o Domínio</a>
     </div>
   </div>
   <p id="escolha" aria-live="polite"></p>
@@ -638,7 +639,7 @@ body.stack #bar{display:none}
     </div>
     <p class="nextstep a" style="--d:7">Próximo passo: <b>Diagnóstico Vitrine Digital completo, grátis</b>, com a análise do seu perfil post a post e a proposta montada com estes números.</p>
     <div class="cta a" style="--d:8">
-      <div class="zapbox"><svg class="i"><use href="#i-message-circle"/></svg><div><small>Fale comigo no WhatsApp</small><div class="phone-n" id="zap">(21) 96764-0607</div></div></div>
+      <a class="zapbox" id="zaplink" href="https://wa.me/5521967640607" target="_blank" rel="noopener"><svg class="i"><use href="#i-message-circle"/></svg><div><small>Toque para falar no WhatsApp</small><div class="phone-n" id="zap">(21) 96764-0607</div></div></a>
       <button type="button" class="btn solid" id="copy"><svg class="i"><use href="#i-copy"/></svg><span>Copiar número</span></button>
     </div>
   </div>
@@ -783,7 +784,7 @@ function calc(){
   const ser=series(), ano=ser[11];
   tween($('#r-mes'),ano,brl); tween($('#r-ano'),ano/12,brl);
   tween($('#r-cres'),mais/ped*100,n=>'+'+n.toLocaleString('pt-BR',{maximumFractionDigits:0})+'%');
-  tween($('#r-roi'),ano/12/3300,n=>n.toLocaleString('pt-BR',{maximumFractionDigits:1})+'×');
+  tween($('#r-roi'),ano/12/(window.mmCresc||3300),n=>n.toLocaleString('pt-BR',{maximumFractionDigits:1})+'×');
   if(chart){chart.data.datasets[0].data=ser;chart.update()}
   base();
 }
@@ -847,7 +848,8 @@ const MS=[['Mês 0','Diagnóstico','Nota Vitrine e a conta do dinheiro na mesa.'
 $('#ms').innerHTML=MS.map((m,i)=>`<div class="m"><div class="card pop" style="--d:${3+i*1.4}"><span class="mes">${m[0]}</span><span class="t">${m[1]}</span><span class="s">${m[2]}</span></div><span class="dot pop" style="--d:${2+i*1.4}"></span></div>`).join('');
 
 /* ---------- pacotes ---------- */
-$$('#packs .pack').forEach(p=>p.querySelector('button').onclick=e=>{
+$$('#packs .pack').forEach(p=>p.querySelector('.wa-btn').onclick=e=>{
+  e.currentTarget.href=window.mmWaLink?window.mmWaLink(p):e.currentTarget.href;
   $$('#packs .pack').forEach(x=>x.classList.toggle('chosen',x===p));
   $('#escolha').textContent=`Escolhido: ${p.dataset.name}. Próximo passo: agendar o Diagnóstico Vitrine Digital.`;
   if(window.confetti&&!reduce){const r=e.currentTarget.getBoundingClientRect();
@@ -895,6 +897,45 @@ addEventListener('DOMContentLoaded',function(){
   let rq=0;const soon=()=>{cancelAnimationFrame(rq);rq=requestAnimationFrame(resumo)};
   ['input','change','click','keyup'].forEach(t=>document.addEventListener(t,soon,true));
   resumo();setTimeout(resumo,400);
+});
+</script>
+<script>
+/* Preços e WhatsApp: lidos de /precos.json (editável no GitHub). Sem o arquivo, ficam os valores escritos aqui. */
+addEventListener('DOMContentLoaded',function(){
+  let WA='5521967640607';
+  const DECK='negocios';
+  const num=t=>{const n=parseInt(String(t).replace(/[^0-9]/g,''),10);return isNaN(n)?null:n};
+  window.mmWaLink=function(p){
+    const nome=((document.getElementById('nome')||{}).value||'').trim();
+    const preco=(p.querySelector('.price')||{}).textContent||'';
+    let msg='Olá! Vi a apresentação da MMATTOS e quero o plano '+p.dataset.name+(preco?' ('+preco.trim()+' por mês)':'')+'.';
+    if(nome)msg+=' Empresa: '+nome+'.';
+    return 'https://wa.me/'+WA+'?text='+encodeURIComponent(msg);
+  };
+  function zap(){
+    const a=document.getElementById('zaplink');if(!a)return;
+    const nome=((document.getElementById('nome')||{}).value||'').trim();
+    a.href='https://wa.me/'+WA+'?text='+encodeURIComponent('Olá! Vi a apresentação da MMATTOS'+(nome?' ('+nome+')':'')+' e quero agendar o diagnóstico.');
+  }
+  document.addEventListener('input',e=>{if(e.target&&e.target.id==='nome')zap()});
+  zap();
+  const cres=document.querySelector('.pack[data-key="crescimento"] .price');
+  if(cres)window.mmCresc=num(cres.textContent)||3300;
+  fetch('/precos.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(cfg=>{
+    if(!cfg)return;
+    if(cfg.whatsapp)WA=String(cfg.whatsapp).replace(/[^0-9]/g,'')||WA;
+    const z=document.getElementById('zap');if(z&&cfg.whatsapp_exibido)z.textContent=cfg.whatsapp_exibido;
+    const d=cfg[DECK]||{};
+    Object.keys(d).forEach(k=>{
+      const p=document.querySelector('.pack[data-key="'+k+'"]');if(!p)return;const v=d[k]||{};
+      const set=(sel,t)=>{const e=p.querySelector(sel);if(e&&typeof t==='string'&&t)e.textContent=t};
+      set('.price',v.preco);set('.per',v.condicao);set('.old',v.avulso);
+    });
+    const c2=document.querySelector('.pack[data-key="crescimento"] .price');
+    if(c2)window.mmCresc=num(c2.textContent)||window.mmCresc;
+    zap();
+    const r=document.getElementById('c-mais');if(r)r.dispatchEvent(new Event('input',{bubbles:true}));
+  }).catch(()=>{});
 });
 </script>
 <script type="application/json" id="mm-edits">{}</script>

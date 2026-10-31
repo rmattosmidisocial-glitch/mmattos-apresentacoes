@@ -1,0 +1,16 @@
+{
+  "whatsapp": "5521967640607",
+  "whatsapp_exibido": "(21) 96764-0607",
+
+  "negocios": {
+    "essencial":   { "preco": "R$ 2.000", "condicao": "por mês + R$ 1.900 na vitrine · fidelidade de 6 meses", "avulso": "Avulso: R$ 2.000/mês + R$ 2.800" },
+    "crescimento": { "preco": "R$ 3.300", "condicao": "por mês · fidelidade de 6 meses", "avulso": "Avulso: R$ 3.500/mês + R$ 3.700" },
+    "dominio":     { "preco": "R$ 5.490", "condicao": "por mês · fidelidade de 12 meses", "avulso": "Avulso: R$ 6.100/mês + a partir de R$ 7.700" }
+  },
+
+  "food": {
+    "essencial":   { "preco": "R$ 2.000", "condicao": "por mês + R$ 1.900 no cardápio · fidelidade de 6 meses", "avulso": "Avulso: R$ 2.000/mês + R$ 2.800" },
+    "crescimento": { "preco": "R$ 3.300", "condicao": "por mês · fidelidade de 6 meses", "avulso": "Avulso: R$ 3.500/mês + R$ 3.700" },
+    "dominio":     { "preco": "R$ 5.490", "condicao": "por mês · fidelidade de 12 meses", "avulso": "Avulso: R$ 6.100/mês + a partir de R$ 7.700" }
+  }
+}
