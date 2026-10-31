@@ -1,0 +1,1005 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="description" content="Marketing completo para restaurantes: da vitrine no Instagram ao cliente que volta a pedir."><meta property="og:title" content="MMATTOS Food ao Vivo"><meta property="og:description" content="Marketing completo para restaurantes: da vitrine no Instagram ao cliente que volta a pedir."><link rel="icon" type="image/png" href="/assets/logo.png"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style></head><body><meta charset="utf-8">
+<title>MMATTOS Food ao Vivo</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: palco fixo 1600×900 escalado para a tela; slides alternam fundo carvão (palco) e creme (papel de cardápio), laranja só onde há ação */
+:root{
+  --ink:#14100D; --ink2:#1E1813; --ink3:#2A211B; --line:#3A2E25;
+  --cream:#F6EFE6; --cream2:#EAE0D2; --paper:#FFFCF7; --line-c:#E1D5C4;
+  --orange:#FF5A1F; --orange-d:#B23A12; --gold:#F2B33D;
+  --muted:#CFC4B6; --muted-c:#5A4D42;
+  --bad:#FF6B5B; --good:#4CC38A;
+  --display:'Bricolage Grotesque', 'Trebuchet MS', Arial, sans-serif;
+  --body:'Inter', 'Segoe UI', Arial, sans-serif;
+  color-scheme:dark;
+}
+html,body{height:100%}
+body{background:var(--ink);color:var(--cream);font-family:var(--body);overflow:hidden;
+  padding-left:max(0px, env(safe-area-inset-left,0px));padding-right:max(0px, env(safe-area-inset-right,0px))}
+*{box-sizing:border-box}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.i{width:1em;height:1em;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- palco ---------- */
+#deck{position:fixed;inset:0;overflow:hidden;background:#0C0907}
+#stage{position:absolute;left:50%;top:50%;width:1600px;height:900px;transform-origin:0 0}
+.slide{position:absolute;inset:0;overflow:hidden;opacity:0;visibility:hidden;transition:opacity .5s ease,visibility 0s linear .5s;
+  padding:72px 88px 88px;display:flex;flex-direction:column;gap:32px;background:var(--ink)}
+.slide.is-active{opacity:1;visibility:visible;transition:opacity .5s ease}
+.slide.light{background:var(--cream);color:var(--ink)}
+.slide.hot{background:var(--orange);color:var(--ink)}
+
+.eyebrow{font:600 16px/1 var(--body);letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.light .eyebrow{color:var(--orange-d)} .hot .eyebrow{color:var(--ink)}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;font-optical-sizing:auto}
+h1{font-size:108px;font-weight:800;line-height:.98;letter-spacing:-.02em}
+h2{font-size:58px;font-weight:700;line-height:1.05;letter-spacing:-.015em}
+h3{font-size:28px;font-weight:700;line-height:1.15}
+p{margin:0}
+.lead{font-size:24px;line-height:1.45;color:var(--muted)}
+.light .lead{color:var(--muted-c)}
+.small{font-size:17px;line-height:1.45;color:var(--muted)}
+.light .small{color:var(--muted-c)}
+.head{display:flex;flex-direction:column;gap:14px}
+.accent{color:var(--orange)}
+.num{font-variant-numeric:tabular-nums}
+
+/* entrada dos elementos ao ativar o slide */
+.slide.is-active .a{animation:rise .75s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--d,0) * 90ms)}
+@keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+.slide.is-active .pop{animation:pop .6s cubic-bezier(.3,1.5,.5,1) both;animation-delay:calc(var(--d,0) * 110ms)}
+@keyframes pop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+
+/* ---------- barra de controle ---------- */
+#bar{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;align-items:center;gap:16px;
+  padding:10px max(16px, env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px, env(safe-area-inset-left,0px));
+  background:linear-gradient(to top,rgba(12,9,7,.85),rgba(12,9,7,0));opacity:.35;transition:opacity .3s}
+#bar:hover,#bar:focus-within{opacity:1}
+#bar .brand{font:700 14px/1 var(--display);letter-spacing:.12em;color:var(--cream)}
+#prog{flex:1;height:4px;background:rgba(246,239,230,.15);border-radius:4px;overflow:hidden}
+#prog i{display:block;height:100%;width:0;background:var(--orange);transition:width .4s}
+#count{font:600 14px var(--body);color:var(--muted);font-variant-numeric:tabular-nums;min-width:56px;text-align:right}
+.ctl{width:40px;height:40px;border-radius:50%;border:1px solid rgba(246,239,230,.25);background:rgba(20,16,13,.6);display:grid;place-items:center;font-size:18px}
+.ctl:hover{background:var(--orange);border-color:var(--orange);color:var(--ink)}
+
+/* ---------- componentes ---------- */
+.btn{display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:14px 26px;font-weight:600;font-size:19px;border:1.5px solid currentColor;background:transparent;transition:transform .15s,background .2s,color .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn.solid{background:var(--orange);border-color:var(--orange);color:var(--ink)}
+.seg{display:inline-flex;padding:5px;border-radius:999px;background:var(--ink3);gap:4px}
+.light .seg{background:var(--cream2)}
+.seg button{border:0;background:transparent;border-radius:999px;padding:10px 22px;font-weight:600;font-size:17px;color:var(--muted)}
+.light .seg button{color:var(--muted-c)}
+.seg button[aria-pressed="true"]{background:var(--orange);color:var(--ink)}
+.hot .seg{background:rgba(20,16,13,.14)} .hot .seg button{color:var(--ink)}
+.hot .seg button[aria-pressed="true"]{background:var(--ink);color:var(--cream)}
+
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:28px;background:transparent;margin:0}
+input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:6px;background:linear-gradient(to right,var(--orange) var(--p,50%),var(--track,#3A2E25) var(--p,50%))}
+input[type=range]::-moz-range-track{height:6px;border-radius:6px;background:var(--track,#3A2E25)}
+input[type=range]::-moz-range-progress{height:6px;border-radius:6px;background:var(--orange)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--cream);border:4px solid var(--orange);margin-top:-9px;box-shadow:0 2px 8px rgba(0,0,0,.35)}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--cream);border:4px solid var(--orange)}
+.light input[type=range]{--track:#D9CCBA}
+.hot input[type=range]{--track:rgba(20,16,13,.25)}
+.hot input[type=range]::-webkit-slider-runnable-track{background:linear-gradient(to right,var(--ink) var(--p,50%),var(--track) var(--p,50%))}
+.hot input[type=range]::-moz-range-progress{background:var(--ink)}
+.hot input[type=range]::-webkit-slider-thumb{border-color:var(--ink)}
+
+.photo{position:relative;overflow:hidden;border-radius:28px}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* ---------- 1 capa ---------- */
+#s-capa{padding:0}
+#s-capa .bg{position:absolute;inset:0}
+#s-capa .bg img{width:100%;height:100%;object-fit:cover;object-position:70% 50%}
+.slide.is-active .kb img{animation:kb 14s ease-out both}
+@keyframes kb{from{transform:scale(1.12)}to{transform:scale(1)}}
+#s-capa .shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(20,16,13,.97) 0%,rgba(20,16,13,.88) 38%,rgba(20,16,13,.15) 72%,rgba(20,16,13,0) 100%)}
+#s-capa .inner{position:relative;height:100%;padding:76px 88px 96px;display:flex;flex-direction:column;justify-content:space-between;max-width:1000px}
+#s-capa h1{font-size:122px}
+.under{position:relative;white-space:nowrap}
+.under svg{position:absolute;left:-2%;bottom:-18px;width:104%;height:28px;overflow:visible}
+.under path{stroke:var(--orange);stroke-width:7;fill:none;stroke-linecap:round;stroke-dasharray:600;stroke-dashoffset:0}
+.slide.is-active .under path{animation:draw 1.1s .9s cubic-bezier(.6,0,.2,1) both}
+@keyframes draw{from{stroke-dashoffset:600}to{stroke-dashoffset:0}}
+.nome-box{display:flex;align-items:center;gap:14px;font-size:20px;color:var(--muted)}
+.nome-box input{font:600 22px var(--body);color:var(--cream);background:rgba(246,239,230,.08);border:1px dashed rgba(246,239,230,.35);border-radius:12px;padding:12px 18px;width:420px}
+.nome-box input::placeholder{color:#9C8F81}
+.chips{display:flex;gap:12px;flex-wrap:wrap}
+.chip{font-size:16px;font-weight:600;padding:9px 16px;border-radius:999px;background:rgba(246,239,230,.08);border:1px solid rgba(246,239,230,.18);color:var(--cream)}
+
+/* ---------- 2 problema ---------- */
+#s-problema{flex-direction:row;padding:0;gap:0}
+#s-problema .photo{border-radius:0;width:560px;flex:none}
+#s-problema .photo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(246,239,230,0) 60%,var(--cream) 100%)}
+#s-problema .photo img{filter:saturate(.55)}
+#s-problema .tag{position:absolute;left:32px;bottom:32px;z-index:1;background:var(--ink);color:var(--cream);font-weight:600;font-size:17px;padding:10px 16px;border-radius:999px}
+#s-problema .content{flex:1;padding:72px 88px 88px 56px;display:flex;flex-direction:column;gap:36px}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:24px;flex:1}
+.vs .col{border-radius:24px;padding:34px;display:flex;flex-direction:column;gap:22px}
+.vs .hoje{background:var(--cream2)}
+.vs .com{background:var(--ink);color:var(--cream)}
+.vs ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:20px}
+.vs li{display:flex;gap:14px;font-size:22px;line-height:1.4}
+.vs li .i{font-size:26px;margin-top:2px}
+.hoje li{color:var(--muted-c)} .hoje li .i{color:#9C5A43}
+.com li{color:var(--muted)} .com li .i{color:var(--orange)}
+
+/* ---------- 3 vitrine ---------- */
+#s-vitrine{flex-direction:row;gap:64px;align-items:center}
+#s-vitrine .left{flex:1;display:flex;flex-direction:column;gap:30px}
+.formula{display:flex;flex-direction:column;gap:12px}
+.fx{display:grid;grid-template-columns:230px 1fr;gap:20px;align-items:center;padding:18px 22px;border-radius:18px;background:var(--ink2);border:1px solid var(--line)}
+.fx b{font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.fx span{font-size:22px}
+.fx.cost{background:var(--orange);border-color:var(--orange);color:var(--ink)} .fx.cost b{color:var(--ink)} .fx.cost span{font-weight:600}
+.scorechip{display:flex;align-items:center;gap:16px;font-size:20px;color:var(--muted)}
+.scorechip strong{font:800 44px var(--display);color:var(--cream);font-variant-numeric:tabular-nums}
+
+.phone-wrap{position:relative;flex:none;width:400px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.phone{width:380px;height:720px;border-radius:52px;background:#0A0A0A;padding:12px;box-shadow:0 40px 80px rgba(0,0,0,.55),0 0 0 2px #2b2b2b inset;position:relative}
+.phone::before{content:"";position:absolute;top:22px;left:50%;transform:translateX(-50%);width:110px;height:30px;border-radius:20px;background:#0A0A0A;z-index:3}
+.screen{width:100%;height:100%;border-radius:40px;overflow:hidden;background:#FFFFFF;color:#111;font-family:var(--body);padding:58px 16px 0;display:flex;flex-direction:column;gap:12px;font-size:13px}
+.ig-top{display:flex;justify-content:space-between;font-weight:700;font-size:16px}
+.ig-row{display:flex;align-items:center;gap:16px}
+.avatar{width:76px;height:76px;border-radius:50%;padding:3px;background:#ddd;flex:none}
+.avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid #fff}
+.depois .avatar{background:conic-gradient(#FF5A1F,#F2B33D,#FF5A1F)}
+.stats{display:flex;flex:1;justify-content:space-around;text-align:center;font-size:12px;color:#444}
+.stats b{display:block;font-size:15px;color:#111}
+.bio{line-height:1.45;font-size:13px}
+.bio .nm{font-weight:700}
+.bio a{color:#0B4BA8;font-weight:600;text-decoration:none}
+.ig-btns{display:flex;gap:6px}
+.ig-btns span{flex:1;text-align:center;padding:8px 0;border-radius:8px;background:#EFEFEF;font-weight:600;font-size:12.5px}
+.depois .ig-btns .order{background:#FF5A1F;color:#fff}
+.hl{display:flex;gap:12px}
+.hl div{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px}
+.hl img{width:54px;height:54px;border-radius:50%;object-fit:cover;border:2px solid #fff;box-shadow:0 0 0 1.5px #ccc}
+.grid9{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin:0 -16px}
+.grid9 > *{aspect-ratio:1;overflow:hidden;position:relative;background:#ddd}
+.grid9 img{width:100%;height:100%;object-fit:cover;display:block;transition:filter .6s}
+.antes .grid9 img{filter:grayscale(.85) brightness(.75) contrast(.8)}
+.grid9 .txt{display:grid;place-items:center;font:700 14px var(--body);color:#666;background:#E8E3DC;text-align:center;padding:6px}
+.grid9 .pin{position:absolute;top:6px;right:6px;width:16px;height:16px;color:#fff;filter:drop-shadow(0 1px 2px rgba(0,0,0,.6))}
+.only-d,.only-a{transition:opacity .4s}
+.antes .only-d{display:none} .depois .only-a{display:none}
+.depois .screen > *{animation:fadein .5s ease both}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+
+/* ---------- 4 nota ---------- */
+#s-nota{gap:28px}
+.nota-body{flex:1;display:grid;grid-template-columns:400px 1fr;gap:48px;min-height:0}
+.ring-box{display:flex;flex-direction:column;align-items:center;gap:20px;background:var(--paper);border:1px solid var(--line-c);border-radius:28px;padding:30px}
+.ring{position:relative;width:300px;height:300px}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:22}
+.ring .bgc{stroke:var(--cream2)}
+.ring .fg{stroke:var(--orange);stroke-linecap:round;transition:stroke-dashoffset .6s cubic-bezier(.2,.8,.2,1),stroke .4s}
+.ring .val{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.ring .val strong{font:800 104px/1 var(--display);font-variant-numeric:tabular-nums}
+.ring .val span{display:block;font-size:18px;color:var(--muted-c);margin-top:4px}
+.status{font:700 24px var(--display);text-align:center;padding:10px 20px;border-radius:999px;background:var(--cream2)}
+.presets{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.presets button{border:1px solid var(--line-c);background:var(--cream);border-radius:999px;padding:8px 16px;font-size:15px;font-weight:600;color:var(--ink)}
+.presets button:hover{border-color:var(--orange-d)}
+.itens{display:grid;grid-template-columns:1fr 1fr;gap:12px 28px;align-content:start}
+.item{display:grid;grid-template-columns:1fr 48px;gap:2px 12px;align-items:center;padding:12px 18px;border-radius:16px;background:var(--paper);border:1px solid var(--line-c)}
+.item b{font-size:19px}
+.item small{grid-column:1;font-size:15px;color:var(--muted-c);line-height:1.35}
+.item output{grid-row:1 / span 2;grid-column:2;font:800 30px var(--display);text-align:right;font-variant-numeric:tabular-nums;color:var(--orange-d)}
+.item input{grid-column:1 / -1}
+
+/* ---------- 5 dinheiro ---------- */
+#s-dinheiro .calc{flex:1;display:grid;grid-template-columns:520px 1fr;gap:48px;min-height:0}
+.inputs{display:flex;flex-direction:column;gap:22px;justify-content:center}
+.field{display:flex;flex-direction:column;gap:8px}
+.field .top{display:flex;justify-content:space-between;align-items:baseline}
+.field label{font-size:20px;color:var(--muted)}
+.field output{font:800 34px var(--display);font-variant-numeric:tabular-nums}
+.result{border-radius:28px;background:var(--ink2);border:1px solid var(--line);padding:34px 38px;display:flex;flex-direction:column;gap:18px;min-width:0}
+.result .big{font:800 96px/1 var(--display);color:var(--orange);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.result .row3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.kpi{background:var(--ink3);border-radius:18px;padding:16px 18px}
+.kpi strong{display:block;font:800 34px var(--display);font-variant-numeric:tabular-nums}
+.kpi span{font-size:15px;color:var(--muted)}
+.chartbox{position:relative;flex:1;min-height:180px}
+.note{position:absolute;left:88px;bottom:40px;font-size:16px;color:var(--muted)}
+.light .note{color:var(--muted-c)}
+
+/* ---------- 6 plano ---------- */
+.cards3{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:28px;min-height:0}
+.pcard{background:var(--paper);border:1px solid var(--line-c);border-radius:28px;overflow:hidden;display:flex;flex-direction:column;transition:transform .3s,box-shadow .3s}
+.pcard:hover{transform:translateY(-8px);box-shadow:0 24px 50px rgba(20,16,13,.15)}
+.pcard .photo{border-radius:0;height:380px;flex:none}
+.pcard .photo img{transition:transform .8s}
+.pcard:hover .photo img{transform:scale(1.06)}
+.pcard .n{position:absolute;left:22px;top:18px;font:800 64px/1 var(--display);color:var(--cream);text-shadow:0 2px 18px rgba(0,0,0,.5)}
+.pcard .tx{padding:30px 32px;display:flex;flex-direction:column;gap:14px}
+.pcard h3{font-size:32px}
+.pcard p{font-size:23px;line-height:1.45;color:var(--muted-c)}
+
+/* ---------- 7 esteira ---------- */
+#s-esteira .wrap{flex:1;display:grid;grid-template-columns:1fr 440px;gap:40px;min-height:0}
+.stairs{position:relative;display:flex;align-items:flex-end;gap:12px;padding-bottom:58px}
+.step{flex:1;position:relative;border:0;border-radius:18px 18px 6px 6px;padding:18px 16px;text-align:left;display:flex;flex-direction:column;gap:8px;
+  height:calc(var(--h) * 1px);background:var(--c);color:var(--tc,var(--cream));transform-origin:bottom;transition:transform .25s,box-shadow .25s}
+.slide.is-active .step{animation:grow .8s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--d) * 120ms + 200ms)}
+@keyframes grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+.step:hover{box-shadow:0 0 0 2px var(--gold)}
+.step[aria-pressed="true"]{box-shadow:0 0 0 4px var(--gold)}
+.step .k{font:700 15px var(--body);letter-spacing:.12em;opacity:.85}
+.step .t{font:700 23px/1.15 var(--display)}
+.ground{position:absolute;left:0;right:0;bottom:0;height:46px;border-radius:12px;border:1.5px dashed var(--line);display:flex;align-items:center;gap:12px;padding:0 18px;font-size:17px;color:var(--muted)}
+.ground b{color:var(--gold)}
+.detail{background:var(--ink2);border:1px solid var(--line);border-radius:28px;padding:32px;display:flex;flex-direction:column;gap:18px}
+.detail .k{font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.detail ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px}
+.detail li{display:flex;gap:12px;font-size:20px;line-height:1.4;color:var(--muted)}
+.detail li .i{color:var(--orange);font-size:22px;margin-top:3px}
+.detail .gera{margin-top:auto;padding:16px 18px;border-radius:16px;background:var(--ink3);font-size:18px;line-height:1.4}
+.detail .gera b{color:var(--gold)}
+.detail.swap > *{animation:fadein .35s ease both}
+
+/* ---------- 8 comissão ---------- */
+#s-comissao{flex-direction:row;gap:56px;align-items:center}
+#s-comissao .l{flex:1;display:flex;flex-direction:column;gap:30px}
+#s-comissao h2{font-size:72px}
+#s-comissao .lead{color:#3A1B0C}
+.losscard{width:600px;flex:none;background:var(--ink);color:var(--cream);border-radius:32px;padding:40px;display:flex;flex-direction:column;gap:22px;box-shadow:0 30px 60px rgba(90,25,0,.35)}
+.losscard .big{font:800 92px/1 var(--display);color:var(--orange);font-variant-numeric:tabular-nums}
+.losscard .sub{font-size:20px;color:var(--muted)}
+.bars{display:flex;flex-direction:column;gap:10px}
+.barrow{display:grid;grid-template-columns:170px 1fr 110px;gap:14px;align-items:center;font-size:17px;color:var(--muted)}
+.barrow .track{height:14px;border-radius:8px;background:var(--ink3);overflow:hidden}
+.barrow .fill{height:100%;background:var(--muted);border-radius:8px;transition:width .5s}
+.barrow.lost .fill{background:var(--orange)}
+.barrow output{text-align:right;font-variant-numeric:tabular-nums;color:var(--cream);font-weight:600}
+.payback{border-top:1px solid var(--line);padding-top:20px;font-size:20px;line-height:1.45}
+.payback b{color:var(--gold)}
+.hot .note{color:#3A1B0C}
+
+/* ---------- 9 ciclo ---------- */
+#s-ciclo .wrap{flex:1;display:grid;grid-template-columns:600px 1fr;gap:56px;align-items:center;min-height:0}
+.orbit{position:relative;width:560px;height:560px;margin:0 auto}
+.orbit > svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.orbit .center{position:absolute;inset:150px;border-radius:50%;background:var(--ink);color:var(--cream);display:grid;place-items:center;text-align:center;padding:30px;font:700 24px/1.2 var(--display)}
+.node{position:absolute;width:210px;translate:-50% -50%;background:var(--paper);border:1px solid var(--line-c);border-radius:22px;padding:18px;display:flex;flex-direction:column;gap:6px;box-shadow:0 14px 30px rgba(20,16,13,.10)}
+.node .i{font-size:30px;color:var(--orange-d)}
+.node b{font:700 22px var(--display)}
+.node span{font-size:15px;color:var(--muted-c);line-height:1.35}
+.reguas{display:flex;flex-direction:column;gap:16px}
+.regua{display:grid;grid-template-columns:56px 1fr;gap:18px;align-items:center;background:var(--paper);border:1px solid var(--line-c);border-radius:20px;padding:20px 24px}
+.regua .ic{width:56px;height:56px;border-radius:16px;background:var(--ink);color:var(--orange);display:grid;place-items:center;font-size:26px}
+.regua b{font:700 22px var(--display);display:block}
+.regua span{font-size:18px;color:var(--muted-c)}
+
+/* ---------- 10 jornada ---------- */
+#s-jornada .tl{position:relative;flex:1;display:flex;flex-direction:column;justify-content:center}
+.tl .line{position:absolute;left:0;right:0;top:calc(50% - 3px);height:6px;border-radius:6px;background:var(--ink3)}
+.tl .line i{display:block;height:100%;width:100%;border-radius:6px;background:linear-gradient(90deg,var(--gold),var(--orange));transform-origin:left}
+.slide.is-active .tl .line i{animation:fill 2.6s .3s cubic-bezier(.4,0,.2,1) both}
+@keyframes fill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.ms{position:relative;display:grid;grid-template-columns:repeat(7,1fr);gap:16px}
+.m{display:grid;grid-template-rows:200px 26px 200px;gap:14px;justify-items:start}
+.m .card{background:var(--ink2);border:1px solid var(--line);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:8px;width:100%}
+.m:nth-child(odd) .card{grid-row:1;align-self:end}
+.m:nth-child(even) .card{grid-row:3;align-self:start}
+.m .dot{grid-row:2;width:26px;height:26px;border-radius:50%;background:var(--orange);border:5px solid var(--ink);box-shadow:0 0 0 3px var(--orange);margin-left:14px}
+.m .mes{font:800 34px/1 var(--display);color:var(--gold)}
+.m .t{font:700 20px/1.2 var(--display)}
+.m .s{font-size:15px;line-height:1.4;color:var(--muted)}
+
+/* ---------- 11 pacotes ---------- */
+.packs{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:stretch;min-height:0}
+.pack{position:relative;background:var(--paper);border:1px solid var(--line-c);border-radius:28px;padding:32px;display:flex;flex-direction:column;gap:14px;transition:transform .3s,box-shadow .3s,border-color .3s}
+.pack.featured{background:var(--ink);color:var(--cream);border-color:var(--ink);transform:translateY(-12px)}
+.pack.chosen{box-shadow:0 0 0 5px var(--orange)}
+.pack .kick{font-size:14px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--orange-d)}
+.pack.featured .kick{color:var(--orange)}
+.pack .price{font:800 64px/1 var(--display);font-variant-numeric:tabular-nums}
+.pack.featured .price{color:var(--orange)}
+.pack .per{font-size:16px;color:var(--muted-c)} .pack.featured .per{color:var(--muted)}
+.pack .old{font-size:15px;color:var(--muted-c);text-decoration:line-through} .pack.featured .old{color:var(--muted)}
+.pack ul{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.pack li{display:flex;gap:10px;font-size:18px;line-height:1.35}
+.pack li .i{color:var(--orange-d);margin-top:3px} .pack.featured li .i{color:var(--orange)}
+.pack li.off{color:#A39484} .pack li.off .i{color:#C2B4A3}
+.pack.featured li.off{color:#6E6157} .pack.featured li.off .i{color:#5A4D42}
+.pack .btn{margin-top:auto;justify-content:center}
+.pack .btn.solid{color:var(--ink)}
+#escolha{font-size:19px;min-height:26px;color:var(--muted-c)}
+
+/* ---------- 12 diagnóstico ---------- */
+#s-diag{padding:0}
+#s-diag .bg{position:absolute;inset:0}
+#s-diag .bg img{width:100%;height:100%;object-fit:cover;object-position:60% 40%}
+#s-diag .shade{position:absolute;inset:0;background:linear-gradient(100deg,rgba(20,16,13,.97) 0%,rgba(20,16,13,.9) 50%,rgba(20,16,13,.35) 100%)}
+#s-diag .inner{position:relative;height:100%;padding:72px 88px 96px;display:flex;flex-direction:column;gap:34px;max-width:1150px}
+.deliver{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.deliver div{display:flex;align-items:center;gap:18px;padding:22px 24px;border-radius:20px;background:rgba(30,24,19,.85);border:1px solid var(--line);font-size:22px;backdrop-filter:blur(6px)}
+.deliver .i{font-size:30px;color:var(--gold)}
+.cta{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:auto}
+.cta .phone-n{font:700 30px var(--display);font-variant-numeric:tabular-nums}
+.cta small{font-size:17px;color:var(--muted)}
+
+#s-diag .inner{max-width:none;gap:30px}
+#s-diag .shade{background:linear-gradient(100deg,rgba(20,16,13,.97) 0%,rgba(20,16,13,.92) 55%,rgba(20,16,13,.6) 100%)}
+.res{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.rc{display:flex;flex-direction:column;gap:8px;padding:24px;border-radius:22px;background:rgba(30,24,19,.9);border:1px solid var(--line);backdrop-filter:blur(6px);min-width:0}
+.rc .i{font-size:28px;color:var(--gold)}
+.rc .rk{font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.rc strong{font:800 40px/1.05 var(--display);font-variant-numeric:tabular-nums;color:var(--cream);overflow-wrap:anywhere}
+.rc strong small{font-size:18px;font-weight:600;color:var(--muted)}
+.rc .rs{font-size:16px;line-height:1.4;color:var(--muted)}
+.rc.hi{background:var(--orange);border-color:var(--orange)}
+.rc.hi .i,.rc.hi .rk,.rc.hi strong,.rc.hi strong small,.rc.hi .rs{color:var(--ink)}
+.nextstep{font-size:21px;line-height:1.45;color:var(--muted);max-width:1100px}
+.nextstep b{color:var(--cream)}
+.zapbox{display:flex;align-items:center;gap:18px;padding:18px 26px;border-radius:22px;background:rgba(30,24,19,.92);border:2px solid var(--orange)}
+.zapbox .i{font-size:44px;color:var(--orange)}
+.zapbox small{display:block;font-size:16px;color:var(--muted)}
+.cta .zapbox .phone-n{font:800 40px var(--display);font-variant-numeric:tabular-nums;color:var(--cream)}
+
+/* ---------- telas estreitas: slides empilhados ---------- */
+body.stack{overflow:auto}
+body.stack #deck{position:relative;overflow:visible}
+body.stack #stage{position:relative;left:0;top:0}
+body.stack .slide{position:absolute;opacity:1;visibility:visible;transition:none}
+body.stack #bar{display:none}
+@media (prefers-reduced-motion:reduce){
+  .slide.is-active .a,.slide.is-active .pop,.slide.is-active .step,.slide.is-active .kb img,.slide.is-active .tl .line i,.slide.is-active .under path{animation:none}
+  .slide{transition:none}
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-badge-percent" viewBox="0 0 24 24"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" /> <path d="m15 9-6 6" /> <path d="M9 9h.01" /> <path d="M15 15h.01" /></symbol><symbol id="i-bike" viewBox="0 0 24 24"><circle cx="18.5" cy="17.5" r="3.5" /> <circle cx="5.5" cy="17.5" r="3.5" /> <circle cx="15" cy="5" r="1" /> <path d="M12 17.5V14l-3-3 4-3 2 3h2" /></symbol><symbol id="i-calculator" viewBox="0 0 24 24"><rect width="16" height="20" x="4" y="2" rx="2" /> <line x1="8" x2="16" y1="6" y2="6" /> <line x1="16" x2="16" y1="14" y2="18" /> <path d="M16 10h.01" /> <path d="M12 10h.01" /> <path d="M8 10h.01" /> <path d="M12 14h.01" /> <path d="M8 14h.01" /> <path d="M12 18h.01" /> <path d="M8 18h.01" /></symbol><symbol id="i-camera" viewBox="0 0 24 24"><path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z" /> <circle cx="12" cy="13" r="3" /></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" /></symbol><symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6" /></symbol><symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" /></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /> <path d="M12 6v6l4 2" /></symbol><symbol id="i-copy" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /> <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></symbol><symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /> <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /> <path d="M2 12h20" /></symbol><symbol id="i-heart" viewBox="0 0 24 24"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5" /></symbol><symbol id="i-maximize" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3" /> <path d="M21 8V5a2 2 0 0 0-2-2h-3" /> <path d="M3 16v3a2 2 0 0 0 2 2h3" /> <path d="M16 21h3a2 2 0 0 0 2-2v-3" /></symbol><symbol id="i-message-circle" viewBox="0 0 24 24"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" /></symbol><symbol id="i-repeat" viewBox="0 0 24 24"><path d="m17 2 4 4-4 4" /> <path d="M3 11v-1a4 4 0 0 1 4-4h14" /> <path d="m7 22-4-4 4-4" /> <path d="M21 13v1a4 4 0 0 1-4 4H3" /></symbol><symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" /> <path d="M20 2v4" /> <path d="M22 4h-4" /> <circle cx="4" cy="20" r="2" /></symbol><symbol id="i-star" viewBox="0 0 24 24"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" /></symbol><symbol id="i-store" viewBox="0 0 24 24"><path d="M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5" /> <path d="M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244" /> <path d="M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05" /></symbol><symbol id="i-trending-up" viewBox="0 0 24 24"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></symbol><symbol id="i-triangle-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></symbol><symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /> <path d="M16 3.128a4 4 0 0 1 0 7.744" /> <path d="M22 21v-2a4 4 0 0 0-3-3.87" /> <circle cx="9" cy="7" r="4" /></symbol><symbol id="i-utensils-crossed" viewBox="0 0 24 24"><path d="m16 2-2.3 2.3a3 3 0 0 0 0 4.2l1.8 1.8a3 3 0 0 0 4.2 0L22 8" /> <path d="M15 15 3.3 3.3a4.2 4.2 0 0 0 0 6l7.3 7.3c.7.7 2 .7 2.8 0L15 15Zm0 0 7 7" /> <path d="m2.1 21.8 6.4-6.3" /> <path d="m19 5-7 7" /></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18" /> <path d="m6 6 12 12" /></symbol><symbol id="i-zap" viewBox="0 0 24 24"><path d="M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z" /></symbol></svg>
+
+<div id="deck" aria-roledescription="apresentação">
+<div id="stage">
+
+<!-- 1 CAPA -->
+<section class="slide" id="s-capa" aria-label="Capa">
+  <div class="bg kb"><img src="img/burger2.jpg" alt="Hambúrguer artesanal sobre tábua de madeira"></div>
+  <div class="shade"></div>
+  <div class="inner">
+    <p class="eyebrow a" style="--d:1">MMATTOS Assessoria de MKT · para restaurantes</p>
+    <div class="head" style="gap:34px">
+      <h1 class="a" style="--d:2">Seu Instagram<br>pode virar <span class="under accent">pedido.<svg viewBox="0 0 400 28" preserveAspectRatio="none"><path d="M4 18 C 90 6, 200 4, 396 14"/></svg></span></h1>
+      <p class="lead a" style="--d:4;max-width:720px;font-size:27px">Marketing completo para restaurantes: da vitrine no Instagram ao cliente que volta a pedir.</p>
+      <div class="chips a" style="--d:5"><span class="chip">Cardápio iFood</span><span class="chip">Social media + vídeo</span><span class="chip">Anúncios locais</span><span class="chip">Site com pedido direto</span><span class="chip">CRM</span></div>
+    </div>
+    <div class="nome-box a" style="--d:6"><label for="nome">Apresentação para</label><input id="nome" type="text" placeholder="Digite o nome do restaurante" maxlength="40" autocomplete="off"></div>
+  </div>
+</section>
+
+<!-- 2 PROBLEMA -->
+<section class="slide light" id="s-problema" aria-label="O ponto de partida">
+  <div class="photo"><img src="img/salao2.jpg" alt="Salão de restaurante vazio"><span class="tag">Mesa vazia não é falta de comida boa</span></div>
+  <div class="content">
+    <div class="head">
+      <p class="eyebrow a" style="--d:1">O ponto de partida</p>
+      <h2 class="a" style="--d:2">Marketing em pedaços não vira pedido</h2>
+    </div>
+    <div class="vs">
+      <div class="col hoje a" style="--d:3">
+        <h3>Hoje</h3>
+        <ul>
+          <li><svg class="i"><use href="#i-x"/></svg>Cada serviço contratado separado, sem conversar com o outro.</li>
+          <li><svg class="i"><use href="#i-x"/></svg>Um Instagram bonito que não leva ao pedido.</li>
+          <li><svg class="i"><use href="#i-x"/></svg>Você paga para trazer o mesmo cliente de novo.</li>
+          <li><svg class="i"><use href="#i-x"/></svg>Ninguém sabe dizer quanto o marketing trouxe.</li>
+        </ul>
+      </div>
+      <div class="col com a" style="--d:5">
+        <h3 class="accent">Com a esteira</h3>
+        <ul>
+          <li><svg class="i"><use href="#i-check"/></svg>Cada etapa resolve um problema e prepara a próxima.</li>
+          <li><svg class="i"><use href="#i-check"/></svg>O Instagram leva direto ao link de pedido.</li>
+          <li><svg class="i"><use href="#i-check"/></svg>O cliente que pediu uma vez recebe motivo para voltar.</li>
+          <li><svg class="i"><use href="#i-check"/></svg>Decisões com números: pedidos, ticket e custo por pedido.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 VITRINE -->
+<section class="slide" id="s-vitrine" aria-label="A vitrine">
+  <div class="left">
+    <div class="head">
+      <p class="eyebrow a" style="--d:1">A vitrine</p>
+      <h2 class="a" style="--d:2">O cliente com fome não procura. Ele pede de quem facilita.</h2>
+    </div>
+    <div class="formula">
+      <div class="fx a" style="--d:3"><b>O que a gente vê</b><span>A bio não diz o que vende nem como pedir.</span></div>
+      <div class="fx a" style="--d:4"><b>O que o cliente sente</b><span>Com fome, ninguém vai procurar o link.</span></div>
+      <div class="fx cost a" style="--d:5"><b>Quanto custa</b><span>Ele volta ao iFood e pede no concorrente.</span></div>
+    </div>
+    <div class="scorechip a" style="--d:6">Nota Vitrine deste perfil: <strong id="vt-score" class="num">31</strong> de 100</div>
+  </div>
+  <div class="phone-wrap a" style="--d:3">
+    <div class="seg" role="group" aria-label="Ver o perfil antes ou depois">
+      <button type="button" id="vt-antes" aria-pressed="true">Antes</button>
+      <button type="button" id="vt-depois" aria-pressed="false">Depois</button>
+    </div>
+    <div class="phone antes" id="phone">
+      <div class="screen">
+        <div class="ig-top"><span class="js-handle">@seurestaurante</span><span>≡</span></div>
+        <div class="ig-row">
+          <div class="avatar"><img src="img/burger.jpg" alt=""></div>
+          <div class="stats"><div><b class="only-a">38</b><b class="only-d">212</b>posts</div><div><b class="only-a">1.204</b><b class="only-d">8.930</b>seguidores</div><div><b>310</b>seguindo</div></div>
+        </div>
+        <div class="bio only-a"><span class="nm js-nome-ig">Seu Restaurante</span><br>Restaurante 🍽️<br>Venha nos conhecer!</div>
+        <div class="bio only-d"><span class="nm js-nome-ig">Seu Restaurante</span><br>Burger artesanal e pizza de fermentação natural<br>Entrega em até 40 min · aberto até 23h<br>Peça direto pelo link 👇<br><a>pedir.seurestaurante.com.br</a></div>
+        <div class="ig-btns"><span class="only-a">Seguir</span><span class="only-a">Mensagem</span><span class="only-d">Seguir</span><span class="order only-d">Pedir agora</span></div>
+        <div class="hl only-d"><div><img src="img/pizza2.jpg" alt="">Cardápio</div><div><img src="img/burger.jpg" alt="">Como pedir</div><div><img src="img/mesa.jpg" alt="">Avaliações</div><div><img src="img/salao.jpg" alt="">Local</div></div>
+        <div class="grid9 only-a">
+          <div class="txt">Bom dia!</div><div><img src="img/salao2.jpg" alt=""></div><div><img src="img/hero.jpg" alt=""></div>
+          <div class="txt">Feliz sexta 🎉</div><div><img src="img/mesa.jpg" alt=""></div><div class="txt">Aberto hoje</div>
+          <div><img src="img/salao.jpg" alt=""></div><div class="txt">Bom domingo</div><div><img src="img/prato.jpg" alt=""></div>
+        </div>
+        <div class="grid9 only-d">
+          <div><img src="img/burger2.jpg" alt=""><svg class="pin"><use href="#i-star"/></svg></div><div><img src="img/pizza2.jpg" alt=""><svg class="pin"><use href="#i-star"/></svg></div><div><img src="img/chef2.jpg" alt=""><svg class="pin"><use href="#i-star"/></svg></div>
+          <div><img src="img/sushi.jpg" alt=""></div><div><img src="img/flat.jpg" alt=""></div><div><img src="img/chef.jpg" alt=""></div>
+          <div><img src="img/pizza.jpg" alt=""></div><div><img src="img/burger.jpg" alt=""></div><div><img src="img/prato.jpg" alt=""></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 NOTA VITRINE -->
+<section class="slide light" id="s-nota" aria-label="Nota Vitrine">
+  <div class="head">
+    <p class="eyebrow a" style="--d:1">Nota Vitrine · de 0 a 100</p>
+    <h2 class="a" style="--d:2">10 pontos que decidem o pedido</h2>
+  </div>
+  <div class="nota-body">
+    <div class="ring-box a" style="--d:3">
+      <div class="ring">
+        <svg viewBox="0 0 320 320" aria-hidden="true"><circle class="bgc" cx="160" cy="160" r="140"/><circle class="fg" id="ring-fg" cx="160" cy="160" r="140" stroke-dasharray="879.6" stroke-dashoffset="879.6"/></svg>
+        <div class="val"><div><strong id="nota-total" class="num">0</strong><span>de 100</span></div></div>
+      </div>
+      <p class="status" id="nota-status">Vitrine que espanta pedido</p>
+      <div class="presets">
+        <button type="button" data-preset="antes">Exemplo: antes</button>
+        <button type="button" data-preset="depois">Exemplo: depois</button>
+        <button type="button" data-preset="zero">Zerar</button>
+      </div>
+    </div>
+    <div class="itens" id="itens"></div>
+  </div>
+</section>
+
+<!-- 5 DINHEIRO NA MESA -->
+<section class="slide" id="s-dinheiro" aria-label="Dinheiro na mesa">
+  <div class="head">
+    <p class="eyebrow a" style="--d:1">Dinheiro na mesa</p>
+    <h2 class="a" style="--d:2">Quanto um perfil que converte vale para <span class="js-nome-curto">você</span></h2>
+  </div>
+  <div class="calc">
+    <div class="inputs a" style="--d:3">
+      <div class="field"><div class="top"><label for="c-ped">Pedidos por dia hoje</label><output id="o-ped" class="num"></output></div><input type="range" id="c-ped" min="5" max="300" step="5" value="40"></div>
+      <div class="field"><div class="top"><label for="c-tic">Ticket médio</label><output id="o-tic" class="num"></output></div><input type="range" id="c-tic" min="15" max="250" step="5" value="55"></div>
+      <div class="field"><div class="top"><label for="c-mais">Pedidos a mais por dia</label><output id="o-mais" class="num" style="color:var(--gold)"></output></div><input type="range" id="c-mais" min="1" max="50" step="1" value="5"></div>
+      <div class="field"><div class="top"><label for="c-dias">Dias de operação no mês</label><output id="o-dias" class="num"></output></div><input type="range" id="c-dias" min="12" max="31" step="1" value="30"></div>
+    </div>
+    <div class="result a" style="--d:4">
+      <div><p class="small">Receita extra por mês</p><p class="big" id="r-mes">R$ 0</p></div>
+      <div class="row3">
+        <div class="kpi"><strong id="r-ano" class="num">R$ 0</strong><span>em 12 meses</span></div>
+        <div class="kpi"><strong id="r-cres" class="num">+0%</strong><span>nos pedidos</span></div>
+        <div class="kpi"><strong id="r-roi" class="num">0×</strong><span>o plano Crescimento</span></div>
+      </div>
+      <div class="chartbox"><canvas id="chart" aria-label="Receita extra acumulada em 12 meses"></canvas></div>
+    </div>
+  </div>
+  <p class="note">Exemplo para conversa. Arraste com os números do restaurante.</p>
+</section>
+
+<!-- 6 PLANO -->
+<section class="slide light" id="s-plano" aria-label="O plano">
+  <div class="head">
+    <p class="eyebrow a" style="--d:1">O plano</p>
+    <h2 class="a" style="--d:2">Três passos para o seu Instagram vender</h2>
+  </div>
+  <div class="cards3">
+    <article class="pcard a" style="--d:3"><div class="photo"><img src="img/mesa.jpg" alt="Mesa posta com pratos e taças"><span class="n">1</span></div><div class="tx"><h3>Arrumar a vitrine</h3><p>Bio, link de pedido, destaques e posts fixados que vendem.</p></div></article>
+    <article class="pcard a" style="--d:4"><div class="photo"><img src="img/pizza2.jpg" alt="Pizza margherita"><span class="n">2</span></div><div class="tx"><h3>Cardápio que vende</h3><p>iFood organizado com nomes, descrições, combos e fotos que dão fome.</p></div></article>
+    <article class="pcard a" style="--d:5"><div class="photo"><img src="img/chef2.jpg" alt="Chef na cozinha com chama na frigideira"><span class="n">3</span></div><div class="tx"><h3>Constância e alcance</h3><p>Conteúdo toda semana e anúncios para quem está perto de você.</p></div></article>
+  </div>
+</section>
+
+<!-- 7 ESTEIRA -->
+<section class="slide" id="s-esteira" aria-label="A esteira de crescimento">
+  <div class="head">
+    <p class="eyebrow a" style="--d:1">A esteira de crescimento</p>
+    <h2 class="a" style="--d:2">Cada etapa abre caminho para a próxima</h2>
+  </div>
+  <div class="wrap">
+    <div class="stairs" id="stairs">
+      <div class="ground"><b>Ponto de partida:</b> Diagnóstico Feed Vitrine, grátis</div>
+    </div>
+    <div class="detail" id="detail" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- 8 COMISSÃO -->
+<section class="slide hot" id="s-comissao" aria-label="Canal próprio">
+  <div class="l">
+    <p class="eyebrow a" style="--d:1">Canal próprio</p>
+    <h2 class="a" style="--d:2">Quanto do seu pedido fica no iFood?</h2>
+    <div class="field a" style="--d:3"><div class="top"><label for="f-fat" style="color:var(--ink)">Faturamento no iFood por mês</label><output id="o-fat" class="num"></output></div><input type="range" id="f-fat" min="5000" max="200000" step="1000" value="30000"></div>
+    <div class="a" style="--d:4;display:flex;flex-direction:column;gap:10px">
+      <span style="font-size:18px;font-weight:600">Plano no iFood</span>
+      <div class="seg" role="group" aria-label="Plano do iFood">
+        <button type="button" data-rate="0.12" aria-pressed="false">Básico · 12%</button>
+        <button type="button" data-rate="0.23" aria-pressed="true">Entrega · 23%</button>
+      </div>
+    </div>
+    <p class="lead a" style="--d:5">O site com pedido direto não tira você do iFood. Ele é para quem já te conhece pedir direto, sem comissão, e deixar o contato com você.</p>
+  </div>
+  <div class="losscard a" style="--d:3">
+    <p class="sub">Fica com o iFood todo mês</p>
+    <p class="big" id="l-mes">R$ 0</p>
+    <p class="sub"><span id="l-ano" class="num">R$ 0</span> por ano · <span id="l-pct" class="num">0%</span> de cada pedido</p>
+    <div class="bars">
+      <div class="barrow"><span>Comissão</span><div class="track"><div class="fill" id="b-com"></div></div><output id="v-com" class="num"></output></div>
+      <div class="barrow"><span>Pagamento 3,2%</span><div class="track"><div class="fill" id="b-pag"></div></div><output id="v-pag" class="num"></output></div>
+      <div class="barrow lost"><span>Total</span><div class="track"><div class="fill" id="b-tot"></div></div><output id="v-tot" class="num"></output></div>
+    </div>
+    <p class="payback">Um site a partir de R$ 2.500 se paga com cerca de <b id="pb-n" class="num">0 pedidos</b> que deixam de pagar comissão, com o ticket de <span id="pb-t">R$ 55</span>.</p>
+  </div>
+  <p class="note">Taxas de referência do iFood. Confira as condições atuais do contrato do restaurante.</p>
+</section>
+
+<!-- 9 CICLO -->
+<section class="slide light" id="s-ciclo" aria-label="O ciclo de retorno">
+  <div class="head">
+    <p class="eyebrow a" style="--d:1">Retenção</p>
+    <h2 class="a" style="--d:2">O ciclo que faz o cliente voltar</h2>
+  </div>
+  <div class="wrap">
+    <div class="orbit a" style="--d:3">
+      <svg viewBox="0 0 560 560" aria-hidden="true">
+        <circle cx="280" cy="280" r="215" fill="none" stroke="#D9CCBA" stroke-width="3" stroke-dasharray="8 10"/>
+        <circle r="13" fill="#FF5A1F"><animateMotion dur="6s" repeatCount="indefinite" path="M280,65 a215,215 0 1,1 -0.1,0"/></circle>
+        <circle r="8" fill="#F2B33D" opacity=".8"><animateMotion dur="6s" begin="-2s" repeatCount="indefinite" path="M280,65 a215,215 0 1,1 -0.1,0"/></circle>
+        <circle r="8" fill="#B23A12" opacity=".8"><animateMotion dur="6s" begin="-4s" repeatCount="indefinite" path="M280,65 a215,215 0 1,1 -0.1,0"/></circle>
+      </svg>
+      <div class="center">Cliente que volta não custa anúncio de novo.</div>
+      <div class="node pop" style="--d:4;left:280px;top:62px"><svg class="i"><use href="#i-zap"/></svg><b>Anúncio traz</b><span>Gente nova, perto, na hora do almoço e do jantar.</span></div>
+      <div class="node pop" style="--d:6;left:522px;top:420px"><svg class="i"><use href="#i-globe"/></svg><b>Site captura</b><span>Cada pedido direto guarda o contato.</span></div>
+      <div class="node pop" style="--d:8;left:38px;top:420px"><svg class="i"><use href="#i-users"/></svg><b>CRM traz de volta</b><span>Mensagens no momento certo.</span></div>
+    </div>
+    <div class="reguas">
+      <p class="small a" style="--d:4;font-size:20px">Mensagens automáticas que trabalham sozinhas:</p>
+      <div class="regua a" style="--d:5"><div class="ic"><svg class="i"><use href="#i-heart"/></svg></div><div><b>Aniversário</b><span>Cupom no dia certo, e a mesa vem com os amigos.</span></div></div>
+      <div class="regua a" style="--d:6"><div class="ic"><svg class="i"><use href="#i-repeat"/></svg></div><div><b>Sentimos sua falta</b><span>Para quem não pede há 20 dias.</span></div></div>
+      <div class="regua a" style="--d:7"><div class="ic"><svg class="i"><use href="#i-sparkles"/></svg></div><div><b>Prato novo</b><span>Aviso para quem já pediu algo parecido.</span></div></div>
+      <div class="regua a" style="--d:8"><div class="ic"><svg class="i"><use href="#i-trending-up"/></svg></div><div><b>Relatório mensal</b><span>Recompra, frequência e quanto cada cliente vale.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 JORNADA -->
+<section class="slide" id="s-jornada" aria-label="A jornada">
+  <div class="head">
+    <p class="eyebrow a" style="--d:1">A jornada</p>
+    <h2 class="a" style="--d:2">Um ano de crescimento, passo a passo</h2>
+  </div>
+  <div class="tl">
+    <div class="line"><i></i></div>
+    <div class="ms" id="ms"></div>
+  </div>
+  <p class="small a" style="--d:12;font-size:21px">Cada etapa entra quando os números mostram que é a hora, não antes.</p>
+</section>
+
+<!-- 11 PACOTES -->
+<section class="slide light" id="s-pacotes" aria-label="Pacotes">
+  <div class="head" style="flex-direction:row;justify-content:space-between;align-items:flex-end">
+    <div class="head"><p class="eyebrow a" style="--d:1">Como posso te ajudar</p><h2 class="a" style="--d:2">Qual faz mais sentido para o seu momento?</h2></div>
+  </div>
+  <div class="packs" id="packs">
+    <div class="pack a" style="--d:3" data-name="Essencial">
+      <p class="kick">Para começar</p><h3>Essencial</h3>
+      <p class="price num">R$ 2.000</p><p class="per">por mês + R$ 1.900 no cardápio · fidelidade de 6 meses</p><p class="old">Avulso: R$ 2.000/mês + R$ 2.800</p>
+      <ul><li><svg class="i"><use href="#i-check"/></svg>Social media + audiovisual</li><li><svg class="i"><use href="#i-check"/></svg>Cardápio iFood com R$ 900 off</li><li class="off"><svg class="i"><use href="#i-x"/></svg>Tráfego pago e rastreamento</li><li class="off"><svg class="i"><use href="#i-x"/></svg>Site, CRM e vídeos com rosto</li></ul>
+      <button type="button" class="btn">Quero o Essencial</button>
+    </div>
+    <div class="pack featured a" style="--d:4" data-name="Crescimento">
+      <p class="kick">Mais escolhido</p><h3>Crescimento</h3>
+      <p class="price num">R$ 3.300</p><p class="per">por mês · fidelidade de 6 meses</p><p class="old">Avulso: R$ 3.500/mês + R$ 3.700</p>
+      <ul><li><svg class="i"><use href="#i-check"/></svg>Social media + audiovisual</li><li><svg class="i"><use href="#i-check"/></svg>Cardápio iFood incluso</li><li><svg class="i"><use href="#i-check"/></svg>Tráfego pago</li><li><svg class="i"><use href="#i-check"/></svg>Rastreamento com setup grátis</li><li class="off"><svg class="i"><use href="#i-x"/></svg>Site, CRM e vídeos com rosto</li></ul>
+      <button type="button" class="btn solid">Quero o Crescimento</button>
+    </div>
+    <div class="pack a" style="--d:5" data-name="Domínio">
+      <p class="kick">Completo</p><h3>Domínio</h3>
+      <p class="price num">R$ 5.490</p><p class="per">por mês · fidelidade de 12 meses</p><p class="old">Avulso: R$ 6.100/mês + a partir de R$ 7.700</p>
+      <ul><li><svg class="i"><use href="#i-check"/></svg>Tudo do Crescimento</li><li><svg class="i"><use href="#i-check"/></svg>Site com pedido direto incluso</li><li><svg class="i"><use href="#i-check"/></svg>CRM com implantação grátis</li><li><svg class="i"><use href="#i-check"/></svg>4 vídeos por mês com rosto</li><li><svg class="i"><use href="#i-check"/></svg>Posicionamento com 50% off</li></ul>
+      <button type="button" class="btn">Quero o Domínio</button>
+    </div>
+  </div>
+  <p id="escolha" aria-live="polite"></p>
+</section>
+
+<!-- 12 DIAGNÓSTICO -->
+<section class="slide" id="s-diag" aria-label="Resultado do diagnóstico e contato">
+  <div class="bg kb"><img src="img/chef.jpg" alt="Chef finalizando um prato"></div>
+  <div class="shade"></div>
+  <div class="inner">
+    <div class="head">
+      <p class="eyebrow a" style="--d:1">Resultado do diagnóstico<span id="rs-nome"></span></p>
+      <h2 class="a" style="--d:2;font-size:64px">O que os números <span class="accent">mostram.</span></h2>
+    </div>
+    <div class="res">
+      <div class="rc a" style="--d:3"><svg class="i"><use href="#i-star"/></svg><span class="rk">Nota Vitrine</span><strong><span id="rs-nota">0</span><small> de 100</small></strong><span class="rs" id="rs-nota-s"></span></div>
+      <div class="rc a" style="--d:4"><svg class="i"><use href="#i-calculator"/></svg><span class="rk">Receita extra por mês</span><strong id="rs-din">R$ 0</strong><span class="rs" id="rs-din-s"></span></div>
+      <div class="rc a" style="--d:5"><svg class="i"><use href="#i-triangle-alert"/></svg><span class="rk">Fica com o iFood por mês</span><strong id="rs-base">R$ 0</strong><span class="rs" id="rs-base-s"></span></div>
+      <div class="rc hi a" style="--d:6"><svg class="i"><use href="#i-check"/></svg><span class="rk">Plano para começar</span><strong id="rs-pack">Crescimento</strong><span class="rs" id="rs-pack-s"></span></div>
+    </div>
+    <p class="nextstep a" style="--d:7">Próximo passo: <b>Diagnóstico Feed Vitrine completo, grátis</b>, com a análise do seu perfil post a post e a proposta montada com estes números.</p>
+    <div class="cta a" style="--d:8">
+      <div class="zapbox"><svg class="i"><use href="#i-message-circle"/></svg><div><small>Fale comigo no WhatsApp</small><div class="phone-n" id="zap">(21) 96764-0607</div></div></div>
+      <button type="button" class="btn solid" id="copy"><svg class="i"><use href="#i-copy"/></svg><span>Copiar número</span></button>
+    </div>
+  </div>
+</section>
+
+</div>
+</div>
+
+<nav id="bar" aria-label="Navegação da apresentação">
+  <span class="brand">MMATTOS</span>
+  <div id="prog"><i></i></div>
+  <span id="count">1 / 12</span>
+  <button class="ctl" id="prev" type="button" aria-label="Slide anterior"><svg class="i"><use href="#i-chevron-left"/></svg></button>
+  <button class="ctl" id="next" type="button" aria-label="Próximo slide"><svg class="i"><use href="#i-chevron-right"/></svg></button>
+  <button class="ctl" id="full" type="button" aria-label="Tela cheia"><svg class="i"><use href="#i-maximize"/></svg></button>
+</nav>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.3/confetti.browser.min.js"></script>
+<script>
+addEventListener('DOMContentLoaded',function(){
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const brl=n=>'R$ '+Math.round(n).toLocaleString('pt-BR');
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---------- motor de slides ---------- */
+const slides=$$('.slide'), stage=$('#stage'); let cur=0, stack=false;
+function fit(){
+  const w=innerWidth,h=innerHeight;
+  stack = w<760 && h>w;
+  document.body.classList.toggle('stack',stack);
+  if(stack){
+    const s=w/1600;
+    stage.style.transform=`scale(${s})`; stage.style.marginLeft='0';stage.style.marginTop='0';
+    slides.forEach((sl,i)=>{sl.style.top=(i*900)+'px';sl.style.bottom='auto';sl.style.height='900px';sl.classList.add('is-active')});
+    $('#deck').style.height=(slides.length*900*s)+'px';
+  }else{
+    const s=Math.min(w/1600,h/900);
+    stage.style.transform=`scale(${s})`; stage.style.marginLeft=(-800*s)+'px'; stage.style.marginTop=(-450*s)+'px';
+    slides.forEach((sl,i)=>{sl.style.top='';sl.style.bottom='';sl.style.height='';sl.classList.toggle('is-active',i===cur)});
+    $('#deck').style.height='';
+  }
+}
+const hooks={};
+function go(i){
+  if(stack) return;
+  i=Math.max(0,Math.min(slides.length-1,i));
+  if(i===cur && slides[i].classList.contains('is-active')) return;
+  slides[cur].classList.remove('is-active');
+  cur=i; void slides[cur].offsetWidth; slides[cur].classList.add('is-active');
+  $('#count').textContent=(cur+1)+' / '+slides.length;
+  $('#prog i').style.width=((cur+1)/slides.length*100)+'%';
+  const h=hooks[slides[cur].id]; if(h) h();
+  }
+addEventListener('keydown',e=>{
+  const t=e.target; if(t.matches&&t.matches('input,textarea,[contenteditable]')) return;
+  if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();go(cur+1)}
+  else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();go(cur-1)}
+  else if(e.key==='Home')go(0); else if(e.key==='End')go(slides.length-1);
+  else if(e.key==='f'||e.key==='F')toggleFull();
+});
+let tx=null,ty=null;
+$('#deck').addEventListener('touchstart',e=>{if(e.target.closest('input,button,.phone,[contenteditable]'))return;tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
+$('#deck').addEventListener('touchend',e=>{if(tx===null)return;const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy))go(cur+(dx<0?1:-1));tx=null},{passive:true});
+$('#prev').onclick=()=>go(cur-1); $('#next').onclick=()=>go(cur+1);
+function toggleFull(){try{if(document.fullscreenElement)document.exitFullscreen();else document.documentElement.requestFullscreen().catch(()=>{})}catch(e){}}
+$('#full').onclick=toggleFull;
+addEventListener('resize',fit);
+
+/* ---------- números animados ---------- */
+const tweens=new WeakMap();
+function tween(el,to,fmt,dur=700){
+  if(reduce){el.textContent=fmt(to);return}
+  const from=tweens.get(el)??0, t0=performance.now();
+  tweens.set(el,to);
+  (function step(t){const k=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-k,3);el.textContent=fmt(from+(to-from)*e);if(k<1)requestAnimationFrame(step)})(t0);
+}
+function paintRange(r){const p=(r.value-r.min)/(r.max-r.min)*100;r.style.setProperty('--p',p+'%')}
+
+/* ---------- nome do restaurante ---------- */
+const nome=$('#nome');
+function applyNome(){
+  const v=nome.value.trim();
+  $$('.js-nome-curto').forEach(e=>e.textContent=v||'você');
+  $$('.js-nome-ig').forEach(e=>e.textContent=v||'Seu Restaurante');
+  const slug=(v||'seurestaurante').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'');
+  $$('.js-handle').forEach(e=>e.textContent='@'+slug);
+  store.set('mm-nome',v);
+}
+nome.value=store.get('mm-nome')||''; nome.addEventListener('input',applyNome); applyNome();
+
+/* ---------- vitrine antes/depois ---------- */
+const phone=$('#phone'); let vtTimer=null;
+function vitrine(d){
+  phone.classList.toggle('depois',d); phone.classList.toggle('antes',!d);
+  $('#vt-antes').setAttribute('aria-pressed',!d); $('#vt-depois').setAttribute('aria-pressed',d);
+  tween($('#vt-score'),d?86:31,n=>Math.round(n),900);
+}
+$('#vt-antes').onclick=()=>{clearTimeout(vtTimer);vitrine(false)};
+$('#vt-depois').onclick=()=>{clearTimeout(vtTimer);vitrine(true)};
+hooks['s-vitrine']=()=>{vitrine(false);clearTimeout(vtTimer);vtTimer=setTimeout(()=>vitrine(true),3200)};
+
+/* ---------- nota vitrine ---------- */
+const ITENS=[['Bio','Diz o que vende, onde e como pedir em 3 segundos?'],['Link','Leva direto ao pedido, no iFood ou WhatsApp?'],['Foto de perfil','Fica legível em tamanho pequeno?'],['Destaques','Cardápio, como pedir, avaliações e local?'],['Posts fixados','Prato-estrela, prova social e oferta?'],['Primeiros 9 posts','Dão vontade de comer? Têm boa luz?'],['Chamada para ação','Os posts dizem “peça agora”?'],['Prova social','Avaliações, clientes reais, reposts?'],['Rosto','Aparecem dono, equipe e clientes?'],['Constância','Posta com frequência? Stories ativos?']];
+const PRESETS={antes:[3,1,6,2,2,5,1,3,2,6],depois:[9,10,9,8,9,8,8,9,8,8],zero:[0,0,0,0,0,0,0,0,0,0]};
+const itens=$('#itens');
+ITENS.forEach(([t,q],i)=>{
+  const d=document.createElement('div');d.className='item a';d.style.setProperty('--d',3+i*.5);
+  d.innerHTML=`<b>${t}</b><small>${q}</small><output id="no-${i}">0</output><input type="range" id="n-${i}" min="0" max="10" step="1" value="0" aria-label="${t}, nota de 0 a 10">`;
+  itens.appendChild(d);
+});
+const notaR=$$('#itens input');
+function nota(){
+  let s=0; notaR.forEach((r,i)=>{s+=+r.value;$('#no-'+i).textContent=r.value;paintRange(r)});
+  tween($('#nota-total'),s,n=>Math.round(n),600);
+  const fg=$('#ring-fg'); fg.style.strokeDashoffset=879.6*(1-s/100);
+  const st=$('#nota-status');
+  if(s<40){fg.style.stroke='#E5533D';st.textContent='Vitrine que espanta pedido'}
+  else if(s<70){fg.style.stroke='#E0A21F';st.textContent='Vitrine que não converte'}
+  else{fg.style.stroke='#2F9E6B';st.textContent='Vitrine que vende'}
+}
+function preset(p){PRESETS[p].forEach((v,i)=>notaR[i].value=v);nota()}
+notaR.forEach(r=>r.addEventListener('input',nota));
+$$('[data-preset]').forEach(b=>b.onclick=()=>preset(b.dataset.preset));
+preset('antes');
+hooks['s-nota']=()=>{tweens.set($('#nota-total'),0);nota()};
+
+/* ---------- dinheiro na mesa ---------- */
+let chart=null;
+const cr={ped:$('#c-ped'),tic:$('#c-tic'),mais:$('#c-mais'),dias:$('#c-dias')};
+function calc(){
+  Object.values(cr).forEach(paintRange);
+  const ped=+cr.ped.value,tic=+cr.tic.value,mais=+cr.mais.value,dias=+cr.dias.value;
+  $('#o-ped').textContent=ped; $('#o-tic').textContent=brl(tic); $('#o-mais').textContent='+'+mais; $('#o-dias').textContent=dias;
+  const mes=mais*tic*dias;
+  tween($('#r-mes'),mes,brl); tween($('#r-ano'),mes*12,brl);
+  tween($('#r-cres'),mais/ped*100,n=>'+'+n.toLocaleString('pt-BR',{maximumFractionDigits:1})+'%');
+  tween($('#r-roi'),mes/3300,n=>n.toLocaleString('pt-BR',{maximumFractionDigits:1})+'×');
+  if(chart){chart.data.datasets[0].data=Array.from({length:12},(_,i)=>mes*(i+1));chart.update()}
+  commission();
+}
+function makeChart(){
+  if(chart||!window.Chart)return;
+  chart=new Chart($('#chart'),{type:'bar',data:{labels:['Mês 1','2','3','4','5','6','7','8','9','10','11','12'],
+    datasets:[{label:'Receita extra acumulada',data:[],backgroundColor:ctx=>ctx.dataIndex===11?'#FF5A1F':'rgba(255,90,31,.45)',borderRadius:6,maxBarThickness:42}]},
+    options:{responsive:true,maintainAspectRatio:false,animation:{duration:reduce?0:700},
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>brl(c.raw)}}},
+      scales:{x:{grid:{display:false},ticks:{color:'#CFC4B6',font:{size:14,family:'Inter'}}},
+        y:{grid:{color:'rgba(246,239,230,.08)'},border:{display:false},ticks:{color:'#CFC4B6',font:{size:13,family:'Inter'},maxTicksLimit:5,callback:v=>'R$ '+(v/1000).toLocaleString('pt-BR')+' mil'}}}}});
+}
+Object.values(cr).forEach(r=>r.addEventListener('input',calc));
+hooks['s-dinheiro']=()=>{makeChart();if(chart){chart.data.datasets[0].data=chart.data.datasets[0].data.map(()=>0);chart.update('none')}calc()};
+
+/* ---------- esteira ---------- */
+const STEPS=[
+ {t:'Cardápio que vende',k:'01 · Entrada',h:250,c:'#2A211B',e:['Nomes, descrições, ordem, combos e upsell no iFood','Fotos novas e design (versão completa)','Relatório de antes e depois aos 30 dias'],g:'pedidos por dia, ticket médio e conversão do cardápio.'},
+ {t:'Instagram + vídeo',k:'02 · Base',h:310,c:'#3A2A1F',e:['Feed vitrine: bio, destaques e fixados','Calendário mensal de conteúdo','Posts, Reels e stories com produção audiovisual'],g:'quais posts vendem mais, e eles viram anúncio.'},
+ {t:'Anúncios locais',k:'03 · Alcance',h:370,c:'#5A3420',e:['Campanhas Meta e Google em raio local','Anúncios no horário de pico','Rastreamento: pixel, GTM e API de conversões'],g:'quanto custa cada pedido que veio do anúncio.'},
+ {t:'Site com pedido',k:'04 · Canal próprio',h:430,c:'#7A3A1C',e:['Site com cardápio e fotos','Pedido direto pelo WhatsApp, sem comissão','Google Meu Negócio e SEO local'],g:'base própria de clientes e pedidos sem comissão.'},
+ {t:'CRM: cliente volta',k:'05 · Retenção',h:490,c:'#A83A16',e:['Base de clientes organizada','Mensagens de aniversário, saudade e prato novo','Relatório mensal de recompra'],g:'taxa de recompra, frequência e valor de cada cliente.'},
+ {t:'Marca premium',k:'06 · Premium',h:550,c:'#FF5A1F',tc:'#14100D',e:['Posicionamento: concorrência, proposta de valor, tom de voz e história','4 vídeos por mês com você como rosto do restaurante','Feed, cardápio, site e anúncios com a nova narrativa'],g:'ticket médio maior e conteúdo com rosto.'}];
+const stairs=$('#stairs'), detail=$('#detail');
+STEPS.forEach((s,i)=>{
+  const b=document.createElement('button');b.type='button';b.className='step';
+  b.style.cssText=`--h:${s.h};--c:${s.c};--d:${i};${s.tc?'--tc:'+s.tc:''}`;
+  b.innerHTML=`<span class="k">${s.k}</span><span class="t">${s.t}</span>`;
+  b.onclick=()=>showStep(i); stairs.insertBefore(b,stairs.querySelector('.ground'));
+});
+function showStep(i){
+  const s=STEPS[i];
+  $$('.step').forEach((b,j)=>b.setAttribute('aria-pressed',i===j));
+  detail.classList.remove('swap');void detail.offsetWidth;detail.classList.add('swap');
+  detail.innerHTML=`<p class="k">${s.k}</p><h3 style="font-size:34px">${s.t}</h3><ul>${s.e.map(x=>`<li><svg class="i"><use href="#i-check"/></svg>${x}</li>`).join('')}</ul><p class="gera"><b>O que mostra:</b> ${s.g}</p>`;
+}
+showStep(0);
+let auto=null;
+hooks['s-esteira']=()=>{showStep(0);clearInterval(auto);if(reduce)return;let k=0;auto=setInterval(()=>{k++;if(k>=STEPS.length||!slides[cur].matches('#s-esteira')){clearInterval(auto);return}showStep(k)},1800)};
+stairs.addEventListener('click',()=>clearInterval(auto));
+
+/* ---------- comissão ---------- */
+let rate=0.23; const fat=$('#f-fat');
+function commission(){
+  paintRange(fat);
+  const f=+fat.value,com=f*rate,pag=f*0.032,tot=com+pag,tic=+cr.tic.value;
+  $('#o-fat').textContent=brl(f);
+  tween($('#l-mes'),tot,brl); tween($('#l-ano'),tot*12,brl);
+  $('#l-pct').textContent=((rate+0.032)*100).toLocaleString('pt-BR',{maximumFractionDigits:1})+'%';
+  const mx=f*0.262;
+  $('#b-com').style.width=(com/mx*100)+'%';$('#b-pag').style.width=(pag/mx*100)+'%';$('#b-tot').style.width=(tot/mx*100)+'%';
+  $('#v-com').textContent=brl(com);$('#v-pag').textContent=brl(pag);$('#v-tot').textContent=brl(tot);
+  const n=Math.ceil(2500/(tic*(rate+0.032)));
+  $('#pb-n').textContent=n.toLocaleString('pt-BR')+' pedidos'; $('#pb-t').textContent=brl(tic);
+}
+fat.addEventListener('input',commission);
+$$('[data-rate]').forEach(b=>b.onclick=()=>{rate=+b.dataset.rate;$$('[data-rate]').forEach(x=>x.setAttribute('aria-pressed',x===b));commission()});
+hooks['s-comissao']=()=>{tweens.set($('#l-mes'),0);commission()};
+
+/* ---------- jornada ---------- */
+const MS=[['Mês 0','Diagnóstico','Nota Vitrine e a conta do dinheiro na mesa.'],['Mês 1','Cardápio entregue','Instagram entra em ação com a vitrine nova.'],['Mês 3','Post vencedor vira anúncio','O que já funciona chega a mais gente.'],['Mês 4','Site com pedido direto','Menos comissão, mais contatos próprios.'],['Mês 5','CRM ligado','Quem pediu uma vez recebe motivo para voltar.'],['Mês 6','Vídeos com rosto','Gente real apresentando a casa.'],['Mês 10','Posicionamento','Hora de vender mais caro.']];
+$('#ms').innerHTML=MS.map((m,i)=>`<div class="m"><div class="card pop" style="--d:${3+i*1.4}"><span class="mes">${m[0]}</span><span class="t">${m[1]}</span><span class="s">${m[2]}</span></div><span class="dot pop" style="--d:${2+i*1.4}"></span></div>`).join('');
+
+/* ---------- pacotes ---------- */
+$$('#packs .pack').forEach(p=>p.querySelector('button').onclick=e=>{
+  $$('#packs .pack').forEach(x=>x.classList.toggle('chosen',x===p));
+  $('#escolha').textContent=`Escolhido: ${p.dataset.name}. Próximo passo: agendar o Diagnóstico Feed Vitrine.`;
+  if(window.confetti&&!reduce){const r=e.currentTarget.getBoundingClientRect();
+    confetti({particleCount:140,spread:80,startVelocity:42,origin:{x:(r.left+r.width/2)/innerWidth,y:r.top/innerHeight},colors:['#FF5A1F','#F2B33D','#F6EFE6','#B23A12']})}
+});
+
+/* ---------- copiar número ---------- */
+$('#copy').onclick=()=>{
+  const t=$('#zap').textContent, lab=$('#copy span');
+  const done=()=>{lab.textContent='Copiado';setTimeout(()=>lab.textContent='Copiar número',1800)};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,()=>sel())}else sel();
+  function sel(){const r=document.createRange();r.selectNodeContents($('#zap'));const s=getSelection();s.removeAllRanges();s.addRange(r);lab.textContent='Selecionado'}
+};
+
+/* ---------- início ---------- */
+calc(); commission();
+fit();
+cur=0; slides[0].classList.add('is-active');
+$('#count').textContent=(cur+1)+' / '+slides.length;$('#prog i').style.width=((cur+1)/slides.length*100)+'%';
+if(stack){makeChart();calc();vitrine(true)}
+});
+</script>
+<script>
+addEventListener('DOMContentLoaded',function(){
+  const brl=n=>'R$ '+Math.round(n).toLocaleString('pt-BR');
+  const v=id=>{const e=document.getElementById(id);return e?e.value:0};
+  const set=(id,t)=>{const e=document.getElementById(id);if(e&&e.textContent!==t)e.textContent=t};
+  function resumo(){
+    try{
+    const nome=((document.getElementById('nome')||{}).value||'').trim();
+    set('rs-nome',nome?' · '+nome:'');
+    let s=0;document.querySelectorAll('#itens input[type=range]').forEach(r=>s+=+r.value);
+    set('rs-nota',String(s));
+    set('rs-nota-s',s<40?'Vitrine que espanta cliente: a primeira coisa a arrumar.':s<70?'Vitrine que ainda não converte.':'Vitrine que vende.');
+    const ped=+v('c-ped'),tic=+v('c-tic'),mais=+v('c-mais'),dias=+v('c-dias'),mes=mais*tic*dias;
+    set('rs-din',brl(mes));set('rs-din-s',brl(mes*12)+' em 12 meses · +'+(mais/ped*100).toLocaleString('pt-BR',{maximumFractionDigits:1})+'% nos pedidos');
+    const rb=document.querySelector('[data-rate][aria-pressed="true"]'),rate=rb?+rb.dataset.rate:.23,f=+v('f-fat'),tot=f*(rate+.032),pb=Math.ceil(2500/(tic*(rate+.032)));
+    set('rs-base',brl(tot));set('rs-base-s',brl(tot*12)+' por ano · o site se paga com '+pb+' pedidos diretos');
+    const ch=document.querySelector('.pack.chosen'),pk=ch||document.querySelector('.pack.featured');
+    const nm=pk?pk.dataset.name:'Crescimento',pr=pk?pk.querySelector('.price').textContent.trim():'';
+    set('rs-pack',nm);set('rs-pack-s',(ch?'Escolhido na conversa · ':'Recomendado · ')+pr+' por mês');
+    }catch(e){}
+  }
+  let rq=0;const soon=()=>{cancelAnimationFrame(rq);rq=requestAnimationFrame(resumo)};
+  ['input','change','click','keyup'].forEach(t=>document.addEventListener(t,soon,true));
+  resumo();setTimeout(resumo,400);
+});
+</script>
+<script type="application/json" id="mm-edits">{}</script>
+<style>
+#mm-tools{position:fixed;z-index:40;top:calc(10px + env(safe-area-inset-top,0px));right:max(12px, env(safe-area-inset-right,0px));display:flex;align-items:center;gap:8px;font-family:var(--body)}
+#mm-tools button{border-radius:999px;padding:9px 16px;font:600 14px var(--body);border:1px solid rgba(246,239,230,.3);background:rgba(20,16,13,.78);color:var(--cream);backdrop-filter:blur(6px)}
+#mm-tools button:hover{border-color:var(--orange)}
+#mm-tools button.solid{background:var(--orange);border-color:var(--orange);color:var(--ink)}
+#mm-tools button[disabled]{opacity:.6;cursor:wait}
+#mm-msg{font:500 13px var(--body);color:var(--cream);background:rgba(20,16,13,.78);border-radius:999px;padding:8px 14px}
+#mm-msg:empty{display:none}
+body.mm-editing [data-e]{outline:2px dashed rgba(242,179,61,.75);outline-offset:4px;border-radius:4px;cursor:text}
+body.mm-editing [data-e]:focus{outline:3px solid var(--gold);background:rgba(242,179,61,.10)}
+body.mm-editing .slide.is-active .a,body.mm-editing .slide.is-active .pop{animation:none}
+</style>
+<div id="mm-tools" hidden>
+  <span id="mm-msg" role="status" aria-live="polite"></span>
+  <button type="button" id="mm-cancel" hidden>Cancelar</button>
+  <button type="button" id="mm-save" class="solid" hidden>Salvar</button>
+  <button type="button" id="mm-edit">Editar textos</button>
+</div>
+<script>
+addEventListener('DOMContentLoaded',function(){
+  const $=s=>document.querySelector(s);
+  /* ids que o próprio script da apresentação reescreve: ficam fora da edição */
+  const LIVE=/^(vt-score|nota-total|nota-status|no-\d+|o-|r-|l-|v-|b-|pb-|rs-|escolha|count|zap)/;
+  const SEL='h1,h2,h3,p,li,label,.chip,.tag,.fx b,.fx span,.step .k,.step .t,.m .mes,.m .t,.m .s,.item b,.item small,.kpi span,.deliver > div,.node b,.node span,.regua b,.regua span,.pack .kick,.pack .price,.pack .per,.pack .old,#zap';
+  let state={};
+  try{state=JSON.parse($('#mm-edits').textContent)||{}}catch(e){state={}}
+  const els=[];
+  document.querySelectorAll('.slide').forEach(sl=>{
+    let i=0;
+    sl.querySelectorAll(SEL).forEach(el=>{
+      if(el.closest('#detail,button,output,.ig-btns,#mm-tools'))return;
+      if(el.id&&LIVE.test(el.id))return;
+      if(el.querySelector('output,input,button,canvas,select,textarea,[id]'))return;
+      if(els.some(p=>p.contains(el)))return;
+      el.dataset.e=sl.id+':'+(i++);els.push(el);
+    });
+  });
+  const orig={};els.forEach(el=>orig[el.dataset.e]=el.innerHTML);
+  function clean(html){
+    const t=document.createElement('template');t.innerHTML=html;
+    t.content.querySelectorAll('script,style,iframe,object,embed,link,meta,form').forEach(n=>n.remove());
+    t.content.querySelectorAll('*').forEach(n=>[...n.attributes].forEach(a=>{if(/^on/i.test(a.name)||/^\s*javascript:/i.test(a.value))n.removeAttribute(a.name)}));
+    return t.innerHTML;
+  }
+  function apply(){els.forEach(el=>{const k=el.dataset.e;el.innerHTML=k in state?clean(state[k]):orig[k]});const n=$('#nome');if(n)n.dispatchEvent(new Event('input'))}
+  apply();
+
+  const tools=$('#mm-tools'),bEdit=$('#mm-edit'),bSave=$('#mm-save'),bCancel=$('#mm-cancel'),msg=$('#mm-msg');
+  let editing=false,timer=null;
+  function say(t,ms){msg.textContent=t;clearTimeout(timer);if(ms)timer=setTimeout(()=>msg.textContent='',ms)}
+  function setEditing(on){
+    editing=on;document.body.classList.toggle('mm-editing',on);
+    els.forEach(el=>{if(on){el.setAttribute('contenteditable','true');el.spellcheck=true}else el.removeAttribute('contenteditable')});
+    bEdit.hidden=on;bSave.hidden=!on;bCancel.hidden=!on;
+    say(on?'Clique em qualquer texto para editar':'',on?0:1);
+  }
+  document.addEventListener('paste',e=>{
+    if(!editing||!e.target.closest||!e.target.closest('[data-e]'))return;
+    e.preventDefault();const t=(e.clipboardData||window.clipboardData).getData('text/plain');
+    document.execCommand('insertText',false,t);
+  });
+  document.addEventListener('keydown',e=>{if(editing&&e.key==='Enter'&&e.target.closest&&e.target.closest('[data-e]')&&!e.shiftKey){e.preventDefault();e.target.blur()}},true);
+  bEdit.onclick=()=>setEditing(true);
+  bCancel.onclick=()=>{apply();setEditing(false);say('Alterações descartadas',2500)};
+
+  function buildDoc(next){
+    const c=window.__MMSRC.cloneNode(true);
+    c.querySelector('#mm-edits').textContent=JSON.stringify(next).replace(/</g,'\\u003c');
+    const hs=c.querySelector('head style');const reset=hs?hs.textContent:'';
+    let body=c.querySelector('body').innerHTML;
+    const a=body.indexOf('<'+'title>MMATTOS');if(a<0)throw new Error('sem título');
+    const m=body.lastIndexOf('id="mm-capture"');const b=body.indexOf('<\/script>',m);
+    if(m<0||b<0)throw new Error('sem marcador');
+    body=body.slice(a,b+9);
+    return '<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>'+reset+'</style></head><body>'+body+'</body></html>';
+  }
+
+  (async()=>{
+    const artifact=window.claude&&window.claude.use?await window.claude.use('artifact'):null;
+    if(!artifact)return;
+    const user=await window.claude.use('user');
+    const can=user&&user.canEdit?user.canEdit():null;
+    if(can===false)return;
+    tools.hidden=false;
+    bSave.onclick=async()=>{
+      const next={...state};
+      els.forEach(el=>{const k=el.dataset.e,h=clean(el.innerHTML);if(h!==orig[k])next[k]=h;else delete next[k]});
+      bSave.disabled=true;say('Salvando…');
+      try{
+        await artifact.publish(buildDoc(next));
+        state=next;say('Salvo. Abrindo a versão nova…');
+      }catch(err){
+        const code=err&&err.code;
+        if(code==='conflict')say('Outra pessoa salvou ao mesmo tempo. A página vai recarregar com a versão dela.');
+        else if(code==='not_writer'||code==='not_granted'){say('Você não tem permissão para salvar esta apresentação.',5000);setEditing(false)}
+        else say('Não consegui salvar. Confira a internet e tente de novo.',6000);
+      }finally{bSave.disabled=false}
+    };
+  })();
+});
+</script>
+<script id="mm-capture">window.__MMSRC=document.documentElement.cloneNode(true);</script>
+</body></html>
