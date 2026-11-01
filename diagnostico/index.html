@@ -287,6 +287,7 @@ html,body{background:var(--bg)}
 .good .ig-grid div{background-size:cover;background-position:center;text-shadow:0 1px 4px rgba(0,0,0,.6);align-items:end}
 .ig-hl i{background-size:cover!important;background-position:center!important}
 
+[hidden]{display:none!important}
 .reveal .slide-number{background:transparent;color:var(--muted);font-family:var(--body);font-size:13px}
 .reveal .progress{color:var(--accent);height:4px}
 .reveal .controls{color:var(--accent)}
@@ -401,6 +402,7 @@ html,body{background:var(--bg)}
       </div>
       <div class="side">
         <label class="niche no-print" for="nicho">Nicho<input id="nicho" type="text" placeholder="Ex.: clínica estética, loja de roupas, advocacia" data-nicho></label>
+        <label class="niche no-print" for="codigo" data-codebox hidden>Código de acesso<input id="codigo" type="password" autocomplete="off" placeholder="Digite para liberar a análise com IA" data-codigo></label>
         <div class="status" data-status><span class="dot"></span><span data-status-tx>Aguardando o print do perfil</span></div>
         <div class="resumo" data-resumo hidden></div>
         <div class="notes-list" data-notes></div>
@@ -627,7 +629,50 @@ const destaque = CONFIG.pacotes.find(p => p.id === CONFIG.destaque.toLowerCase()
 
 const STATE = { file: null, analise: null, diag: null };
 let READY = false;
-const sampleP = window.claude?.use ? window.claude.use("sample").catch(() => null) : Promise.resolve(null);
+// Fora do Claude (site na Vercel), a IA roda pela função /api/analisar com código de acesso.
+const CODE_KEY = "diag-codigo-ia";
+const getCode = () => { try { return localStorage.getItem(CODE_KEY) || ""; } catch { return document.querySelector("[data-codigo]")?.value || ""; } };
+const setCode = v => { try { v ? localStorage.setItem(CODE_KEY, v) : localStorage.removeItem(CODE_KEY); } catch {} };
+const toJpeg = file => new Promise((ok, bad) => {
+  const img = new Image();
+  img.onload = () => {
+    const k = Math.min(1, 1568 / Math.max(img.naturalWidth, img.naturalHeight));
+    const c = document.createElement("canvas");
+    c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+    c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+    ok({ media_type: "image/jpeg", data: c.toDataURL("image/jpeg", 0.85).split(",")[1] });
+  };
+  img.onerror = () => bad({ code: "image_rejected" });
+  img.src = URL.createObjectURL(file);
+});
+const parseJSONLoose = t => {
+  const m = String(t).match(/```(?:json)?\s*([\s\S]*?)```/);
+  const s = m ? m[1] : String(t);
+  try { return JSON.parse(s); } catch {}
+  const a = s.indexOf("{"), b = s.lastIndexOf("}");
+  if (a >= 0 && b > a) { try { return JSON.parse(s.slice(a, b + 1)); } catch {} }
+  throw { code: "invalid_json" };
+};
+const webSample = {
+  web: true,
+  json: async (prompt, opts = {}) => {
+    const code = getCode();
+    if (!code) throw { code: "need_code" };
+    const image = opts.images?.[0] ? await toJpeg(opts.images[0]) : null;
+    let r;
+    try {
+      r = await fetch("/api/analisar", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ code, prompt, image }), signal: opts.signal });
+    } catch (e) { throw { code: e?.name === "AbortError" ? "cancelled" : "upstream_error" }; }
+    if (r.status === 401) { setCode(""); throw { code: "bad_code" }; }
+    if (r.status === 503) throw { code: "no_key" };
+    if (r.status === 429) throw { code: "rate_limited" };
+    if (!r.ok) throw { code: "upstream_error" };
+    const { text } = await r.json();
+    return parseJSONLoose(text);
+  }
+};
+const sampleP = window.claude?.use ? window.claude.use("sample").catch(() => null)
+  : Promise.resolve(location.protocol.startsWith("http") ? webSample : null);
 
 // WhatsApp
 document.querySelector("[data-copy]").addEventListener("click", async e => {
@@ -805,7 +850,10 @@ const LIVE = (() => {
     image_rejected: "Não consegui ler esse print. Tente outro arquivo (PNG ou JPG).",
     images_unavailable: "Esta visualização não envia imagens. Abra o link no Claude para a análise automática.",
     invalid_json: "A análise veio incompleta. Clique em Analisar de novo.",
-    session_expired: "Sua sessão expirou. Entre de novo no Claude e tente outra vez."
+    session_expired: "Sua sessão expirou. Entre de novo no Claude e tente outra vez.",
+    need_code: "Digite o código de acesso acima para liberar a análise com IA.",
+    bad_code: "Código de acesso errado. Confira e digite de novo.",
+    no_key: "A chave da IA ainda não foi configurada no site."
   };
   const analyze = async () => {
     if (!STATE.file) return;
@@ -836,6 +884,7 @@ const LIVE = (() => {
       setStatus("done", "Análise pronta. A Nota Vitrine já foi preenchida.");
       renderDiag();
     } catch (e) {
+      if (e?.code === "bad_code" || e?.code === "need_code") window.dispatchEvent(new Event("diag-code-reset"));
       if (e?.code === "cancelled") setStatus("", "Análise interrompida.");
       else setStatus("err", ERR[e?.code] || "A análise não respondeu agora. Clique em Analisar de novo.");
     } finally {
@@ -871,6 +920,12 @@ const LIVE = (() => {
   document.querySelector("[data-file]").addEventListener("change", e => show(e.target.files[0]));
   document.querySelector("[data-clear]").addEventListener("click", clear);
   btnRe.addEventListener("click", analyze);
+  const codeBox = document.querySelector("[data-codebox]"), codeIn = document.querySelector("[data-codigo]");
+  const syncCodeBox = () => sampleP.then(s => { codeBox.hidden = !(s?.web && !getCode()); });
+  syncCodeBox();
+  codeIn.addEventListener("keydown", e => { e.stopPropagation(); if (e.key === "Enter") codeIn.blur(); });
+  codeIn.addEventListener("change", () => { setCode(codeIn.value.trim()); syncCodeBox(); if (STATE.file) analyze(); });
+  window.addEventListener("diag-code-reset", syncCodeBox);
   btnStop.addEventListener("click", () => ctl?.abort());
   window.addEventListener("paste", e => {
     if (e.target.closest?.("[contenteditable], input")) return;
@@ -970,7 +1025,7 @@ Exatamente 5 técnicas para crescer o faturamento, escolhidas para este nicho (e
       set("done", "Diagnóstico gerado");
       btn.textContent = "Gerar de novo";
     } catch (e) {
-      set("err", e?.code === "rate_limited" ? "Muitas chamadas. Tente em instantes." : e?.code === "not_granted" ? "Uso da IA não autorizado." : "Não deu certo agora. Tente de novo.");
+      set("err", e?.code === "rate_limited" ? "Muitas chamadas. Tente em instantes." : e?.code === "not_granted" ? "Uso da IA não autorizado." : e?.code === "need_code" || e?.code === "bad_code" ? "Digite o código de acesso no slide da análise." : e?.code === "no_key" ? "A chave da IA ainda não foi configurada no site." : "Não deu certo agora. Tente de novo.");
     } finally { btn.disabled = false; }
   });
 })();

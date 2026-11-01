@@ -2,6 +2,19 @@
   "cleanUrls": true,
   "trailingSlash": true,
   "headers": [
-    { "source": "/(.*)/img/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800" }] }
-  ]
+    {
+      "source": "/(.*)/img/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800"
+        }
+      ]
+    }
+  ],
+  "functions": {
+    "api/analisar.js": {
+      "maxDuration": 60
+    }
+  }
 }
