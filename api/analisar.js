@@ -4,7 +4,7 @@
 //   GEMINI_MODEL        opcional, padrão gemini-flash-latest
 //   ANTHROPIC_API_KEY   opcional, chave paga da API do Claude (usada se não houver Gemini)
 //   ANTHROPIC_MODEL     opcional, padrão claude-sonnet-5-5
-//   ACESSO_DIAGNOSTICO  código de acesso digitado no slide da análise
+//   ACESSO_DIAGNOSTICO  senha da página /leads (e acesso à IA fora do site)
 const crypto = require("crypto");
 
 const iguais = (a, b) => {
@@ -48,7 +48,8 @@ module.exports = async (req, res) => {
   const { GEMINI_API_KEY, ANTHROPIC_API_KEY, ACESSO_DIAGNOSTICO } = process.env;
   if (!GEMINI_API_KEY && !ANTHROPIC_API_KEY) return res.status(503).json({ erro: "sem_chave" });
   const body = typeof req.body === "string" ? JSON.parse(req.body || "{}") : (req.body || {});
-  if (!ACESSO_DIAGNOSTICO || !iguais(body.code, ACESSO_DIAGNOSTICO)) return res.status(401).json({ erro: "codigo" });
+  // Liberado para o próprio site (cliente pode usar sozinho); o código é opcional.
+  if (!require("./_origem")(req) && !(ACESSO_DIAGNOSTICO && iguais(body.code, ACESSO_DIAGNOSTICO))) return res.status(401).json({ erro: "codigo" });
 
   const prompt = String(body.prompt || "").slice(0, 30000);
   if (!prompt) return res.status(400).json({ erro: "sem_prompt" });

@@ -15,6 +15,12 @@
   "functions": {
     "api/analisar.js": {
       "maxDuration": 60
+    },
+    "api/lead.js": {
+      "maxDuration": 30
+    },
+    "api/leads.js": {
+      "maxDuration": 30
     }
   }
 }

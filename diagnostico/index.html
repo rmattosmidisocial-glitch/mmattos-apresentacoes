@@ -288,6 +288,20 @@ html,body{background:var(--bg)}
 .ig-hl i{background-size:cover!important;background-position:center!important}
 
 [hidden]{display:none!important}
+.lead-row{display:flex;gap:8px;margin-top:12px}
+.lead-row input{flex:1;min-width:0;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:10px;color:var(--text);font:500 14px var(--body);padding:8px 11px;outline:0}
+.lead-row input:focus{border-color:var(--accent)}
+.lead-modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.62);display:grid;place-items:center;padding:16px;font-family:var(--body);color:var(--text)}
+.lead-modal form{width:min(440px,100%);background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:12px;box-shadow:0 30px 80px -20px rgba(0,0,0,.8)}
+.lead-modal h3{font-family:var(--display);font-size:24px;margin:0;line-height:1.1}
+.lead-modal p{margin:0;color:var(--muted);font-size:14px}
+.lead-modal label{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:600;color:var(--muted)}
+.lead-modal input{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;color:var(--text);font:600 16px var(--body);padding:11px 13px;outline:0}
+.lead-modal input:focus{border-color:var(--accent)}
+.lead-modal .lm-acts{display:flex;gap:8px;justify-content:flex-end;margin-top:4px;flex-wrap:wrap}
+.lead-modal .lm-status{font-size:14px;min-height:20px}
+.lead-modal .lm-status.err{color:var(--bad)} .lead-modal .lm-status.ok{color:var(--ok)}
+.lead-modal .lm-wa{display:block;text-align:center;background:var(--zap);color:#062b14;font-weight:800;border-radius:999px;padding:12px;text-decoration:none}
 .reveal .slide-number{background:transparent;color:var(--muted);font-family:var(--body);font-size:13px}
 .reveal .progress{color:var(--accent);height:4px}
 .reveal .controls{color:var(--accent)}
@@ -310,6 +324,10 @@ html,body{background:var(--bg)}
       <div class="crow"><span class="av" data-fill="inicial">S</span>
         <div style="min-width:0"><div class="cname" contenteditable="true" spellcheck="false" role="textbox" aria-label="Nome da empresa avaliada" data-edit="empresa">Sua Empresa</div>
         <div class="cig">@<span contenteditable="true" spellcheck="false" role="textbox" aria-label="Instagram da empresa" data-edit="ig">suaempresa</span></div></div>
+      </div>
+      <div class="lead-row no-print">
+        <input id="lead-nome" type="text" autocomplete="name" placeholder="Nome do responsável" data-lead="nome" aria-label="Nome do responsável">
+        <input id="lead-tel" type="tel" autocomplete="tel" inputmode="tel" placeholder="WhatsApp com DDD" data-lead="tel" aria-label="WhatsApp com DDD">
       </div>
       <div class="chint no-print" data-chint>Clique no nome para digitar a empresa avaliada</div>
     </div>
@@ -561,6 +579,19 @@ html,body{background:var(--bg)}
 
 </div></div>
 
+<div class="lead-modal" data-lead-modal hidden role="dialog" aria-modal="true" aria-labelledby="lm-titulo">
+  <form novalidate>
+    <h3 id="lm-titulo">Para quem enviamos o diagnóstico?</h3>
+    <p>O PDF completo vai para o WhatsApp da MMATTOS e a gente te manda em seguida.</p>
+    <label for="lm-nome">Seu nome<input id="lm-nome" data-lm="nome" autocomplete="name" required></label>
+    <label for="lm-tel">Seu WhatsApp com DDD<input id="lm-tel" data-lm="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="(21) 99999-9999" required></label>
+    <label for="lm-empresa">Empresa<input id="lm-empresa" data-lm="empresa" autocomplete="organization"></label>
+    <div class="lm-status" data-lm-status aria-live="polite"></div>
+    <a class="lm-wa" data-lm-wa href="#" target="_blank" rel="noopener" hidden>Abrir o WhatsApp e enviar</a>
+    <div class="lm-acts"><button type="button" class="btn" data-lm-cancel>Voltar</button><button type="submit" class="btn primary" data-lm-send>Enviar diagnóstico</button></div>
+  </form>
+</div>
+
 <script src="/vendor/reveal/reveal.js"></script>
 <script src="/vendor/reveal/plugin/notes/notes.js"></script>
 <script src="/vendor/confetti.browser.min.js"></script>
@@ -624,6 +655,23 @@ const nichoInput = document.querySelector("[data-nicho]");
 nichoInput.value = CONFIG.nicho;
 const nicho = () => nichoInput.value.trim();
 
+// Dados de contato do responsável (lead)
+const LEAD_KEY = "diag-lead";
+const LEAD = { nome: "", tel: "" };
+try { Object.assign(LEAD, JSON.parse(localStorage.getItem(LEAD_KEY) || "{}")); } catch {}
+const fmtTel = t => { const d = String(t || "").replace(/\D/g, ""); return d.length >= 10 ? `(${d.slice(0, 2)}) ${d.slice(2, -4)}-${d.slice(-4)}` : d; };
+const setLead = o => {
+  Object.assign(LEAD, o);
+  try { localStorage.setItem(LEAD_KEY, JSON.stringify(LEAD)); } catch {}
+  document.querySelectorAll("[data-lead]").forEach(i => { if (document.activeElement !== i) i.value = i.dataset.lead === "tel" ? fmtTel(LEAD.tel) : LEAD.nome; });
+};
+setLead({});
+document.querySelectorAll("[data-lead]").forEach(i => {
+  i.addEventListener("input", () => setLead({ [i.dataset.lead]: i.dataset.lead === "tel" ? i.value.replace(/\D/g, "") : i.value.trim() }));
+  i.addEventListener("keydown", e => { e.stopPropagation(); if (e.key === "Enter") i.blur(); });
+  i.addEventListener("blur", () => setLead({}));
+});
+
 const brl = n => "R$ " + Math.round(n || 0).toLocaleString("pt-BR");
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const clamp = (v, a, b) => Math.max(a, Math.min(b, Number(v) || 0));
@@ -660,7 +708,6 @@ const webSample = {
   web: true,
   json: async (prompt, opts = {}) => {
     const code = getCode();
-    if (!code) throw { code: "need_code" };
     const image = opts.images?.[0] ? await toJpeg(opts.images[0]) : null;
     let r;
     try {
@@ -926,7 +973,7 @@ const LIVE = (() => {
   document.querySelector("[data-clear]").addEventListener("click", clear);
   btnRe.addEventListener("click", analyze);
   const codeBox = document.querySelector("[data-codebox]"), codeIn = document.querySelector("[data-codigo]");
-  const syncCodeBox = () => sampleP.then(s => { codeBox.hidden = !(s?.web && !getCode()); });
+  const syncCodeBox = () => sampleP.then(s => { codeBox.hidden = true; });
   syncCodeBox();
   codeIn.addEventListener("keydown", e => { e.stopPropagation(); if (e.key === "Enter") codeIn.blur(); });
   codeIn.addEventListener("change", () => { setCode(codeIn.value.trim()); syncCodeBox(); if (STATE.file) analyze(); });
@@ -1092,6 +1139,7 @@ const PDF = (() => {
       <div class="rp-ag">${esc2(CONFIG.agencia)}</div>
       <h1>${esc2(DECK.titulo)}</h1>
       <div class="rp-for">Preparado para <b>${esc2(nome)}</b> · ${esc2(CONFIG.ig)}</div>
+      ${LEAD.nome || LEAD.tel ? `<div class="rp-date">Responsável: ${esc2(LEAD.nome || "-")}${LEAD.tel ? " · WhatsApp " + esc2(fmtTel(LEAD.tel)) : ""}</div>` : ""}
       <div class="rp-date">Diagnóstico feito em ${data}</div>
     </section>`);
 
@@ -1192,9 +1240,7 @@ const PDF = (() => {
     return { box, nome, data };
   };
 
-  const gerar = async btn => {
-    const old = btn.textContent;
-    btn.disabled = true; btn.textContent = "Gerando PDF…";
+  const makePdf = async () => {
     let built;
     try {
       await libs();
@@ -1214,10 +1260,9 @@ const PDF = (() => {
         const h = canvas.height * W / canvas.width;
         if (y > 0 && y + h > H - FOOT) { footer(); doc.addPage(); page++; y = 0; }
         if (h <= H - FOOT) {
-          doc.addImage(canvas.toDataURL("image/jpeg", 0.9), "JPEG", 0, y, W, h);
+          doc.addImage(canvas.toDataURL("image/jpeg", 0.85), "JPEG", 0, y, W, h);
           y += h;
         } else {
-          // Seção maior que a página: fatia em pedaços
           const pxPerPage = Math.floor((H - FOOT) * canvas.width / W);
           for (let sy = 0; sy < canvas.height; sy += pxPerPage) {
             const part = document.createElement("canvas");
@@ -1225,30 +1270,93 @@ const PDF = (() => {
             part.getContext("2d").drawImage(canvas, 0, -sy);
             if (sy > 0) { footer(); doc.addPage(); page++; }
             const ph = part.height * W / part.width;
-            doc.addImage(part.toDataURL("image/jpeg", 0.9), "JPEG", 0, 0, W, ph);
+            doc.addImage(part.toDataURL("image/jpeg", 0.85), "JPEG", 0, 0, W, ph);
             y = ph;
           }
         }
       }
       footer();
-      const filename = `Diagnostico-${slug(built.nome)}-${built.data.replace(/\//g, "-")}.pdf`;
-      const blob = doc.output("blob");
-      const dl = window.claude?.use ? await window.claude.use("downloads").catch(() => null) : null;
-      if (dl) await dl.save({ filename, data: blob });
-      else if (window.claude?.use) throw { code: "unavailable" };
-      else doc.save(filename);
+      return { blob: doc.output("blob"), filename: `Diagnostico-${slug(built.nome)}-${built.data.replace(/\//g, "-")}.pdf` };
+    } finally { built?.box.remove(); }
+  };
+
+  // Dentro do Claude: baixa o PDF. No site: abre o formulário e envia para o WhatsApp da agência.
+  const baixar = async btn => {
+    const old = btn.textContent;
+    btn.disabled = true; btn.textContent = "Gerando PDF…";
+    try {
+      const { blob, filename } = await makePdf();
+      const dl = await window.claude.use("downloads").catch(() => null);
+      if (!dl) throw { code: "unavailable" };
+      await dl.save({ filename, data: blob });
       btn.textContent = "PDF pronto";
     } catch (e) {
       console.error(e);
       btn.textContent = e?.code === "declined" ? "Download cancelado" : "Não deu certo. Tente de novo";
-    } finally {
-      built?.box.remove();
-      btn.disabled = false;
-      setTimeout(() => btn.textContent = old, 2500);
-    }
+    } finally { btn.disabled = false; setTimeout(() => btn.textContent = old, 2500); }
   };
-  document.querySelectorAll("[data-pdf]").forEach(b => b.addEventListener("click", () => gerar(b)));
-  return { gerar };
+
+  const modal = document.querySelector("[data-lead-modal]");
+  const mf = k => modal.querySelector(`[data-lm="${k}"]`);
+  const mStatus = modal.querySelector("[data-lm-status]"), mSend = modal.querySelector("[data-lm-send]"), mForm = modal.querySelector("form");
+  const mWa = modal.querySelector("[data-lm-wa]");
+  const abrir = () => {
+    mf("nome").value = LEAD.nome || ""; mf("tel").value = LEAD.tel ? fmtTel(LEAD.tel) : "";
+    mf("empresa").value = CONFIG[DECK.key] === DEF_NOME ? "" : CONFIG[DECK.key];
+    mStatus.textContent = ""; mStatus.className = "lm-status"; mSend.disabled = false; mSend.textContent = "Enviar diagnóstico";
+    mWa.hidden = true;
+    modal.hidden = false;
+    setTimeout(() => (LEAD.nome ? mf("tel") : mf("nome")).focus(), 50);
+  };
+  const fechar = () => { modal.hidden = true; };
+  modal.querySelector("[data-lm-cancel]").addEventListener("click", fechar);
+  modal.addEventListener("keydown", e => { e.stopPropagation(); if (e.key === "Escape") fechar(); });
+  const blobB64 = blob => new Promise((ok, bad) => { const r = new FileReader(); r.onload = () => ok(String(r.result).split(",")[1]); r.onerror = bad; r.readAsDataURL(blob); });
+  mForm.addEventListener("submit", async e => {
+    e.preventDefault();
+    const nome = mf("nome").value.trim(), tel = mf("tel").value.replace(/\D/g, ""), empresa = mf("empresa").value.trim();
+    if (!nome) { mStatus.textContent = "Digite o seu nome."; mStatus.className = "lm-status err"; mf("nome").focus(); return; }
+    if (tel.length < 10) { mStatus.textContent = "Digite o WhatsApp com DDD, por exemplo (21) 99999-9999."; mStatus.className = "lm-status err"; mf("tel").focus(); return; }
+    setLead({ nome, tel });
+    if (empresa && empresa !== CONFIG[DECK.key]) {
+      CONFIG[DECK.key] = empresa; fillAll();
+      try { localStorage.setItem(LS_KEY, JSON.stringify({ nome: CONFIG[DECK.key], ig: CONFIG.ig })); } catch {}
+    }
+    const janela = window.open("about:blank", "_blank");
+    mSend.disabled = true;
+    try {
+      mSend.textContent = "Gerando o PDF…"; mStatus.textContent = "Montando o seu diagnóstico."; mStatus.className = "lm-status";
+      const { blob } = await makePdf();
+      mSend.textContent = "Enviando…";
+      const v = CALC.values();
+      const r = await fetch("/api/lead", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({
+        pdf: await blobB64(blob),
+        lead: { diagnostico: DECK.titulo, empresa: CONFIG[DECK.key], instagram: CONFIG.ig, nicho: document.querySelector("[data-nicho]")?.value || "",
+          nome, telefone: tel, nota: NV.sum(), faturamentoHoje: Math.round(v.hoje), faturamentoMeta: Math.round(v.meta),
+          plano: document.querySelector(".pack.chosen h3")?.textContent || "", validade: CONFIG.data }
+      }) });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok || !j.pdfUrl) throw new Error("envio " + r.status);
+      const msg = [`*${DECK.titulo}*`, `Empresa: ${CONFIG[DECK.key]} (${CONFIG.ig})`, `Responsável: ${nome}`, `WhatsApp: ${fmtTel(tel)}`,
+        `Nota Vitrine: ${NV.sum()}/100`, `Condição especial até ${CONFIG.data}`, "", `PDF do diagnóstico: ${j.pdfUrl}`].join("\n");
+      const wa = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`;
+      mWa.href = wa; mWa.hidden = false;
+      if (janela) janela.location.href = wa;
+      mStatus.textContent = janela ? "Pronto! O WhatsApp abriu com a mensagem: é só tocar em enviar. Se não abriu, use o botão verde." : "Pronto! Toque no botão verde para enviar pelo WhatsApp.";
+      mStatus.className = "lm-status ok"; mSend.textContent = "Enviado";
+    } catch (err) {
+      console.error(err);
+      janela?.close();
+      mStatus.textContent = "Não conseguimos enviar agora. Confira a internet e tente de novo."; mStatus.className = "lm-status err";
+      mSend.disabled = false; mSend.textContent = "Tentar de novo";
+    }
+  });
+
+  document.querySelectorAll("[data-pdf]").forEach(b => {
+    if (!window.claude?.use) b.textContent = "Enviar diagnóstico pelo WhatsApp";
+    b.addEventListener("click", () => window.claude?.use ? baixar(b) : abrir());
+  });
+  return { makePdf };
 })();
 
 READY = true;
