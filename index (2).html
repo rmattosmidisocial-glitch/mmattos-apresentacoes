@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Leads dos Diagnósticos</title>
+<link rel="icon" type="image/png" href="/assets/logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Painel simples: lista de leads em tabela, filtro e exportação em planilha */
+:root{--bg:#0A1020;--surface:#121A2E;--surface-2:#1B2540;--line:rgba(226,234,255,.14);--text:#EEF2FB;--muted:#9FAAC4;--accent:#FF7A1A;--ok:#5BD08A;--gold:#F5B83D;--bad:#F0605A;--zap:#25D366;
+  --display:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;--body:"Inter","Helvetica Neue",Arial,sans-serif;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 var(--body);padding:32px max(16px,env(safe-area-inset-left,0px)) 48px max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1200px;margin:0 auto}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+h1{font-family:var(--display);font-size:38px;margin:6px 0 20px;letter-spacing:-.02em}
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+input{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;color:var(--text);font:500 15px var(--body);padding:10px 12px;outline:0;min-width:0}
+input:focus{border-color:var(--accent)}
+button{font:600 14px var(--body);border-radius:999px;padding:10px 18px;border:1px solid var(--line);background:var(--surface-2);color:var(--text);cursor:pointer}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.status{color:var(--muted);font-size:14px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:16px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 16px}
+.kpi small{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.kpi b{font-family:var(--display);font-size:28px;font-variant-numeric:tabular-nums}
+.table{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{width:100%;border-collapse:collapse;min-width:900px}
+th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top;font-variant-numeric:tabular-nums}
+th{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--surface-2);position:sticky;top:0}
+td small{display:block;color:var(--muted)}
+.nota{font-weight:800}
+a{color:var(--accent)}
+.wa{color:var(--zap);font-weight:700;text-decoration:none}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">MMATTOS Assessoria de MKT</div>
+  <h1>Leads dos diagnósticos</h1>
+
+  <form class="bar" id="login">
+    <input id="senha" type="password" placeholder="Senha do painel" autocomplete="current-password" aria-label="Senha do painel">
+    <button class="primary" type="submit">Entrar</button>
+    <span class="status" id="st"></span>
+  </form>
+
+  <div id="painel" hidden>
+    <div class="kpis">
+      <div class="kpi"><small>Diagnósticos</small><b id="k-total">0</b></div>
+      <div class="kpi"><small>Últimos 7 dias</small><b id="k-7">0</b></div>
+      <div class="kpi"><small>Nota média</small><b id="k-nota">0</b></div>
+    </div>
+    <div class="bar">
+      <input id="busca" type="search" placeholder="Buscar por empresa, nome ou telefone" style="flex:1" aria-label="Buscar">
+      <button id="csv" type="button">Baixar planilha (CSV)</button>
+      <button id="atualizar" type="button">Atualizar</button>
+    </div>
+    <div class="table">
+      <table>
+        <thead><tr><th>Data</th><th>Empresa</th><th>Responsável</th><th>WhatsApp</th><th>Nota</th><th>Hoje → Meta</th><th>Plano</th><th>Diagnóstico</th><th>PDF</th></tr></thead>
+        <tbody id="tb"></tbody>
+      </table>
+      <div class="empty" id="vazio" hidden>Nenhum diagnóstico enviado ainda. Quando alguém tocar em "Enviar diagnóstico pelo WhatsApp", ele aparece aqui.</div>
+    </div>
+  </div>
+</div>
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const brl = n => "R$ " + Math.round(n || 0).toLocaleString("pt-BR");
+const tel = t => { const d = String(t || "").replace(/\D/g, ""); return d.length >= 10 ? `(${d.slice(0, 2)}) ${d.slice(2, -4)}-${d.slice(-4)}` : d; };
+let LEADS = [], SENHA = "";
+try { SENHA = sessionStorage.getItem("leads-senha") || ""; } catch {}
+
+async function carregar() {
+  $("st").textContent = "Carregando…";
+  const r = await fetch("/api/leads", { headers: { "x-senha": SENHA } }).catch(() => null);
+  if (!r || r.status === 401) { $("st").textContent = r ? "Senha errada." : "Sem conexão."; $("painel").hidden = true; return; }
+  if (!r.ok) { $("st").textContent = "Não foi possível carregar agora. Tente de novo."; return; }
+  LEADS = (await r.json()).leads || [];
+  try { sessionStorage.setItem("leads-senha", SENHA); } catch {}
+  $("st").textContent = ""; $("login").hidden = true; $("painel").hidden = false;
+  render();
+}
+function render() {
+  const q = $("busca").value.trim().toLowerCase();
+  const lista = LEADS.filter(l => !q || [l.empresa, l.nome, l.telefone, l.instagram].join(" ").toLowerCase().includes(q));
+  const semana = Date.now() - 7 * 864e5;
+  $("k-total").textContent = LEADS.length;
+  $("k-7").textContent = LEADS.filter(l => new Date(l.criadoEm).getTime() >= semana).length;
+  $("k-nota").textContent = LEADS.length ? Math.round(LEADS.reduce((s, l) => s + (l.nota || 0), 0) / LEADS.length) : 0;
+  $("vazio").hidden = lista.length > 0;
+  $("tb").innerHTML = lista.map(l => {
+    const d = new Date(l.criadoEm);
+    const cor = l.nota >= 75 ? "var(--ok)" : l.nota >= 50 ? "var(--gold)" : "var(--bad)";
+    return `<tr>
+      <td>${d.toLocaleDateString("pt-BR")}<small>${d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}</small></td>
+      <td><b>${esc(l.empresa)}</b><small>${esc(l.instagram)}${l.nicho ? " · " + esc(l.nicho) : ""}</small></td>
+      <td>${esc(l.nome)}</td>
+      <td><a class="wa" href="https://wa.me/55${esc(String(l.telefone).replace(/^55/, ""))}" target="_blank" rel="noopener">${esc(tel(l.telefone))}</a></td>
+      <td class="nota" style="color:${cor}">${l.nota}/100</td>
+      <td>${brl(l.faturamentoHoje)}<small>→ ${brl(l.faturamentoMeta)}</small></td>
+      <td>${esc(l.plano || "-")}<small>até ${esc(l.validade)}</small></td>
+      <td>${esc(l.diagnostico)}</td>
+      <td><a href="${esc(l.pdfUrl)}" target="_blank" rel="noopener">Abrir PDF</a></td>
+    </tr>`;
+  }).join("");
+}
+$("login").addEventListener("submit", e => { e.preventDefault(); SENHA = $("senha").value; carregar(); });
+$("busca").addEventListener("input", render);
+$("atualizar").addEventListener("click", carregar);
+$("csv").addEventListener("click", () => {
+  const cols = ["criadoEm", "empresa", "instagram", "nicho", "nome", "telefone", "nota", "faturamentoHoje", "faturamentoMeta", "plano", "validade", "diagnostico", "pdfUrl"];
+  const linhas = [cols.join(";"), ...LEADS.map(l => cols.map(c => `"${String(l[c] ?? "").replace(/"/g, '""')}"`).join(";"))];
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob(["﻿" + linhas.join("\n")], { type: "text/csv;charset=utf-8" }));
+  a.download = `leads-diagnosticos-${new Date().toISOString().slice(0, 10)}.csv`;
+  a.click();
+});
+if (SENHA) carregar();
+</script>
+</body>
+</html>
