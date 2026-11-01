@@ -4,20 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Diagnóstico Perfil que Vende</title>
-<meta name="description" content="Diagnóstico Perfil que Vende · MMATTOS Assessoria de MKT">
+<meta name="description" content="Diagnóstico Perfil que Vende · M.Mattos · Assessoria de marketing 360">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/vendor/reveal/reset.css">
 <link rel="stylesheet" href="/vendor/reveal/reveal.css">
 <style>
 /* Layout: slides 16:9 em azul-noite com o laranja da marca; sem fotos de nicho, a "vitrine" é desenhada em formas e gráficos */
 :root{
   color-scheme:dark;
-  --bg:#0A1020; --surface:#121A2E; --surface-2:#1B2540; --line:rgba(226,234,255,.14);
-  --text:#EEF2FB; --muted:#9FAAC4; --accent:#FF7A1A; --accent-soft:rgba(255,122,26,.16);
-  --blue:#3D7BFF; --blue-soft:rgba(61,123,255,.18);
-  --gold:#F5B83D; --ok:#5BD08A; --bad:#F0605A; --zap:#25D366;
-  --display:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
+  --bg:#0E1016; --surface:#161B27; --surface-2:#1F2636; --line:rgba(226,232,245,.14);
+  --text:#F3F5FA; --muted:#A7AFC2; --accent:#F5A21B; --accent-soft:rgba(245,162,27,.16); --blue:#2F5BEA; --navy:#0B1B3F; --on-accent:#0E1016;
+   
+  --gold:#FFC857; --ok:#5BD08A; --bad:#F0605A; --zap:#25D366;
+  --display:"Inter","Helvetica Neue",Arial,sans-serif;
   --body:"Inter","Helvetica Neue",Arial,sans-serif;
 }
 html,body{background:var(--bg)}
@@ -36,37 +36,38 @@ html,body{background:var(--bg)}
 .btn{font-family:var(--body);font-size:14px;font-weight:600;background:var(--surface-2);color:var(--text);border:1px solid var(--line);border-radius:999px;padding:8px 16px;cursor:pointer}
 .btn:hover{border-color:var(--accent)}
 .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
 .btn[disabled]{opacity:.5;cursor:default}
 .brand{position:absolute;left:72px;bottom:26px;font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(238,242,251,.5);z-index:2}
 
 /* Fundo desenhado: grade de pontos + brilhos azul e laranja */
 .bgx{position:absolute;inset:0;overflow:hidden;z-index:0;background:
   radial-gradient(520px 420px at 88% 18%,rgba(61,123,255,.30),transparent 70%),
-  radial-gradient(460px 380px at 70% 95%,rgba(255,122,26,.22),transparent 70%),
-  radial-gradient(rgba(226,234,255,.09) 1px,transparent 1.5px) 0 0/26px 26px,var(--bg)}
-.bgx.calm{background:radial-gradient(600px 400px at 100% 0%,rgba(61,123,255,.18),transparent 70%),radial-gradient(rgba(226,234,255,.07) 1px,transparent 1.5px) 0 0/26px 26px,var(--bg)}
+  radial-gradient(460px 380px at 70% 95%,rgba(245,162,27,.22),transparent 70%),
+  radial-gradient(rgba(226,232,245,.09) 1px,transparent 1.5px) 0 0/26px 26px,var(--bg)}
+.bgx.calm{background:radial-gradient(600px 400px at 100% 0%,rgba(61,123,255,.18),transparent 70%),radial-gradient(rgba(226,232,245,.07) 1px,transparent 1.5px) 0 0/26px 26px,var(--bg)}
 .present .bgx .orb{animation:drift 16s ease-in-out infinite alternate}
 .orb{position:absolute;border-radius:50%;filter:blur(2px)}
 @keyframes drift{to{transform:translate(-30px,20px) scale(1.06)}}
 
 /* Capa */
+.logo{width:58px;height:auto;margin-bottom:16px;filter:drop-shadow(0 8px 20px rgba(0,0,0,.5))}
 .cover{justify-content:center}
 .cover h1 span{color:var(--accent)}
 .cover .sub{font-size:26px;color:#D5DDF0;max-width:640px;margin-top:22px}
-.client{margin-top:32px;align-self:flex-start;background:rgba(10,16,32,.62);border:1px solid var(--line);border-radius:20px;padding:16px 28px 16px 18px;backdrop-filter:blur(8px);max-width:680px}
+.client{margin-top:32px;align-self:flex-start;background:rgba(14,16,22,.62);border:1px solid var(--line);border-radius:20px;padding:16px 28px 16px 18px;backdrop-filter:blur(8px);max-width:680px}
 .client .ck{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
 .client .crow{display:flex;gap:16px;align-items:center}
-.client .av{flex:none;width:62px;height:62px;border-radius:50%;background:var(--accent);display:grid;place-items:center;font-weight:800;font-family:var(--display);font-size:30px;color:#fff}
+.client .av{flex:none;width:62px;height:62px;border-radius:50%;background:var(--accent);display:grid;place-items:center;font-weight:800;font-family:var(--display);font-size:30px;color:var(--on-accent)}
 .cname{font-family:var(--display);font-weight:800;font-size:46px;line-height:1.05;letter-spacing:-.02em;outline:none;border-bottom:2px dashed transparent;overflow-wrap:anywhere;cursor:text}
 .cname:hover,.cname:focus,.cig span:hover,.cig span:focus{border-bottom-color:var(--accent)}
 .cig{font-size:19px;color:var(--muted);margin-top:4px}
 .cig span{outline:none;border-bottom:1px dashed transparent;cursor:text}
 .chint{font-size:12px;color:var(--muted);margin-top:10px}
-.for{display:inline-flex;gap:12px;align-items:center;margin-top:34px;background:rgba(10,16,32,.6);border:1px solid var(--line);border-radius:999px;padding:10px 20px 10px 10px;backdrop-filter:blur(6px);font-size:17px;align-self:flex-start}
-.for .av{width:38px;height:38px;border-radius:50%;background:var(--accent);display:grid;place-items:center;font-weight:800;font-family:var(--display)}
+.for{display:inline-flex;gap:12px;align-items:center;margin-top:34px;background:rgba(14,16,22,.6);border:1px solid var(--line);border-radius:999px;padding:10px 20px 10px 10px;backdrop-filter:blur(6px);font-size:17px;align-self:flex-start}
+.for .av{width:38px;height:38px;border-radius:50%;background:var(--accent);display:grid;place-items:center;font-weight:800;font-family:var(--display);color:var(--on-accent)}
 .cover-art{position:absolute;right:70px;top:110px;width:420px;height:500px;z-index:1}
-.cover-art .ring{position:absolute;inset:40px;border-radius:50%;border:2px dashed rgba(226,234,255,.18)}
+.cover-art .ring{position:absolute;inset:40px;border-radius:50%;border:2px dashed rgba(226,232,245,.18)}
 .cover-art .tile{position:absolute;border-radius:18px;box-shadow:0 30px 60px -20px rgba(0,0,0,.7);display:flex;align-items:flex-end;padding:14px;font-weight:700;font-size:15px;color:#fff}
 .present .cover-art .tile{animation:float 6s ease-in-out infinite alternate}
 .cover-art .tile:nth-child(3){animation-delay:-2s}.cover-art .tile:nth-child(4){animation-delay:-4s}
@@ -100,7 +101,7 @@ html,body{background:var(--bg)}
 .ig-bio .lnk{color:#00376B;font-weight:600}
 .ig-cta{margin:0 12px 8px;display:flex;gap:5px}
 .ig-cta span{flex:1;text-align:center;background:#EFEFEF;border-radius:7px;padding:5px 0;font-weight:600;font-size:9.5px}
-.good .ig-cta span:first-child{background:var(--accent);color:#fff}
+.good .ig-cta span:first-child{background:var(--accent);color:var(--on-accent)}
 .ig-hl{display:flex;gap:9px;padding:2px 12px 10px}
 .ig-hl div{text-align:center;font-size:8px;width:42px}
 .ig-hl i{display:block;width:40px;height:40px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #ccc;margin-bottom:3px}
@@ -115,14 +116,14 @@ html,body{background:var(--bg)}
 
 /* Análise ao vivo */
 .live{display:grid;grid-template-columns:1fr 420px;gap:28px;flex:1;min-height:0}
-.drop{position:relative;border:2px dashed rgba(226,234,255,.25);border-radius:20px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:rgba(18,26,46,.75);cursor:crosshair}
+.drop{position:relative;border:2px dashed rgba(226,232,245,.25);border-radius:20px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:rgba(18,26,46,.75);cursor:crosshair}
 .drop.over{border-color:var(--accent);background:var(--accent-soft)}
 .drop .empty{text-align:center;color:var(--muted);font-size:18px;pointer-events:none;padding:0 30px}
 .drop .empty b{display:block;color:var(--text);font-family:var(--display);font-size:26px;margin-bottom:6px}
 .drop img.shot{max-width:100%;max-height:100%;object-fit:contain;display:block}
-.drop.scanning::after{content:"";position:absolute;left:0;right:0;height:90px;top:-90px;background:linear-gradient(180deg,transparent,rgba(255,122,26,.35),transparent);animation:scan 1.8s linear infinite;pointer-events:none}
+.drop.scanning::after{content:"";position:absolute;left:0;right:0;height:90px;top:-90px;background:linear-gradient(180deg,transparent,rgba(245,162,27,.35),transparent);animation:scan 1.8s linear infinite;pointer-events:none}
 @keyframes scan{to{top:100%}}
-.pinmark{position:absolute;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:800;font-family:var(--display);box-shadow:0 0 0 4px rgba(255,122,26,.35);animation:pop .35s cubic-bezier(.3,1.6,.5,1);z-index:2}
+.pinmark{position:absolute;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font-weight:800;font-family:var(--display);box-shadow:0 0 0 4px rgba(245,162,27,.35);animation:pop .35s cubic-bezier(.3,1.6,.5,1);z-index:2}
 @keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
 .side{display:flex;flex-direction:column;min-height:0;gap:8px}
 .niche{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted)}
@@ -130,14 +131,14 @@ html,body{background:var(--bg)}
 .niche input:focus{border-color:var(--accent)}
 .status{display:flex;gap:10px;align-items:center;font-size:14px;color:var(--muted);min-height:20px}
 .status .dot{width:10px;height:10px;border-radius:50%;background:var(--muted);flex:none}
-.status.busy .dot{background:var(--accent);animation:blink 1s infinite}
+.status.busy .dot{background:var(--accent);animation:blink 1s infinite;color:var(--on-accent)}
 .status.done .dot{background:var(--ok)}
 .status.err .dot{background:var(--bad)}
 @keyframes blink{50%{opacity:.25}}
-.resumo{font-size:14px;line-height:1.38;background:var(--accent-soft);border:1px solid rgba(255,122,26,.4);border-radius:14px;padding:10px 14px}
+.resumo{font-size:14px;line-height:1.38;background:var(--accent-soft);border:1px solid rgba(245,162,27,.4);border-radius:14px;padding:10px 14px}
 .notes-list{display:flex;flex-direction:column;gap:6px;overflow:auto;flex:1;min-height:0;scrollbar-width:thin;scrollbar-color:var(--accent) transparent}
 .notes-list .n{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 10px;font-size:13.5px;line-height:1.32}
-.notes-list .n i{font-style:normal;flex:none;width:24px;height:24px;border-radius:50%;background:var(--accent);display:grid;place-items:center;font-weight:800;font-size:13px}
+.notes-list .n i{font-style:normal;flex:none;width:24px;height:24px;border-radius:50%;background:var(--accent);display:grid;place-items:center;font-weight:800;font-size:13px;color:var(--on-accent)}
 .notes-list .n span{flex:1;outline:none;min-height:20px}
 .notes-list .n span b{color:var(--gold)}
 .notes-list .n span:empty::before{content:attr(data-ph);color:var(--muted)}
@@ -172,7 +173,7 @@ html,body{background:var(--bg)}
 .calc .fat .k,.result .k{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
 .calc .fat .v{font-family:var(--display);font-weight:800;font-size:32px;white-space:nowrap;font-variant-numeric:tabular-nums}
 .calc .goal .fat .v{color:var(--ok)}
-.result{background:linear-gradient(160deg,rgba(255,122,26,.32),rgba(18,26,46,.92) 60%);border:1px solid rgba(255,122,26,.45);border-radius:22px;padding:28px 30px;display:flex;flex-direction:column}
+.result{background:linear-gradient(160deg,rgba(245,162,27,.32),rgba(18,26,46,.92) 60%);border:1px solid rgba(245,162,27,.45);border-radius:22px;padding:28px 30px;display:flex;flex-direction:column}
 .result .big{font-family:var(--display);font-weight:800;font-size:56px;white-space:nowrap;line-height:1;margin-top:6px;font-variant-numeric:tabular-nums}
 .result .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:auto}
 .result .v{font-family:var(--display);font-weight:800;font-size:26px;white-space:nowrap;font-variant-numeric:tabular-nums}
@@ -186,7 +187,7 @@ html,body{background:var(--bg)}
 .stepc:hover .im img{transform:scale(1.06)}
 .stepc .im svg{width:120px;height:120px;transition:transform .6s}
 .stepc:hover .im svg{transform:scale(1.08) rotate(-3deg)}
-.stepc .num{position:absolute;left:18px;bottom:-26px;width:58px;height:58px;border-radius:50%;background:var(--accent);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:28px;border:5px solid var(--surface)}
+.stepc .num{position:absolute;left:18px;bottom:-26px;width:58px;height:58px;border-radius:50%;background:var(--accent);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:28px;border:5px solid var(--surface);color:var(--on-accent)}
 .stepc .tx{padding:36px 22px 22px}
 .stepc .tx p{color:var(--muted);font-size:17px;margin-top:8px}
 
@@ -203,8 +204,8 @@ html,body{background:var(--bg)}
 .pack .now{font-family:var(--display);font-weight:800;font-size:38px;line-height:1.1}
 .pack .now small{font-size:17px;font-weight:500;color:var(--muted)}
 .pack .fid{font-size:14px;color:var(--muted)}
-.pack.star{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 20px 60px -20px rgba(255,122,26,.6);position:relative}
-.pack.star::after{content:attr(data-badge);position:absolute;top:-13px;left:24px;background:var(--accent);color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;letter-spacing:.04em}
+.pack.star{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 20px 60px -20px rgba(245,162,27,.6);position:relative}
+.pack.star::after{content:attr(data-badge);position:absolute;top:-13px;left:24px;background:var(--accent);color:var(--on-accent);font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;letter-spacing:.04em}
 .pack.chosen{border-color:var(--ok);box-shadow:0 0 0 2px var(--ok),0 20px 60px -20px rgba(91,208,138,.7)}
 
 /* Diagnóstico completo */
@@ -222,14 +223,14 @@ html,body{background:var(--bg)}
 .dcol.today h3 .pill{background:rgba(240,96,90,.18);color:var(--bad)}
 .dcol.could h3 .pill{background:rgba(91,208,138,.18);color:var(--ok)}
 .dcol.tech h3 .pill{background:rgba(245,184,61,.18);color:var(--gold)}
-.dcol ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px;font-size:14px;line-height:1.34}
+.dcol ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:13.5px;line-height:1.32}
 .dcol li{padding-left:16px;position:relative}
 .dcol li::before{content:"";position:absolute;left:0;top:7px;width:7px;height:7px;border-radius:50%}
 .dcol.today li::before{background:var(--bad)} .dcol.could li::before{background:var(--ok)}
 .dcol.tech li{padding-left:0}
 .dcol.tech li::before{display:none}
 .dcol.tech li b{display:block;color:var(--gold);font-size:14.5px}
-.dcol.tech li em{font-style:normal;color:var(--muted);font-size:13px;display:block}
+.dcol.tech li em{font-style:normal;color:var(--muted);font-size:12.5px;display:block}
 .dcol .biob{margin-top:12px;font-size:13.5px;background:var(--surface-2);border-radius:12px;padding:10px 12px}
 .dcol .biob b{color:var(--ok);display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
 .projecao{margin-top:10px;font-size:14px;color:#D5DDF0}
@@ -252,7 +253,7 @@ html,body{background:var(--bg)}
 .num-box{display:flex;flex-direction:column;font-size:14px;color:var(--muted)}
 .num-box b{font-family:var(--display);font-size:26px;color:var(--text);user-select:all;font-variant-numeric:tabular-nums}
 .chips{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
-.chip{background:rgba(10,16,32,.65);border:1px solid var(--line);border-radius:999px;padding:7px 16px;font-size:14px}
+.chip{background:rgba(14,16,22,.65);border:1px solid var(--line);border-radius:999px;padding:7px 16px;font-size:14px}
 .chip b{color:var(--gold)}
 .profit{position:absolute;right:40px;top:80px;width:460px;height:470px;z-index:1;pointer-events:none}
 .profit .bar{fill:rgba(61,123,255,.28);stroke:rgba(61,123,255,.6);stroke-width:1.5;transform-origin:bottom;transform-box:fill-box;transform:scaleY(0)}
@@ -273,8 +274,8 @@ html,body{background:var(--bg)}
 .bg img{width:100%;height:100%;object-fit:cover;transform:scale(1.02)}
 .present .bg img{animation:kb 14s ease-out forwards}
 @keyframes kb{from{transform:scale(1.02)}to{transform:scale(1.12) translate(-1.5%,-1%)}}
-.shade-left{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,16,32,.97) 0%,rgba(10,16,32,.84) 40%,rgba(10,16,32,.2) 75%,rgba(10,16,32,.35) 100%)}
-.shade-full{position:absolute;inset:0;background:rgba(10,16,32,.86)}
+.shade-left{position:absolute;inset:0;background:linear-gradient(90deg,rgba(14,16,22,.97) 0%,rgba(14,16,22,.84) 40%,rgba(14,16,22,.2) 75%,rgba(14,16,22,.35) 100%)}
+.shade-full{position:absolute;inset:0;background:rgba(14,16,22,.86)}
 .split{display:grid;grid-template-columns:1fr 520px;height:720px}
 .split .wrap{padding-right:40px;justify-content:center}
 .split .photo{position:relative;overflow:hidden}
@@ -282,7 +283,7 @@ html,body{background:var(--bg)}
 .present .split .photo img{animation:kb 14s ease-out forwards}
 .split .photo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--bg),transparent 30%)}
 .photo .choices{position:absolute;left:40px;right:40px;top:auto;bottom:40px;width:auto;display:flex;flex-direction:column;gap:10px;z-index:2}
-.photo .choices div{background:rgba(10,16,32,.86);border:1px solid var(--line);border-radius:14px;padding:11px 16px;font-size:17px;display:flex;gap:10px;align-items:center;backdrop-filter:blur(6px)}
+.photo .choices div{background:rgba(14,16,22,.86);border:1px solid var(--line);border-radius:14px;padding:11px 16px;font-size:17px;display:flex;gap:10px;align-items:center;backdrop-filter:blur(6px)}
 .ig-grid div.ph2{background:#bbb center/cover;filter:saturate(.3) brightness(.8)}
 .good .ig-grid div{background-size:cover;background-position:center;text-shadow:0 1px 4px rgba(0,0,0,.6);align-items:end}
 .ig-hl i{background-size:cover!important;background-position:center!important}
@@ -325,9 +326,10 @@ html,body{background:var(--bg)}
 <section>
   <div class="bg"><img src="/diagnostico/img/cover.jpg" alt=""></div><div class="shade-left"></div>
   <div class="wrap cover">
-    <div class="eyebrow" data-fill="agencia">MMATTOS Assessoria de MKT</div>
+    <img class="logo" src="/assets/logo.png" alt="M.Mattos">
+    <div class="eyebrow" data-fill="agencia">M.Mattos · Assessoria de marketing 360</div>
     <h1>Diagnóstico<br>Perfil que <span>Vende</span></h1>
-    <p class="sub" style="max-width:600px">Como um cliente enxerga o seu Instagram nos primeiros 5 segundos.</p>
+    <p class="sub" style="max-width:600px">Antes de criar, a gente diagnostica. É assim que o seu cliente enxerga o seu Instagram nos primeiros 5 segundos.</p>
     <div class="client">
       <div class="ck">Empresa avaliada</div>
       <div class="crow"><span class="av" data-fill="inicial">S</span>
@@ -361,7 +363,7 @@ html,body{background:var(--bg)}
       </div>
     </div>
   </div>
-  <div class="brand" data-fill="agencia">MMATTOS Assessoria de MKT</div>
+  <div class="brand" data-fill="agencia">M.Mattos · Assessoria de marketing 360</div>
   <aside class="notes">DESCOBERTA (7 min): faça as perguntas. De onde vêm os clientes hoje? Quantas vendas ou atendimentos por mês? Ticket médio? Quem cuida do Instagram? O Instagram traz clientes, como você sabe? Qual o produto ou serviço que mais dá lucro? Anote os números para a calculadora.</aside>
 </section>
 
@@ -447,14 +449,14 @@ html,body{background:var(--bg)}
 
 <!-- 5. NOTA VITRINE -->
 <section>
-  <div class="bg"><img src="/diagnostico/img/insta.jpg" alt=""></div><div class="shade-full" style="background:rgba(10,16,32,.9)"></div>
+  <div class="bg"><img src="/diagnostico/img/insta.jpg" alt=""></div><div class="shade-full" style="background:rgba(14,16,22,.9)"></div>
   <div class="wrap">
     <div class="eyebrow">Nota Vitrine</div>
     <h2 style="margin-bottom:12px">Como está a sua vitrine hoje</h2>
     <div class="nv" data-nv>
       <div class="gauge">
         <div class="src" data-nv-src>Preenchida pela análise do print</div>
-        <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(226,234,255,.1)" stroke-width="10"/><circle data-ring cx="60" cy="60" r="50" fill="none" stroke="var(--accent)" stroke-width="10" stroke-linecap="round" stroke-dasharray="314.16" stroke-dashoffset="314.16" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset .9s,stroke .6s"/><text data-total x="60" y="62" text-anchor="middle" dominant-baseline="middle" fill="var(--text)" style="font-family:var(--display);font-weight:800;font-size:34px">0</text><text x="60" y="86" text-anchor="middle" fill="var(--muted)" style="font-size:9px">de 100</text></svg>
+        <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(226,232,245,.1)" stroke-width="10"/><circle data-ring cx="60" cy="60" r="50" fill="none" stroke="var(--accent)" stroke-width="10" stroke-linecap="round" stroke-dasharray="314.16" stroke-dashoffset="314.16" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset .9s,stroke .6s"/><text data-total x="60" y="62" text-anchor="middle" dominant-baseline="middle" fill="var(--text)" style="font-family:var(--display);font-weight:800;font-size:34px">0</text><text x="60" y="86" text-anchor="middle" fill="var(--muted)" style="font-size:9px">de 100</text></svg>
         <div class="verdict" data-verdict>Cole o print na análise para gerar a nota</div>
         <button class="btn no-print" data-nv-reset>Zerar</button>
       </div>
@@ -465,7 +467,7 @@ html,body{background:var(--bg)}
 
 <!-- 6. DINHEIRO NA MESA -->
 <section>
-  <div class="bg"><img src="/diagnostico/img/pagamento.jpg" alt=""></div><div class="shade-full" style="background:rgba(10,16,32,.84)"></div>
+  <div class="bg"><img src="/diagnostico/img/pagamento.jpg" alt=""></div><div class="shade-full" style="background:rgba(14,16,22,.84)"></div>
   <div class="wrap">
     <div class="eyebrow">Dinheiro na mesa</div>
     <h2 style="margin-bottom:20px">Quanto um perfil que converte vale para você</h2>
@@ -504,24 +506,24 @@ html,body{background:var(--bg)}
 <section>
   <div class="bgx calm"></div>
   <div class="wrap">
-    <div class="eyebrow">O plano</div>
-    <h2>Três passos para o seu Instagram vender</h2>
+    <div class="eyebrow">Método Xeque-Mate</div>
+    <h2>Três movimentos para o seu Instagram vender</h2>
     <div class="steps">
       <div class="stepc fragment fade-up"><div class="im"><img src="/diagnostico/img/perfil.jpg" alt=""><div class="num">1</div></div><div class="tx"><h3>Arrumar a vitrine</h3><p>Bio, link para falar ou comprar, destaques e posts fixados que vendem.</p></div></div>
       <div class="stepc fragment fade-up"><div class="im"><img src="/diagnostico/img/amigas.jpg" alt=""><div class="num">2</div></div><div class="tx"><h3>Conteúdo que vende</h3><p>Posts e vídeos que mostram resultado, geram confiança e chamam para a ação.</p></div></div>
       <div class="stepc fragment fade-up"><div class="im"><img src="/diagnostico/img/confete.jpg" alt=""><div class="num">3</div></div><div class="tx"><h3>Constância e alcance</h3><p>Conteúdo toda semana e anúncios para quem tem perfil de cliente.</p></div></div>
     </div>
   </div>
-  <div class="brand" data-fill="agencia">MMATTOS Assessoria de MKT</div>
+  <div class="brand" data-fill="agencia">M.Mattos · Assessoria de marketing 360</div>
   <aside class="notes">PLANO (5 min): mostre o caminho sem detalhar o "como".</aside>
 </section>
 
 <!-- 8. PACOTES -->
 <section>
-  <div class="bg"><img src="/diagnostico/img/ligacao.jpg" alt=""></div><div class="shade-full" style="background:rgba(10,16,32,.88)"></div>
+  <div class="bg"><img src="/diagnostico/img/ligacao.jpg" alt=""></div><div class="shade-full" style="background:rgba(14,16,22,.88)"></div>
   <div class="wrap">
-    <div class="eyebrow">Como posso te ajudar</div>
-    <h2>Qual faz mais sentido para o seu momento?</h2>
+    <div class="eyebrow">Sua jogada</div>
+    <h2>Qual movimento faz sentido agora?</h2>
     <div class="packs" data-packs></div>
   </div>
   <aside class="notes">FECHAMENTO: comece pelo Domínio para ancorar. "A maioria das empresas do seu tamanho começa pelo Crescimento. Se fechar até [data], o diagnóstico é abatido e o setup do rastreamento sai grátis." Pergunte QUAL, nunca SE. Clique no pacote escolhido.</aside>
@@ -563,12 +565,12 @@ html,body{background:var(--bg)}
     <text class="cash" x="250" y="110" font-size="64">R$</text>
   </svg>
   <div class="wrap">
-    <div class="eyebrow">Considerações finais</div>
+    <div class="eyebrow">Xeque-mate</div>
     <h1>Enquanto você está pensando, seu concorrente está <span>vendendo</span>.</h1>
     <div class="phr">
-      <div>Cada dia com o perfil parado é cliente indo para o concorrente.</div>
-      <div>Quem aparece com clareza, vende. Quem vende, cresce.</div>
-      <div>Vitrine arrumada hoje é faturamento no próximo mês.</div>
+      <div>Seu concorrente já mexeu a peça. Agora é a sua vez.</div>
+      <div>Não jogamos para empatar: jogamos para casa cheia e agenda lotada.</div>
+      <div>Faça sua marca, conquiste resultados.</div>
     </div>
     <div class="zaprow">
       <a class="zap" data-zap href="https://wa.me/5521967640607" target="_blank" rel="noopener">
@@ -590,8 +592,8 @@ html,body{background:var(--bg)}
 
 <div class="lead-modal" data-lead-modal hidden role="dialog" aria-modal="true" aria-labelledby="lm-titulo">
   <form novalidate>
-    <h3 id="lm-titulo">Falta só um passo</h3>
-    <p>Confirme seus dados para concluir o diagnóstico. Nosso time comercial vai te chamar no WhatsApp com o plano para o seu perfil vender mais.</p>
+    <h3 id="lm-titulo">Último movimento</h3>
+    <p>Confirme seus dados. Um estrategista da M.Mattos te chama no WhatsApp com a jogada certa para o seu perfil vender mais.</p>
     <label for="lm-nome">Seu nome<input id="lm-nome" data-lm="nome" autocomplete="name" required></label>
     <label for="lm-tel">Seu WhatsApp com DDD<input id="lm-tel" data-lm="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="(21) 99999-9999" required></label>
     <label for="lm-empresa">Empresa<input id="lm-empresa" data-lm="empresa" autocomplete="organization"></label>
@@ -606,7 +608,7 @@ html,body{background:var(--bg)}
       <div><small>Nota Vitrine</small><b data-lm-done-nota>0/100</b><span data-lm-done-verd></span></div>
       <div><small>Condição especial até</small><b data-lm-done-data></b><span>Diagnóstico abatido + setup de rastreamento grátis</span></div>
     </div>
-    <p class="lm-cta-tx">Não quer esperar? Garanta agora a sua condição especial com o nosso comercial.</p>
+    <p class="lm-cta-tx">Não quer esperar? Bora garantir a sua condição especial agora.</p>
     <a class="lm-wa" data-lm-wa href="#" target="_blank" rel="noopener">Quero garantir minha condição especial</a>
     <div class="lm-acts"><button type="button" class="btn" data-lm-close>Fechar</button></div>
   </div>
@@ -621,7 +623,7 @@ html,body{background:var(--bg)}
 // ?empresa=Clínica%20Bella&ig=clinicabella&nicho=clínica%20estética&data=30/11&destaque=dominio
 // Para ver suas falas no modo apresentador (tecla S), acrescente &apresentador=1
 const CONFIG = {
-  agencia: "MMATTOS Assessoria de MKT",
+  agencia: "M.Mattos · Assessoria de marketing 360",
   telefone: "(21) 96764-0607",
   whatsapp: "5521967640607",
   empresa: "Sua Empresa",
@@ -655,7 +657,7 @@ function fillAll() {
   const hint = document.querySelector("[data-chint]");
   if (hint) hint.hidden = CONFIG.empresa !== DEF_NOME;
   const zap = document.querySelector("[data-zap]");
-  if (zap) zap.href = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(`Olá! Vi o Diagnóstico Perfil que Vende${CONFIG.empresa !== DEF_NOME ? " da " + CONFIG.empresa : ""} e quero saber mais.`)}`;
+  if (zap) zap.href = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(`Fala! Vi o Diagnóstico Perfil que Vende${CONFIG.empresa !== DEF_NOME ? " da " + CONFIG.empresa : ""} e quero saber mais.`)}`;
 }
 fillAll();
 document.querySelectorAll("[data-edit]").forEach(el => {
@@ -769,7 +771,7 @@ document.querySelectorAll("[data-packs]").forEach(box => {
     box.querySelectorAll(".pack").forEach(c => c.classList.toggle("chosen", c === card));
     const r = card.getBoundingClientRect();
     if (window.confetti) confetti({ particleCount: 160, spread: 85, origin: { x: (r.left + r.width / 2) / innerWidth, y: r.top / innerHeight },
-      colors: ["#FF7A1A", "#3D7BFF", "#F5B83D", "#EEF2FB", "#5BD08A"] });
+      colors: ["#F5A21B", "#2F5BEA", "#F5B83D", "#EEF2FB", "#5BD08A"] });
   });
 });
 
@@ -887,7 +889,7 @@ Se um item não aparece no print, dê nota baixa e diga isso no texto.
 
 "pontos": de 4 a 6 problemas que mais custam vendas. x e y são a posição aproximada do problema na imagem, em porcentagem (0,0 é o canto superior esquerdo; 100,100 o inferior direito).
 "fortes": até 3. "tecnicas": 5 técnicas de crescimento de faturamento específicas para este nicho e este perfil.
-Português do Brasil, frases curtas e diretas, sem jargão.`;
+Escreva no tom da marca M.Mattos: estrategista, direto, confiante e próximo, frases curtas, verbos de ação e linguagem de jogo (jogada, movimento, resultado, casa cheia, agenda lotada). Sem promessa milagrosa e sem jargão como engajamento orgânico, sinergia ou viralizar. Português do Brasil, frases curtas e diretas, sem jargão.`;
 
 const LIVE = (() => {
   const drop = document.querySelector("[data-drop]"), list = document.querySelector("[data-notes]");
@@ -1090,7 +1092,7 @@ Responda SOMENTE com JSON:
 "bio":"bio sugerida pronta, até 150 caracteres",
 "tecnicas":[{"nome":"técnica","acao":"o que fazer, 1 frase","efeito":"efeito no faturamento: mais clientes, ticket maior ou recompra"}],
 "projecao":"1 frase ligando as técnicas à meta de faturamento, usando os números em reais"}
-Exatamente 5 técnicas para crescer o faturamento, escolhidas para este nicho (ex.: bio e link de contato, destaques, fixados, conteúdo de autoridade, prova social e depoimentos, oferta e ancoragem de preço, tráfego pago segmentado, remarketing, CRM e pós-venda pelo WhatsApp). Use os números informados. Português do Brasil, direto, sem jargão.`, { cache: false });
+Exatamente 5 técnicas para crescer o faturamento, escolhidas para este nicho (ex.: bio e link de contato, destaques, fixados, conteúdo de autoridade, prova social e depoimentos, oferta e ancoragem de preço, tráfego pago segmentado, remarketing, CRM e pós-venda pelo WhatsApp). Use os números informados. Escreva no tom da marca M.Mattos: estrategista, direto, confiante e próximo, frases curtas, verbos de ação e linguagem de jogo (jogada, movimento, resultado, casa cheia, agenda lotada). Sem promessa milagrosa e sem jargão como engajamento orgânico, sinergia ou viralizar. Português do Brasil, direto, sem jargão.`, { cache: false });
       if (!d || typeof d !== "object") throw { code: "invalid_json" };
       STATE.diag = d;
       renderDiag();
@@ -1127,12 +1129,12 @@ const PDF = (() => {
     c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
     const g = c.getContext("2d");
     g.drawImage(img, 0, 0, c.width, c.height);
-    const r = Math.max(14, Math.round(c.width * 0.028)), accent = css("--accent") || "#FF5A1F";
+    const r = Math.max(14, Math.round(c.width * 0.028)), accent = css("--accent") || "#F5A21B";
     (STATE.pins || []).forEach(p => {
       const x = p.x * c.width, y = p.y * c.height;
       g.beginPath(); g.arc(x, y, r + 5, 0, Math.PI * 2); g.fillStyle = "rgba(255,255,255,.75)"; g.fill();
       g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.fillStyle = accent; g.fill();
-      g.fillStyle = "#fff"; g.font = `800 ${Math.round(r * 1.1)}px Inter, Arial, sans-serif`;
+      g.fillStyle = "#0E1016"; g.font = `800 ${Math.round(r * 1.1)}px Inter, Arial, sans-serif`;
       g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(String(p.n), x, y + 1);
     });
     return c.toDataURL("image/jpeg", 0.88);
@@ -1140,7 +1142,7 @@ const PDF = (() => {
 
   const build = () => {
     renderDiag();
-    const A = css("--accent") || "#FF5A1F", D = css("--bg") || "#111";
+    const A = css("--accent") || "#F5A21B", D = css("--bg") || "#111";
     const v = CALC.values(), nota = NV.sum(), sc = NV.scores(), [vc, va, vb] = NV.verdictFor(nota);
     const vcol = { ok: "#2E9E5B", gold: "#C98A12", bad: "#D2423A" }[vc];
     const nome = CONFIG[DECK.key], data = hojeTxt();
@@ -1200,7 +1202,7 @@ const PDF = (() => {
       ${proj ? `<p class="rp-proj">${esc2(proj)}</p>` : ""}`));
 
     sections.push(`<section class="rp-end" style="background:${D}">
-      <div class="rp-ag" style="color:${A}">Próximo passo</div>
+      <div class="rp-ag" style="color:${A}">Próximo movimento</div>
       <h2>Enquanto você está pensando, seu concorrente está vendendo.</h2>
       <div class="rp-cond">
         <div><small>${escolhido ? "Plano escolhido" : "Plano recomendado"}</small><b>${esc2(packNome)}</b><span>${esc2(packPreco)}</span></div>
@@ -1214,22 +1216,22 @@ const PDF = (() => {
     box.innerHTML = `<style>
       .rp{position:fixed;left:-12000px;top:0;width:794px;background:#fff;color:#1A1C22;font-family:Inter,Arial,sans-serif;font-size:13px;line-height:1.45}
       .rp section{width:794px;box-sizing:border-box;padding:22px 46px;background:#fff}
-      .rp h1,.rp h2,.rp h3{font-family:"Bricolage Grotesque",Arial,sans-serif;margin:0;letter-spacing:-.01em}
+      .rp h1,.rp h2,.rp h3{font-family:"Inter",Arial,sans-serif;margin:0;letter-spacing:-.01em}
       .rp .rp-head{background:${D};color:#fff;padding:40px 46px 34px}
       .rp .rp-ag{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:${A};margin-bottom:10px}
       .rp .rp-head h1{font-size:34px;font-weight:800;margin-bottom:12px}
       .rp .rp-for{font-size:16px}.rp .rp-for b{color:${A}}
       .rp .rp-date{font-size:12px;opacity:.7;margin-top:6px}
-      .rp .rp-sec h2{font-size:19px;font-weight:800;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #EDEEF2}
+      .rp .rp-sec h2{color:#0B1B3F;font-size:19px;font-weight:800;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #EDEEF2}
       .rp .rp-mut{color:#6B7080;margin:0}
       .rp ul,.rp ol{margin:0;padding-left:18px}.rp li{margin:0 0 6px}
       .rp .rp-ana{display:flex;gap:20px;align-items:flex-start}
       .rp .rp-shot{width:260px;border-radius:10px;border:1px solid #E3E5EA;flex:none}
       .rp .rp-anatx{flex:1;min-width:0}
-      .rp .rp-box{background:#FFF4EE;border:1px solid #FFD9C7;border-radius:10px;padding:10px 12px;margin:0 0 12px}
+      .rp .rp-box{background:#FFF6E5;border:1px solid #FBD99A;border-radius:10px;padding:10px 12px;margin:0 0 12px}
       .rp .rp-nota{display:flex;gap:18px;align-items:center;margin-bottom:14px}
       .rp .rp-score{width:96px;height:96px;border-radius:50%;border:7px solid;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center;flex:none}
-      .rp .rp-score b{font-family:"Bricolage Grotesque",Arial;font-size:32px;line-height:1}.rp .rp-score small{font-size:10px;color:#6B7080}
+      .rp .rp-score b{font-family:"Inter",Arial;font-size:32px;line-height:1}.rp .rp-score small{font-size:10px;color:#6B7080}
       .rp .rp-verd{font-size:16px;margin:0 0 4px}
       .rp .rp-items{display:grid;grid-template-columns:1fr 1fr;gap:8px 28px}
       .rp .rp-it{display:grid;grid-template-columns:130px 1fr 22px;align-items:center;gap:8px}
@@ -1241,13 +1243,13 @@ const PDF = (() => {
       .rp .rp-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
       .rp .rp-kpis div{background:#F6F7F9;border-radius:10px;padding:10px 12px}
       .rp .rp-kpis small,.rp .rp-cond small,.rp .rp-bio small{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#6B7080}
-      .rp .rp-kpis b{font-family:"Bricolage Grotesque",Arial;font-size:22px}
-      .rp .rp-lead{font-family:"Bricolage Grotesque",Arial;font-size:17px;font-weight:700;margin:0 0 10px}
+      .rp .rp-kpis b{font-family:"Inter",Arial;font-size:22px}
+      .rp .rp-lead{font-family:"Inter",Arial;font-size:17px;font-weight:700;margin:0 0 10px}
       .rp .rp-cols{display:grid;grid-template-columns:1fr 1fr;gap:22px}.rp .rp-cols h3{font-size:14px;margin-bottom:8px}
       .rp .rp-bio{margin-top:12px;background:#EFF8F2;border-radius:10px;padding:10px 12px}
       .rp .rp-tec{display:flex;flex-direction:column;gap:10px}
       .rp .rp-tec div{display:flex;gap:12px;align-items:flex-start}
-      .rp .rp-tec span{flex:none;width:24px;height:24px;border-radius:50%;color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:12px}
+      .rp .rp-tec span{flex:none;width:24px;height:24px;border-radius:50%;color:#0E1016;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:12px}
       .rp .rp-tec p{margin:0}.rp .rp-tec b{display:block}.rp .rp-tec em{display:block;font-style:normal;color:#6B7080;font-size:12px}
       .rp .rp-proj{margin:14px 0 0;font-weight:600}
       .rp .rp-end{color:#fff;padding:32px 46px;margin-top:10px}
@@ -1272,7 +1274,7 @@ const PDF = (() => {
       let y = 0, page = 1;
       const footer = () => {
         doc.setFontSize(8); doc.setTextColor(120);
-        doc.text(`${CONFIG.agencia} · WhatsApp ${CONFIG.telefone}`, 12, H - 5);
+        doc.text(`${CONFIG.agencia} · Faça sua marca, conquiste resultados. · WhatsApp ${CONFIG.telefone}`, 12, H - 5);
         doc.text(String(page), W - 12, H - 5, { align: "right" });
       };
       for (const el of built.box.querySelectorAll(":scope > section")) {
@@ -1359,12 +1361,12 @@ const PDF = (() => {
       const [c, va] = NV.verdictFor(nota);
       const primeiro = nome.split(" ")[0];
       const done = modal.querySelector("[data-lm-done]");
-      done.querySelector("[data-lm-done-tit]").textContent = `Recebemos o seu diagnóstico, ${primeiro}!`;
-      done.querySelector("[data-lm-done-msg]").textContent = `O diagnóstico completo de ${CONFIG[DECK.key]} já está com o nosso time comercial. Em breve um especialista da MMATTOS vai te chamar no WhatsApp ${fmtTel(tel)} para mostrar, ponto a ponto, o que fazer para o seu Instagram virar uma vitrine que vende.`;
+      done.querySelector("[data-lm-done-tit]").textContent = `Fala, ${primeiro}! Diagnóstico recebido.`;
+      done.querySelector("[data-lm-done-msg]").textContent = `O diagnóstico completo de ${CONFIG[DECK.key]} já está com o nosso time. Em breve um estrategista da M.Mattos te chama no WhatsApp ${fmtTel(tel)} para mostrar, movimento por movimento, a jogada que coloca o seu Instagram para vender.`;
       const nb = done.querySelector("[data-lm-done-nota]"); nb.textContent = `${nota}/100`; nb.style.color = `var(--${c})`;
       done.querySelector("[data-lm-done-verd]").textContent = va.replace(/\.$/, "");
       done.querySelector("[data-lm-done-data]").textContent = CONFIG.data;
-      const msg = `Olá! Acabei de concluir o ${DECK.titulo} de ${CONFIG[DECK.key]} (${CONFIG.ig}). Minha Nota Vitrine foi ${nota}/100 e quero garantir a condição especial válida até ${CONFIG.data}. Meu nome é ${nome}.`;
+      const msg = `Fala! Acabei de concluir o ${DECK.titulo} de ${CONFIG[DECK.key]} (${CONFIG.ig}). Minha Nota Vitrine foi ${nota}/100 e quero garantir a condição especial válida até ${CONFIG.data}. Meu nome é ${nome}.`;
       done.querySelector("[data-lm-wa]").href = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`;
       mForm.hidden = true; done.hidden = false;
     } catch (err) {
