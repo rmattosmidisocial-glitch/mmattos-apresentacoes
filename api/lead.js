@@ -33,7 +33,7 @@ module.exports = async (req, res) => {
     await put(`leads/${agora.getTime()}-${slug(l.empresa)}.json`, JSON.stringify(registro), {
       access: "public", contentType: "application/json", addRandomSuffix: true
     });
-    return res.status(200).json({ ok: true, pdfUrl: pdf.url });
+    return res.status(200).json({ ok: true }); // o link do PDF fica só na base (página /leads)
   } catch (e) {
     console.error(e);
     return res.status(500).json({ erro: "falha" });

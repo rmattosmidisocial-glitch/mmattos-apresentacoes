@@ -257,7 +257,7 @@ html,body{background:var(--bg)}
 .lead-row{display:flex;gap:8px;margin-top:12px}
 .lead-row input{flex:1;min-width:0;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:10px;color:var(--text);font:500 14px var(--body);padding:8px 11px;outline:0}
 .lead-row input:focus{border-color:var(--accent)}
-.lead-modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.62);display:grid;place-items:center;padding:16px;font-family:var(--body);color:var(--text)}
+.lead-modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.62);display:grid;place-items:center;padding:16px;font-family:var(--body);color:var(--text);line-height:1.45}
 .lead-modal form{width:min(440px,100%);background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:12px;box-shadow:0 30px 80px -20px rgba(0,0,0,.8)}
 .lead-modal h3{font-family:var(--display);font-size:24px;margin:0;line-height:1.1}
 .lead-modal p{margin:0;color:var(--muted);font-size:14px}
@@ -267,6 +267,15 @@ html,body{background:var(--bg)}
 .lead-modal .lm-acts{display:flex;gap:8px;justify-content:flex-end;margin-top:4px;flex-wrap:wrap}
 .lead-modal .lm-status{font-size:14px;min-height:20px}
 .lead-modal .lm-status.err{color:var(--bad)} .lead-modal .lm-status.ok{color:var(--ok)}
+.lead-modal .lm-done{width:min(480px,100%);background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:26px;display:flex;flex-direction:column;gap:12px;box-shadow:0 30px 80px -20px rgba(0,0,0,.8);text-align:center}
+.lead-modal .lm-check{width:54px;height:54px;border-radius:50%;background:var(--ok);color:#062b14;font-size:28px;font-weight:800;display:grid;place-items:center;margin:0 auto}
+.lead-modal .lm-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:left}
+.lead-modal .lm-cards div{background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:12px}
+.lead-modal .lm-cards small{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.lead-modal .lm-cards b{display:block;font-family:var(--display);font-size:26px;line-height:1.1;margin:3px 0}
+.lead-modal .lm-cards span{font-size:12px;color:var(--muted)}
+.lead-modal .lm-cta-tx{color:var(--text);font-weight:600;margin-top:4px}
+.lead-modal .lm-done .lm-acts{justify-content:center}
 .lead-modal .lm-wa{display:block;text-align:center;background:var(--zap);color:#062b14;font-weight:800;border-radius:999px;padding:12px;text-decoration:none}
 .niche{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted)}
 .niche input{flex:1;min-width:0;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;color:var(--text);font:600 14px var(--body);padding:7px 10px;outline:0}
@@ -542,15 +551,26 @@ html,body{background:var(--bg)}
 
 <div class="lead-modal" data-lead-modal hidden role="dialog" aria-modal="true" aria-labelledby="lm-titulo">
   <form novalidate>
-    <h3 id="lm-titulo">Para quem enviamos o diagnóstico?</h3>
-    <p>O PDF completo vai para o WhatsApp da MMATTOS e a gente te manda em seguida.</p>
+    <h3 id="lm-titulo">Falta só um passo</h3>
+    <p>Confirme seus dados para concluir o diagnóstico. Nosso time comercial vai te chamar no WhatsApp com o plano para o seu perfil vender mais.</p>
     <label for="lm-nome">Seu nome<input id="lm-nome" data-lm="nome" autocomplete="name" required></label>
     <label for="lm-tel">Seu WhatsApp com DDD<input id="lm-tel" data-lm="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="(21) 99999-9999" required></label>
     <label for="lm-empresa">Empresa<input id="lm-empresa" data-lm="empresa" autocomplete="organization"></label>
     <div class="lm-status" data-lm-status aria-live="polite"></div>
-    <a class="lm-wa" data-lm-wa href="#" target="_blank" rel="noopener" hidden>Abrir o WhatsApp e enviar</a>
-    <div class="lm-acts"><button type="button" class="btn" data-lm-cancel>Voltar</button><button type="submit" class="btn primary" data-lm-send>Enviar diagnóstico</button></div>
+    <div class="lm-acts"><button type="button" class="btn" data-lm-cancel>Voltar</button><button type="submit" class="btn primary" data-lm-send>Concluir diagnóstico</button></div>
   </form>
+  <div class="lm-done" data-lm-done hidden>
+    <div class="lm-check" aria-hidden="true">✓</div>
+    <h3 data-lm-done-tit>Recebemos o seu diagnóstico!</h3>
+    <p data-lm-done-msg></p>
+    <div class="lm-cards">
+      <div><small>Nota Vitrine</small><b data-lm-done-nota>0/100</b><span data-lm-done-verd></span></div>
+      <div><small>Condição especial até</small><b data-lm-done-data></b><span>Diagnóstico abatido + setup de rastreamento grátis</span></div>
+    </div>
+    <p class="lm-cta-tx">Não quer esperar? Garanta agora a sua condição especial com o nosso comercial.</p>
+    <a class="lm-wa" data-lm-wa href="#" target="_blank" rel="noopener">Quero garantir minha condição especial</a>
+    <div class="lm-acts"><button type="button" class="btn" data-lm-close>Fechar</button></div>
+  </div>
 </div>
 
 <script src="/vendor/reveal/reveal.js"></script>
@@ -1259,17 +1279,17 @@ const PDF = (() => {
   const modal = document.querySelector("[data-lead-modal]");
   const mf = k => modal.querySelector(`[data-lm="${k}"]`);
   const mStatus = modal.querySelector("[data-lm-status]"), mSend = modal.querySelector("[data-lm-send]"), mForm = modal.querySelector("form");
-  const mWa = modal.querySelector("[data-lm-wa]");
-  const abrir = () => {
+    const abrir = () => {
     mf("nome").value = LEAD.nome || ""; mf("tel").value = LEAD.tel ? fmtTel(LEAD.tel) : "";
     mf("empresa").value = CONFIG[DECK.key] === DEF_NOME ? "" : CONFIG[DECK.key];
     mStatus.textContent = ""; mStatus.className = "lm-status"; mSend.disabled = false; mSend.textContent = "Enviar diagnóstico";
-    mWa.hidden = true;
+    mForm.hidden = false; modal.querySelector("[data-lm-done]").hidden = true;
     modal.hidden = false;
     setTimeout(() => (LEAD.nome ? mf("tel") : mf("nome")).focus(), 50);
   };
   const fechar = () => { modal.hidden = true; };
   modal.querySelector("[data-lm-cancel]").addEventListener("click", fechar);
+  modal.querySelector("[data-lm-close]").addEventListener("click", fechar);
   modal.addEventListener("keydown", e => { e.stopPropagation(); if (e.key === "Escape") fechar(); });
   const blobB64 = blob => new Promise((ok, bad) => { const r = new FileReader(); r.onload = () => ok(String(r.result).split(",")[1]); r.onerror = bad; r.readAsDataURL(blob); });
   mForm.addEventListener("submit", async e => {
@@ -1282,38 +1302,41 @@ const PDF = (() => {
       CONFIG[DECK.key] = empresa; fillAll();
       try { localStorage.setItem(LS_KEY, JSON.stringify({ nome: CONFIG[DECK.key], ig: CONFIG.ig })); } catch {}
     }
-    const janela = window.open("about:blank", "_blank");
     mSend.disabled = true;
     try {
-      mSend.textContent = "Gerando o PDF…"; mStatus.textContent = "Montando o seu diagnóstico."; mStatus.className = "lm-status";
+      mSend.textContent = "Concluindo…"; mStatus.textContent = "Montando o seu diagnóstico, leva alguns segundos."; mStatus.className = "lm-status";
       const { blob } = await makePdf();
-      mSend.textContent = "Enviando…";
-      const v = CALC.values();
+      const v = CALC.values(), nota = NV.sum();
       const r = await fetch("/api/lead", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({
         pdf: await blobB64(blob),
         lead: { diagnostico: DECK.titulo, empresa: CONFIG[DECK.key], instagram: CONFIG.ig, nicho: document.querySelector("[data-nicho]")?.value || "",
-          nome, telefone: tel, nota: NV.sum(), faturamentoHoje: Math.round(v.hoje), faturamentoMeta: Math.round(v.meta),
+          nome, telefone: tel, nota, faturamentoHoje: Math.round(v.hoje), faturamentoMeta: Math.round(v.meta),
           plano: document.querySelector(".pack.chosen h3")?.textContent || "", validade: CONFIG.data }
       }) });
       const j = await r.json().catch(() => ({}));
-      if (!r.ok || !j.pdfUrl) throw new Error("envio " + r.status);
-      const msg = [`*${DECK.titulo}*`, `Empresa: ${CONFIG[DECK.key]} (${CONFIG.ig})`, `Responsável: ${nome}`, `WhatsApp: ${fmtTel(tel)}`,
-        `Nota Vitrine: ${NV.sum()}/100`, `Condição especial até ${CONFIG.data}`, "", `PDF do diagnóstico: ${j.pdfUrl}`].join("\n");
-      const wa = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`;
-      mWa.href = wa; mWa.hidden = false;
-      if (janela) janela.location.href = wa;
-      mStatus.textContent = janela ? "Pronto! O WhatsApp abriu com a mensagem: é só tocar em enviar. Se não abriu, use o botão verde." : "Pronto! Toque no botão verde para enviar pelo WhatsApp.";
-      mStatus.className = "lm-status ok"; mSend.textContent = "Enviado";
+      if (!r.ok || !j.ok) throw new Error("envio " + r.status);
+      // O PDF fica só na base da agência. O contato recebe a mensagem de próximo passo.
+      const [c, va] = NV.verdictFor(nota);
+      const primeiro = nome.split(" ")[0];
+      const done = modal.querySelector("[data-lm-done]");
+      done.querySelector("[data-lm-done-tit]").textContent = `Recebemos o seu diagnóstico, ${primeiro}!`;
+      done.querySelector("[data-lm-done-msg]").textContent = `O diagnóstico completo de ${CONFIG[DECK.key]} já está com o nosso time comercial. Em breve um especialista da MMATTOS vai te chamar no WhatsApp ${fmtTel(tel)} para mostrar, ponto a ponto, o que fazer para o seu Instagram virar uma vitrine que vende.`;
+      const nb = done.querySelector("[data-lm-done-nota]"); nb.textContent = `${nota}/100`; nb.style.color = `var(--${c})`;
+      done.querySelector("[data-lm-done-verd]").textContent = va.replace(/\.$/, "");
+      done.querySelector("[data-lm-done-data]").textContent = CONFIG.data;
+      const msg = `Olá! Acabei de concluir o ${DECK.titulo} de ${CONFIG[DECK.key]} (${CONFIG.ig}). Minha Nota Vitrine foi ${nota}/100 e quero garantir a condição especial válida até ${CONFIG.data}. Meu nome é ${nome}.`;
+      done.querySelector("[data-lm-wa]").href = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`;
+      mForm.hidden = true; done.hidden = false;
     } catch (err) {
       console.error(err);
-      janela?.close();
-      mStatus.textContent = "Não conseguimos enviar agora. Confira a internet e tente de novo."; mStatus.className = "lm-status err";
-      mSend.disabled = false; mSend.textContent = "Tentar de novo";
+      mStatus.textContent = "Não conseguimos concluir agora. Confira a internet e tente de novo."; mStatus.className = "lm-status err";
+    } finally {
+      mSend.disabled = false; mSend.textContent = "Concluir diagnóstico";
     }
   });
 
   document.querySelectorAll("[data-pdf]").forEach(b => {
-    if (!window.claude?.use) b.textContent = "Enviar diagnóstico pelo WhatsApp";
+    if (!window.claude?.use) b.textContent = "Concluir diagnóstico";
     b.addEventListener("click", () => window.claude?.use ? baixar(b) : abrir());
   });
   return { makePdf };
