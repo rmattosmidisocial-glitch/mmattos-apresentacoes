@@ -468,6 +468,7 @@ html,body{background:var(--bg)}
       <div><div class="eyebrow" style="margin-bottom:8px">Diagnóstico completo</div><h2 data-d="titulo">O retrato de <span class="accent" data-fill="ig">@seurestaurante</span></h2></div>
       <div class="tools no-print" style="align-items:center">
         <span class="status" data-dstatus style="font-size:13px"><span class="dot"></span><span data-dstatus-tx>Com os dados preenchidos</span></span>
+        <button class="btn" data-pdf>Baixar PDF</button>
         <button class="btn primary" data-dgen>Gerar diagnóstico com IA</button>
       </div>
     </div>
@@ -513,6 +514,7 @@ html,body{background:var(--bg)}
     <div class="chips">
       <div class="chip">Condição especial até <b data-fill="data">[data]</b></div>
       <div class="chip">Diagnóstico abatido + setup de rastreamento grátis</div>
+      <button class="btn no-print" data-pdf>Baixar diagnóstico em PDF</button>
     </div>
   </div>
   <aside class="notes">ENCERRAMENTO: leia a frase principal devagar e fique em silêncio. Se ele não fechar na hora, mostre o botão do WhatsApp e combine o próximo contato.</aside>
@@ -534,7 +536,7 @@ const CONFIG = {
   whatsapp: "5521967640607",
   restaurante: "Seu Restaurante",
   ig: "seurestaurante",
-  data: "[data]",
+  data: new Date(Date.now() + 20 * 864e5).toLocaleDateString("pt-BR"), // condição especial: sempre 20 dias após o diagnóstico
   destaque: "crescimento",
   pacotes: [
     { id: "essencial", nome: "Essencial", fid: "6 meses", avulso: "R$ 2.000/mês + R$ 2.800", preco: "R$ 2.000", mensal: 2000, obs: "/mês", extra: "+ R$ 1.900 único no cardápio",
@@ -547,7 +549,7 @@ const CONFIG = {
 };
 
 const params = new URLSearchParams(location.search);
-for (const k of ["restaurante", "ig", "data", "destaque"]) if (params.get(k)) CONFIG[k] = params.get(k);
+for (const k of ["restaurante", "ig", "destaque"]) if (params.get(k)) CONFIG[k] = params.get(k);
 const DEF_NOME = "Seu Restaurante", LS_KEY = "diag-capa-restaurante";
 try {
   const salvo = JSON.parse(localStorage.getItem(LS_KEY) || "null");
@@ -585,7 +587,8 @@ const clamp = (v, a, b) => Math.max(a, Math.min(b, Number(v) || 0));
 const destaque = CONFIG.pacotes.find(p => p.id === CONFIG.destaque.toLowerCase()) || CONFIG.pacotes[1];
 
 // Estado compartilhado entre os slides
-const STATE = { file: null, analise: null, diag: null };
+const STATE = { file: null, analise: null, diag: null, pins: [] };
+const DECK = { key: "restaurante", titulo: "Diagnóstico Feed Vitrine", qtd: "ped", qtdLabel: "Pedidos por dia" };
 let READY = false;
 // Fora do Claude (site na Vercel), a IA roda pela função /api/analisar com código de acesso.
 const CODE_KEY = "diag-codigo-ia";
@@ -798,8 +801,10 @@ const LIVE = (() => {
     pin.style.left = left + "px";
     pin.style.top = top + "px";
     drop.appendChild(pin);
+    const im = drop.querySelector("img.shot");
+    if (im && im.offsetWidth) STATE.pins.push({ n: count, x: (left - im.offsetLeft) / im.offsetWidth, y: (top - im.offsetTop) / im.offsetHeight });
   };
-  const clear = () => { count = 0; list.innerHTML = ""; drop.querySelectorAll(".pinmark").forEach(p => p.remove()); };
+  const clear = () => { count = 0; STATE.pins = []; list.innerHTML = ""; drop.querySelectorAll(".pinmark").forEach(p => p.remove()); };
   const ERR = {
     not_granted: "Análise automática não autorizada. Marque os pontos à mão clicando no print.",
     sampling_disabled: "Análise automática indisponível nesta conta. Marque os pontos à mão.",
@@ -988,6 +993,222 @@ Exatamente 5 técnicas para crescer o faturamento (ex.: bio e link de pedido, de
       set("err", e?.code === "rate_limited" ? "Muitas chamadas. Tente em instantes." : e?.code === "not_granted" ? "Uso da IA não autorizado." : e?.code === "need_code" || e?.code === "bad_code" ? "Digite o código de acesso no slide da análise." : e?.code === "no_key" ? "A chave da IA ainda não foi configurada no site." : "Não deu certo agora. Tente de novo.");
     } finally { btn.disabled = false; }
   });
+})();
+
+// ===== PDF do diagnóstico para entregar ao cliente =====
+const PDF = (() => {
+  const loadScript = src => new Promise((ok, bad) => {
+    const s = document.createElement("script");
+    s.src = src; s.onload = ok; s.onerror = () => bad(new Error("não carregou " + src));
+    document.head.appendChild(s);
+  });
+  const libs = async () => {
+    if (!window.html2canvas) await loadScript("https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js");
+    if (!window.jspdf) await loadScript("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js");
+  };
+  const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  const hojeTxt = () => new Date().toLocaleDateString("pt-BR");
+  const slug = s => String(s).normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^A-Za-z0-9]+/g, "-").replace(/^-|-$/g, "") || "cliente";
+  const texts = sel => [...document.querySelectorAll(sel)].map(e => e.textContent.trim()).filter(Boolean);
+
+  // Print do perfil com as marcações numeradas desenhadas por cima
+  const printCanvas = () => {
+    const img = document.querySelector("[data-drop] img.shot");
+    if (!img || !img.naturalWidth) return null;
+    const k = Math.min(1, 900 / img.naturalWidth, 1300 / img.naturalHeight);
+    const c = document.createElement("canvas");
+    c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+    const g = c.getContext("2d");
+    g.drawImage(img, 0, 0, c.width, c.height);
+    const r = Math.max(14, Math.round(c.width * 0.028)), accent = css("--accent") || "#FF5A1F";
+    (STATE.pins || []).forEach(p => {
+      const x = p.x * c.width, y = p.y * c.height;
+      g.beginPath(); g.arc(x, y, r + 5, 0, Math.PI * 2); g.fillStyle = "rgba(255,255,255,.75)"; g.fill();
+      g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.fillStyle = accent; g.fill();
+      g.fillStyle = "#fff"; g.font = `800 ${Math.round(r * 1.1)}px Inter, Arial, sans-serif`;
+      g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(String(p.n), x, y + 1);
+    });
+    return c.toDataURL("image/jpeg", 0.88);
+  };
+
+  const build = () => {
+    renderDiag();
+    const A = css("--accent") || "#FF5A1F", D = css("--bg") || "#111";
+    const v = CALC.values(), nota = NV.sum(), sc = NV.scores(), [vc, va, vb] = NV.verdictFor(nota);
+    const vcol = { ok: "#2E9E5B", gold: "#C98A12", bad: "#D2423A" }[vc];
+    const nome = CONFIG[DECK.key], data = hojeTxt();
+    const esc2 = s => esc(s);
+    const pack = document.querySelector(".pack.chosen") || document.querySelector(".pack.star");
+    const packNome = pack?.querySelector("h3")?.textContent || destaque.nome;
+    const packPreco = pack?.querySelector(".now")?.textContent.replace(/\s+/g, " ").trim() || destaque.preco + "/mês";
+    const escolhido = !!document.querySelector(".pack.chosen");
+    const sec = (titulo, corpo) => `<section class="rp-sec"><h2><span>${titulo}</span></h2>${corpo}</section>`;
+    const li = arr => arr.length ? `<ul>${arr.map(t => `<li>${esc2(t)}</li>`).join("")}</ul>` : `<p class="rp-mut">Não preenchido.</p>`;
+    const notas = texts("[data-notes] .n span");
+    const shot = printCanvas();
+    const sections = [];
+
+    sections.push(`<section class="rp-head">
+      <div class="rp-ag">${esc2(CONFIG.agencia)}</div>
+      <h1>${esc2(DECK.titulo)}</h1>
+      <div class="rp-for">Preparado para <b>${esc2(nome)}</b> · ${esc2(CONFIG.ig)}</div>
+      <div class="rp-date">Diagnóstico feito em ${data}</div>
+    </section>`);
+
+    const resumo = STATE.analise?.resumo;
+    sections.push(sec("1. Análise do perfil", `<div class="rp-ana">
+      ${shot ? `<img class="rp-shot" src="${shot}" alt="">` : ""}
+      <div class="rp-anatx">${resumo ? `<p class="rp-box">${esc2(resumo)}</p>` : ""}
+        ${notas.length ? `<ol>${notas.map(t => `<li>${esc2(t)}</li>`).join("")}</ol>` : `<p class="rp-mut">Nenhum ponto marcado no print.</p>`}
+      </div></div>`));
+
+    sections.push(sec("2. Nota Vitrine", `<div class="rp-nota">
+      <div class="rp-score" style="border-color:${vcol}"><b style="color:${vcol}">${nota}</b><small>de 100</small></div>
+      <div><p class="rp-verd"><b style="color:${vcol}">${va}</b> ${vb}</p><p class="rp-mut">Perfis que vendem bem ficam acima de 75.</p></div></div>
+      <div class="rp-items">${NV_ITENS.map(([k, lb]) => `<div class="rp-it"><span>${lb}</span><i><em style="width:${sc[k] * 10}%;background:${A}"></em></i><b>${sc[k]}</b></div>`).join("")}</div>`));
+
+    const q1 = v[DECK.qtd], q2 = v[DECK.qtd + "2"];
+    sections.push(sec("3. Quanto um perfil que converte vale para você", `<table class="rp-tab">
+      <tr><th></th><th>Hoje</th><th>Como você gostaria</th></tr>
+      <tr><td>${DECK.qtdLabel}</td><td>${q1}</td><td>${q2}</td></tr>
+      <tr><td>Ticket médio</td><td>${brl(v.tic)}</td><td>${brl(v.tic2)}</td></tr>
+      <tr class="rp-tot"><td>Faturamento por mês</td><td>${brl(v.hoje)}</td><td style="color:#2E9E5B">${brl(v.meta)}</td></tr></table>
+      <div class="rp-kpis">
+        <div><small>Na mesa por mês</small><b style="color:${A}">${brl(v.gap)}</b></div>
+        <div><small>Em 12 meses</small><b>${brl(v.ano)}</b></div>
+        <div><small>Crescimento</small><b>+${Math.round(v.pct)}%</b></div>
+      </div>`));
+
+    const tit = document.querySelector('[data-d="titulo"]')?.textContent.trim();
+    const bio = STATE.diag?.bio || STATE.analise?.bio_sugerida;
+    sections.push(sec("4. Diagnóstico", `${STATE.diag?.titulo ? `<p class="rp-lead">${esc2(tit)}</p>` : ""}
+      <div class="rp-cols"><div><h3 style="color:#D2423A">Como está hoje</h3>${li(texts('[data-d="hojeList"] li'))}</div>
+      <div><h3 style="color:#2E9E5B">Como pode ficar</h3>${li(texts('[data-d="podeList"] li'))}</div></div>
+      ${bio ? `<div class="rp-bio"><small>Bio sugerida</small>${esc2(bio)}</div>` : ""}`));
+
+    const tec = [...document.querySelectorAll('[data-d="tecList"] li')].map(l => ({ n: l.querySelector("b")?.textContent || "", r: [...l.childNodes].filter(x => x.nodeType === 3).map(x => x.textContent).join(" ").trim(), e: l.querySelector("em")?.textContent || "" }));
+    const proj = document.querySelector('[data-d="projecao"]')?.textContent.trim();
+    sections.push(sec("5. Técnicas para crescer o faturamento", `<div class="rp-tec">${tec.map((t, i) => `<div><span style="background:${A}">${i + 1}</span><p><b>${esc2(t.n)}</b>${esc2(t.r)}${t.e ? `<em>${esc2(t.e)}</em>` : ""}</p></div>`).join("")}</div>
+      ${proj ? `<p class="rp-proj">${esc2(proj)}</p>` : ""}`));
+
+    sections.push(`<section class="rp-end" style="background:${D}">
+      <div class="rp-ag" style="color:${A}">Próximo passo</div>
+      <h2>Enquanto você está pensando, seu concorrente está vendendo.</h2>
+      <div class="rp-cond">
+        <div><small>${escolhido ? "Plano escolhido" : "Plano recomendado"}</small><b>${esc2(packNome)}</b><span>${esc2(packPreco)}</span></div>
+        <div><small>Condição especial válida até</small><b>${esc2(CONFIG.data)}</b><span>Diagnóstico abatido + setup de rastreamento grátis</span></div>
+        <div><small>Fale com a gente</small><b>WhatsApp ${esc2(CONFIG.telefone)}</b><span>wa.me/${CONFIG.whatsapp}</span></div>
+      </div>
+    </section>`);
+
+    const box = document.createElement("div");
+    box.className = "rp";
+    box.innerHTML = `<style>
+      .rp{position:fixed;left:-12000px;top:0;width:794px;background:#fff;color:#1A1C22;font-family:Inter,Arial,sans-serif;font-size:13px;line-height:1.45}
+      .rp section{width:794px;box-sizing:border-box;padding:22px 46px;background:#fff}
+      .rp h1,.rp h2,.rp h3{font-family:"Bricolage Grotesque",Arial,sans-serif;margin:0;letter-spacing:-.01em}
+      .rp .rp-head{background:${D};color:#fff;padding:40px 46px 34px}
+      .rp .rp-ag{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:${A};margin-bottom:10px}
+      .rp .rp-head h1{font-size:34px;font-weight:800;margin-bottom:12px}
+      .rp .rp-for{font-size:16px}.rp .rp-for b{color:${A}}
+      .rp .rp-date{font-size:12px;opacity:.7;margin-top:6px}
+      .rp .rp-sec h2{font-size:19px;font-weight:800;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #EDEEF2}
+      .rp .rp-mut{color:#6B7080;margin:0}
+      .rp ul,.rp ol{margin:0;padding-left:18px}.rp li{margin:0 0 6px}
+      .rp .rp-ana{display:flex;gap:20px;align-items:flex-start}
+      .rp .rp-shot{width:260px;border-radius:10px;border:1px solid #E3E5EA;flex:none}
+      .rp .rp-anatx{flex:1;min-width:0}
+      .rp .rp-box{background:#FFF4EE;border:1px solid #FFD9C7;border-radius:10px;padding:10px 12px;margin:0 0 12px}
+      .rp .rp-nota{display:flex;gap:18px;align-items:center;margin-bottom:14px}
+      .rp .rp-score{width:96px;height:96px;border-radius:50%;border:7px solid;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center;flex:none}
+      .rp .rp-score b{font-family:"Bricolage Grotesque",Arial;font-size:32px;line-height:1}.rp .rp-score small{font-size:10px;color:#6B7080}
+      .rp .rp-verd{font-size:16px;margin:0 0 4px}
+      .rp .rp-items{display:grid;grid-template-columns:1fr 1fr;gap:8px 28px}
+      .rp .rp-it{display:grid;grid-template-columns:130px 1fr 22px;align-items:center;gap:8px}
+      .rp .rp-it i{height:8px;border-radius:9px;background:#EDEEF2;overflow:hidden;display:block}.rp .rp-it em{display:block;height:100%}
+      .rp .rp-it b{text-align:right}
+      .rp .rp-tab{width:100%;border-collapse:collapse;margin-bottom:12px}
+      .rp .rp-tab th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#6B7080;padding:6px 8px}
+      .rp .rp-tab td{padding:8px;border-top:1px solid #EDEEF2;font-variant-numeric:tabular-nums}.rp .rp-tot td{font-weight:800;font-size:15px}
+      .rp .rp-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+      .rp .rp-kpis div{background:#F6F7F9;border-radius:10px;padding:10px 12px}
+      .rp .rp-kpis small,.rp .rp-cond small,.rp .rp-bio small{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#6B7080}
+      .rp .rp-kpis b{font-family:"Bricolage Grotesque",Arial;font-size:22px}
+      .rp .rp-lead{font-family:"Bricolage Grotesque",Arial;font-size:17px;font-weight:700;margin:0 0 10px}
+      .rp .rp-cols{display:grid;grid-template-columns:1fr 1fr;gap:22px}.rp .rp-cols h3{font-size:14px;margin-bottom:8px}
+      .rp .rp-bio{margin-top:12px;background:#EFF8F2;border-radius:10px;padding:10px 12px}
+      .rp .rp-tec{display:flex;flex-direction:column;gap:10px}
+      .rp .rp-tec div{display:flex;gap:12px;align-items:flex-start}
+      .rp .rp-tec span{flex:none;width:24px;height:24px;border-radius:50%;color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:12px}
+      .rp .rp-tec p{margin:0}.rp .rp-tec b{display:block}.rp .rp-tec em{display:block;font-style:normal;color:#6B7080;font-size:12px}
+      .rp .rp-proj{margin:14px 0 0;font-weight:600}
+      .rp .rp-end{color:#fff;padding:32px 46px;margin-top:10px}
+      .rp .rp-end h2{font-size:24px;font-weight:800;margin-bottom:18px;color:#fff}
+      .rp .rp-cond{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+      .rp .rp-cond div{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:12px}
+      .rp .rp-cond small{color:rgba(255,255,255,.65)}.rp .rp-cond b{display:block;font-size:15px;margin:3px 0}.rp .rp-cond span{font-size:11px;opacity:.75}
+    </style>${sections.join("")}`;
+    document.body.appendChild(box);
+    return { box, nome, data };
+  };
+
+  const gerar = async btn => {
+    const old = btn.textContent;
+    btn.disabled = true; btn.textContent = "Gerando PDF…";
+    let built;
+    try {
+      await libs();
+      await document.fonts?.ready;
+      built = build();
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ unit: "mm", format: "a4", compress: true });
+      const W = 210, H = 297, FOOT = 12;
+      let y = 0, page = 1;
+      const footer = () => {
+        doc.setFontSize(8); doc.setTextColor(120);
+        doc.text(`${CONFIG.agencia} · WhatsApp ${CONFIG.telefone}`, 12, H - 5);
+        doc.text(String(page), W - 12, H - 5, { align: "right" });
+      };
+      for (const el of built.box.querySelectorAll(":scope > section")) {
+        const canvas = await html2canvas(el, { scale: 2, backgroundColor: getComputedStyle(el).backgroundColor || "#fff", useCORS: true, logging: false });
+        const h = canvas.height * W / canvas.width;
+        if (y > 0 && y + h > H - FOOT) { footer(); doc.addPage(); page++; y = 0; }
+        if (h <= H - FOOT) {
+          doc.addImage(canvas.toDataURL("image/jpeg", 0.9), "JPEG", 0, y, W, h);
+          y += h;
+        } else {
+          // Seção maior que a página: fatia em pedaços
+          const pxPerPage = Math.floor((H - FOOT) * canvas.width / W);
+          for (let sy = 0; sy < canvas.height; sy += pxPerPage) {
+            const part = document.createElement("canvas");
+            part.width = canvas.width; part.height = Math.min(pxPerPage, canvas.height - sy);
+            part.getContext("2d").drawImage(canvas, 0, -sy);
+            if (sy > 0) { footer(); doc.addPage(); page++; }
+            const ph = part.height * W / part.width;
+            doc.addImage(part.toDataURL("image/jpeg", 0.9), "JPEG", 0, 0, W, ph);
+            y = ph;
+          }
+        }
+      }
+      footer();
+      const filename = `Diagnostico-${slug(built.nome)}-${built.data.replace(/\//g, "-")}.pdf`;
+      const blob = doc.output("blob");
+      const dl = window.claude?.use ? await window.claude.use("downloads").catch(() => null) : null;
+      if (dl) await dl.save({ filename, data: blob });
+      else if (window.claude?.use) throw { code: "unavailable" };
+      else doc.save(filename);
+      btn.textContent = "PDF pronto";
+    } catch (e) {
+      console.error(e);
+      btn.textContent = e?.code === "declined" ? "Download cancelado" : "Não deu certo. Tente de novo";
+    } finally {
+      built?.box.remove();
+      btn.disabled = false;
+      setTimeout(() => btn.textContent = old, 2500);
+    }
+  };
+  document.querySelectorAll("[data-pdf]").forEach(b => b.addEventListener("click", () => gerar(b)));
+  return { gerar };
 })();
 
 READY = true;
