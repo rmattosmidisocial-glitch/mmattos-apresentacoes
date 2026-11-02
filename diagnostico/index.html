@@ -245,6 +245,7 @@ html,body{background:var(--bg)}
 .phr div::before{content:"→";color:var(--accent);font-weight:800}
 .zaprow{display:flex;gap:18px;align-items:center;margin-top:26px}
 .zap{display:inline-flex;align-items:center;gap:12px;background:var(--zap);color:#062b14;font-family:var(--display);font-weight:800;font-size:24px;border-radius:999px;padding:16px 30px 16px 22px;text-decoration:none;box-shadow:0 18px 50px -14px rgba(37,211,102,.75);transition:transform .2s}
+.zap{border:0;cursor:pointer;font-family:var(--display)}
 .zap:hover{transform:translateY(-2px)}
 .zap:focus-visible{outline:3px solid var(--text);outline-offset:3px}
 .zap svg{width:30px;height:30px}
@@ -289,6 +290,28 @@ html,body{background:var(--bg)}
 .ig-hl i{background-size:cover!important;background-position:center!important}
 
 [hidden]{display:none!important}
+.conclusao{position:fixed;inset:0;z-index:60;display:grid;place-items:center;overflow:auto;background:var(--bg);color:var(--text);font-family:var(--body);line-height:1.45;padding:28px max(16px,env(safe-area-inset-left,0px)) 28px max(16px,env(safe-area-inset-right,0px))}
+.conclusao .cc-bg{position:fixed;inset:0;overflow:hidden}
+.conclusao .cc-bg img{width:100%;height:100%;object-fit:cover;opacity:.32}
+.conclusao .cc-bg::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(14,16,22,.55),rgba(14,16,22,.96) 75%)}
+.conclusao .cc-in{position:relative;width:min(720px,100%);display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center}
+.conclusao .cc-logo{width:64px;height:auto}
+.conclusao h1{font-family:var(--display);font-weight:800;font-size:clamp(34px,7vw,64px);line-height:1.04;letter-spacing:-.025em;margin:6px 0 4px;text-wrap:balance}
+.conclusao h1 span{color:var(--accent)}
+.conclusao .cc-ok{display:flex;flex-direction:column;align-items:center;gap:14px}
+.conclusao .cc-msg{font-size:clamp(16px,2.2vw,19px);color:#D9DEEA;max-width:600px;margin:0}
+.conclusao .cc-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:560px;text-align:left;margin-top:6px}
+.conclusao .cc-cards div{background:rgba(22,27,39,.9);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.conclusao .cc-cards small{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.conclusao .cc-cards b{display:block;font-family:var(--display);font-weight:800;font-size:30px;line-height:1.1;margin:4px 0}
+.conclusao .cc-cards span{font-size:13px;color:var(--muted)}
+.conclusao .cc-sign{font-weight:700;color:var(--accent);letter-spacing:.02em;margin:8px 0 0}
+.conclusao .cc-load{display:flex;flex-direction:column;align-items:center;gap:14px;font-size:18px;padding:40px 0}
+.conclusao .cc-spin{width:44px;height:44px;border-radius:50%;border:4px solid var(--line);border-top-color:var(--accent);animation:ccgira .9s linear infinite}
+@keyframes ccgira{to{transform:rotate(360deg)}}
+.conclusao .cc-err{display:flex;flex-direction:column;align-items:center;gap:12px;color:var(--bad)}
+.conclusao .cc-back{margin-top:6px;opacity:.75}
+@media (max-width:520px){.conclusao .cc-cards{grid-template-columns:1fr}}
 
 /* ===== Celular em pé: slides verticais 720x1280 ===== */
 .vert .wrap{height:1280px;padding:72px 48px 64px}
@@ -585,8 +608,6 @@ html,body{background:var(--bg)}
       <div><div class="eyebrow" style="margin-bottom:8px">Diagnóstico completo</div><h2 data-d="titulo">O retrato de <span class="accent" data-fill="ig">@suaempresa</span></h2></div>
       <div class="tools no-print" style="align-items:center">
         <span class="status" data-dstatus style="font-size:13px"><span class="dot"></span><span data-dstatus-tx>Com os dados preenchidos</span></span>
-        <button class="btn" data-pdf>Baixar PDF</button>
-        <button class="btn primary" data-dgen>Gerar diagnóstico com IA</button>
       </div>
     </div>
     <div class="dkpis">
@@ -621,16 +642,15 @@ html,body{background:var(--bg)}
       <div>Faça sua marca, conquiste resultados.</div>
     </div>
     <div class="zaprow">
-      <a class="zap" data-zap href="https://wa.me/5521967640607" target="_blank" rel="noopener">
-        <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 7L3 29l6.4-2c2 1.1 4.3 1.7 6.6 1.7 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.4c-2.1 0-4.2-.6-6-1.7l-.4-.3-3.8 1.2 1.2-3.7-.3-.4a10.4 10.4 0 0 1-1.7-5.7C5 10 9.9 5.3 16 5.3S27 10 27 15.8s-4.9 10.6-11 10.6zm6-7.9c-.3-.2-2-1-2.3-1.1-.3-.1-.5-.2-.8.2-.2.3-.9 1.1-1 1.3-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.7-1.6-1-.9-1.7-2-1.9-2.3-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.3.3-.6.1-.2 0-.4 0-.6l-1-2.5c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.2 1.4 3.5c.2.2 2.4 3.6 5.8 5 2.9 1.1 3.4.9 4.1.8.6-.1 2-.8 2.3-1.6.3-.8.3-1.5.2-1.6-.1-.2-.3-.3-.7-.4z"/></svg>
-        Falar no WhatsApp
-      </a>
+      <button class="zap" type="button" data-concluir>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>
+        Concluir diagnóstico
+      </button>
       <div class="num-box">Ou chame direto<b data-fill="telefone">(21) 96764-0607</b><button class="btn no-print" data-copy style="margin-top:6px;align-self:flex-start;padding:5px 12px;font-size:12px">Copiar número</button></div>
     </div>
     <div class="chips">
       <div class="chip">Condição especial até <b data-fill="data">[data]</b></div>
       <div class="chip">Diagnóstico abatido + setup de rastreamento grátis</div>
-      <button class="btn no-print" data-pdf>Baixar diagnóstico em PDF</button>
     </div>
   </div>
   <aside class="notes">ENCERRAMENTO: leia a frase principal devagar e fique em silêncio. Se ele não fechar na hora, mostre o botão do WhatsApp e combine o próximo contato.</aside>
@@ -659,6 +679,26 @@ html,body{background:var(--bg)}
     <p class="lm-cta-tx">Não quer esperar? Bora garantir a sua condição especial agora.</p>
     <a class="lm-wa" data-lm-wa href="#" target="_blank" rel="noopener">Quero garantir minha condição especial</a>
     <div class="lm-acts"><button type="button" class="btn" data-lm-close>Fechar</button></div>
+  </div>
+</div>
+
+<div class="conclusao" data-conclusao hidden role="dialog" aria-modal="true" aria-labelledby="cc-tit">
+  <div class="cc-bg"><img src="/diagnostico/img/comemora.jpg" alt=""></div>
+  <div class="cc-in">
+    <img class="cc-logo" src="/assets/logo.png" alt="M.Mattos">
+    <div class="cc-load" data-cc-load><span class="cc-spin" aria-hidden="true"></span><p data-cc-load-tx aria-live="polite">Concluindo o seu diagnóstico…</p></div>
+    <div class="cc-ok" data-cc-ok hidden>
+      <div class="eyebrow">Diagnóstico concluído</div>
+      <h1 id="cc-tit">Parabéns, <span data-cc-empresa></span>!</h1>
+      <p class="cc-msg" data-cc-msg></p>
+      <div class="cc-cards">
+        <div><small>Nota Vitrine</small><b data-cc-nota>0/100</b><span data-cc-verd></span></div>
+        <div><small>Condição especial até</small><b data-cc-data></b><span>Diagnóstico abatido + setup de rastreamento grátis</span></div>
+      </div>
+      <p class="cc-sign">Faça sua marca, conquiste resultados.</p>
+    </div>
+    <div class="cc-err" data-cc-err hidden><p>Não conseguimos concluir agora. Confira a internet e tente de novo.</p><button type="button" class="btn primary" data-cc-retry>Tentar de novo</button></div>
+    <button type="button" class="btn cc-back no-print" data-cc-back>Voltar à apresentação</button>
   </div>
 </div>
 
@@ -990,7 +1030,7 @@ const LIVE = (() => {
     try {
       const a = await sample.json(PROMPT_ANALISE(), { images: [STATE.file], signal: ctl.signal });
       if (!a || typeof a !== "object") throw { code: "invalid_json" };
-      STATE.analise = a;
+      STATE.analise = a; STATE.diag = null;
       if (!nicho() && a.nicho) nichoInput.value = String(a.nicho);
       clear();
       resumo.hidden = !a.resumo; resumo.textContent = a.resumo || "";
@@ -1107,11 +1147,11 @@ function renderDiag() {
   if (d?.titulo) q("titulo").textContent = d.titulo;
 }
 
-(() => {
-  const btn = document.querySelector("[data-dgen]"), st = document.querySelector("[data-dstatus]"), stx = document.querySelector("[data-dstatus-tx]");
+const DIAG = (() => {
+  let rodando = null;
+  const st = document.querySelector("[data-dstatus]"), stx = document.querySelector("[data-dstatus-tx]");
   const set = (cls, tx) => { st.className = "status " + cls; stx.textContent = tx; };
-  sampleP.then(s => { if (!s) btn.hidden = true; });
-  btn.addEventListener("click", async () => {
+  const gerar = () => rodando || (rodando = (async () => {
     const sample = await sampleP;
     if (!sample) return;
     const v = CALC.values(), a = STATE.analise;
@@ -1126,7 +1166,7 @@ function renderDiag() {
       diferenca_mes: Math.round(v.gap), crescimento_pct: Math.round(v.pct),
       plano_recomendado: destaque.nome
     };
-    btn.disabled = true; set("busy", "Montando o diagnóstico…");
+    set("busy", "Montando o diagnóstico com IA…");
     try {
       const d = await sample.json(`Você é consultor de marketing digital e vendas pelo Instagram para empresas brasileiras de qualquer nicho. Com os dados abaixo, escreva o diagnóstico final do Instagram desta empresa para mostrar ao dono numa reunião de venda. Use a linguagem certa para o nicho (clientes, pacientes, alunos, pedidos, agendamentos, orçamentos).
 
@@ -1145,11 +1185,12 @@ Exatamente 5 técnicas para crescer o faturamento, escolhidas para este nicho (e
       STATE.diag = d;
       renderDiag();
       set("done", "Diagnóstico gerado");
-      btn.textContent = "Gerar de novo";
     } catch (e) {
       set("err", e?.code === "rate_limited" ? "Muitas chamadas. Tente em instantes." : e?.code === "not_granted" ? "Uso da IA não autorizado." : e?.code === "need_code" || e?.code === "bad_code" ? "Digite o código de acesso no slide da análise." : e?.code === "no_key" ? "A chave da IA ainda não foi configurada no site." : "Não deu certo agora. Tente de novo.");
-    } finally { btn.disabled = false; }
-  });
+    } finally { rodando = null; }
+  })());
+  const auto = e => { if (e.currentSlide.contains(st) && STATE.analise && !STATE.diag) gerar(); };
+  return { gerar, auto };
 })();
 
 // ===== PDF do diagnóstico para entregar ao cliente =====
@@ -1350,85 +1391,97 @@ const PDF = (() => {
     } finally { built?.box.remove(); }
   };
 
-  // Dentro do Claude: baixa o PDF. No site: abre o formulário e envia para o WhatsApp da agência.
-  const baixar = async btn => {
-    const old = btn.textContent;
-    btn.disabled = true; btn.textContent = "Gerando PDF…";
-    try {
-      const { blob, filename } = await makePdf();
-      const dl = await window.claude.use("downloads").catch(() => null);
-      if (!dl) throw { code: "unavailable" };
-      await dl.save({ filename, data: blob });
-      btn.textContent = "PDF pronto";
-    } catch (e) {
-      console.error(e);
-      btn.textContent = e?.code === "declined" ? "Download cancelado" : "Não deu certo. Tente de novo";
-    } finally { btn.disabled = false; setTimeout(() => btn.textContent = old, 2500); }
-  };
-
   const modal = document.querySelector("[data-lead-modal]");
   const mf = k => modal.querySelector(`[data-lm="${k}"]`);
   const mStatus = modal.querySelector("[data-lm-status]"), mSend = modal.querySelector("[data-lm-send]"), mForm = modal.querySelector("form");
-    const abrir = () => {
+  const abrir = () => {
     mf("nome").value = LEAD.nome || ""; mf("tel").value = LEAD.tel ? fmtTel(LEAD.tel) : "";
     mf("empresa").value = CONFIG[DECK.key] === DEF_NOME ? "" : CONFIG[DECK.key];
-    mStatus.textContent = ""; mStatus.className = "lm-status"; mSend.disabled = false; mSend.textContent = "Enviar diagnóstico";
+    mStatus.textContent = ""; mStatus.className = "lm-status"; mSend.disabled = false; mSend.textContent = "Concluir diagnóstico";
     mForm.hidden = false; modal.querySelector("[data-lm-done]").hidden = true;
     modal.hidden = false;
-    setTimeout(() => (LEAD.nome ? mf("tel") : mf("nome")).focus(), 50);
+    setTimeout(() => (!mf("nome").value ? mf("nome") : !mf("tel").value ? mf("tel") : mf("empresa")).focus(), 50);
   };
   const fechar = () => { modal.hidden = true; };
   modal.querySelector("[data-lm-cancel]").addEventListener("click", fechar);
-  modal.querySelector("[data-lm-close]").addEventListener("click", fechar);
   modal.addEventListener("keydown", e => { e.stopPropagation(); if (e.key === "Escape") fechar(); });
   const blobB64 = blob => new Promise((ok, bad) => { const r = new FileReader(); r.onload = () => ok(String(r.result).split(",")[1]); r.onerror = bad; r.readAsDataURL(blob); });
-  mForm.addEventListener("submit", async e => {
+
+  // Página de conclusão
+  const cc = document.querySelector("[data-conclusao]");
+  const q = s => cc.querySelector(s);
+  const fase = (nome, tx) => {
+    q("[data-cc-load]").hidden = nome !== "load"; q("[data-cc-ok]").hidden = nome !== "ok"; q("[data-cc-err]").hidden = nome !== "err";
+    if (tx) q("[data-cc-load-tx]").textContent = tx;
+    cc.hidden = false;
+  };
+  const preencherOk = tel => {
+    const nota = NV.sum(), [c, va] = NV.verdictFor(nota);
+    q("[data-cc-empresa]").textContent = CONFIG[DECK.key];
+    q("[data-cc-msg]").textContent = tel
+      ? `Você deu o primeiro movimento. O diagnóstico completo de ${CONFIG[DECK.key]} já está com o nosso time e, em breve, um estrategista da M.Mattos entra em contato pelo WhatsApp ${fmtTel(tel)} para mostrar a jogada que coloca o seu Instagram para vender.`
+      : `Você deu o primeiro movimento. O diagnóstico completo de ${CONFIG[DECK.key]} está pronto e, em breve, um estrategista da M.Mattos entra em contato para mostrar a jogada que coloca o seu Instagram para vender.`;
+    const nb = q("[data-cc-nota]"); nb.textContent = `${nota}/100`; nb.style.color = `var(--${c})`;
+    q("[data-cc-verd]").textContent = va.replace(/\.$/, "");
+    q("[data-cc-data]").textContent = CONFIG.data;
+    fase("ok");
+  };
+  let ultimo = null;
+  const enviar = async (nome, tel) => {
+    ultimo = [nome, tel];
+    fase("load", "Concluindo o seu diagnóstico…");
+    try {
+      if (STATE.analise && !STATE.diag) { fase("load", "Montando as recomendações…"); await DIAG.gerar(); }
+      fase("load", "Preparando o diagnóstico completo…");
+      const { blob, filename } = await makePdf();
+      if (window.claude?.use) {
+        // Dentro do Claude (uso da agência): baixa o PDF
+        const dl = await window.claude.use("downloads").catch(() => null);
+        if (dl) await dl.save({ filename, data: blob }).catch(e => { if (e?.code !== "declined") throw e; });
+      } else {
+        fase("load", "Enviando para o nosso time…");
+        const v = CALC.values();
+        const r = await fetch("/api/lead", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({
+          pdf: await blobB64(blob),
+          lead: { diagnostico: DECK.titulo, empresa: CONFIG[DECK.key], instagram: CONFIG.ig, nicho: document.querySelector("[data-nicho]")?.value || "",
+            nome, telefone: tel, nota: NV.sum(), faturamentoHoje: Math.round(v.hoje), faturamentoMeta: Math.round(v.meta),
+            plano: document.querySelector(".pack.chosen h3")?.textContent || "", validade: CONFIG.data }
+        }) });
+        const j = await r.json().catch(() => ({}));
+        if (!r.ok || !j.ok) throw new Error("envio " + r.status);
+      }
+      preencherOk(tel);
+    } catch (err) {
+      console.error(err);
+      fase("err");
+    }
+  };
+  q("[data-cc-retry]").addEventListener("click", () => ultimo && enviar(...ultimo));
+  q("[data-cc-back]").addEventListener("click", () => { cc.hidden = true; });
+  cc.addEventListener("keydown", e => e.stopPropagation());
+
+  mForm.addEventListener("submit", e => {
     e.preventDefault();
     const nome = mf("nome").value.trim(), tel = mf("tel").value.replace(/\D/g, ""), empresa = mf("empresa").value.trim();
     if (!nome) { mStatus.textContent = "Digite o seu nome."; mStatus.className = "lm-status err"; mf("nome").focus(); return; }
     if (tel.length < 10) { mStatus.textContent = "Digite o WhatsApp com DDD, por exemplo (21) 99999-9999."; mStatus.className = "lm-status err"; mf("tel").focus(); return; }
+    if (!empresa) { mStatus.textContent = "Digite o nome da empresa."; mStatus.className = "lm-status err"; mf("empresa").focus(); return; }
     setLead({ nome, tel });
-    if (empresa && empresa !== CONFIG[DECK.key]) {
+    if (empresa !== CONFIG[DECK.key]) {
       CONFIG[DECK.key] = empresa; fillAll();
       try { localStorage.setItem(LS_KEY, JSON.stringify({ nome: CONFIG[DECK.key], ig: CONFIG.ig })); } catch {}
     }
-    mSend.disabled = true;
-    try {
-      mSend.textContent = "Concluindo…"; mStatus.textContent = "Montando o seu diagnóstico, leva alguns segundos."; mStatus.className = "lm-status";
-      const { blob } = await makePdf();
-      const v = CALC.values(), nota = NV.sum();
-      const r = await fetch("/api/lead", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({
-        pdf: await blobB64(blob),
-        lead: { diagnostico: DECK.titulo, empresa: CONFIG[DECK.key], instagram: CONFIG.ig, nicho: document.querySelector("[data-nicho]")?.value || "",
-          nome, telefone: tel, nota, faturamentoHoje: Math.round(v.hoje), faturamentoMeta: Math.round(v.meta),
-          plano: document.querySelector(".pack.chosen h3")?.textContent || "", validade: CONFIG.data }
-      }) });
-      const j = await r.json().catch(() => ({}));
-      if (!r.ok || !j.ok) throw new Error("envio " + r.status);
-      // O PDF fica só na base da agência. O contato recebe a mensagem de próximo passo.
-      const [c, va] = NV.verdictFor(nota);
-      const primeiro = nome.split(" ")[0];
-      const done = modal.querySelector("[data-lm-done]");
-      done.querySelector("[data-lm-done-tit]").textContent = `Fala, ${primeiro}! Diagnóstico recebido.`;
-      done.querySelector("[data-lm-done-msg]").textContent = `O diagnóstico completo de ${CONFIG[DECK.key]} já está com o nosso time. Em breve um estrategista da M.Mattos te chama no WhatsApp ${fmtTel(tel)} para mostrar, movimento por movimento, a jogada que coloca o seu Instagram para vender.`;
-      const nb = done.querySelector("[data-lm-done-nota]"); nb.textContent = `${nota}/100`; nb.style.color = `var(--${c})`;
-      done.querySelector("[data-lm-done-verd]").textContent = va.replace(/\.$/, "");
-      done.querySelector("[data-lm-done-data]").textContent = CONFIG.data;
-      const msg = `Fala! Acabei de concluir o ${DECK.titulo} de ${CONFIG[DECK.key]} (${CONFIG.ig}). Minha Nota Vitrine foi ${nota}/100 e quero garantir a condição especial válida até ${CONFIG.data}. Meu nome é ${nome}.`;
-      done.querySelector("[data-lm-wa]").href = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`;
-      mForm.hidden = true; done.hidden = false;
-    } catch (err) {
-      console.error(err);
-      mStatus.textContent = "Não conseguimos concluir agora. Confira a internet e tente de novo."; mStatus.className = "lm-status err";
-    } finally {
-      mSend.disabled = false; mSend.textContent = "Concluir diagnóstico";
-    }
+    fechar();
+    enviar(nome, tel);
   });
 
-  document.querySelectorAll("[data-pdf]").forEach(b => {
-    if (!window.claude?.use) b.textContent = "Concluir diagnóstico";
-    b.addEventListener("click", () => window.claude?.use ? baixar(b) : abrir());
-  });
+  // Concluir: com nome, WhatsApp e empresa já preenchidos na capa, envia direto. Senão, pede os dados.
+  const concluir = () => {
+    if (window.claude?.use) return enviar(LEAD.nome, LEAD.tel);
+    const completo = LEAD.nome && String(LEAD.tel || "").length >= 10 && CONFIG[DECK.key] !== DEF_NOME;
+    completo ? enviar(LEAD.nome, LEAD.tel) : abrir();
+  };
+  document.querySelectorAll("[data-concluir]").forEach(b => b.addEventListener("click", concluir));
   return { makePdf };
 })();
 
@@ -1450,6 +1503,7 @@ Reveal.initialize({
   VanillaTilt.init(document.querySelectorAll(".pack"), { max: 5, speed: 600, glare: true, "max-glare": .12 });
 });
 Reveal.on("slidechanged", renderDiag);
+Reveal.on("slidechanged", e => DIAG.auto(e));
 </script>
 </body>
 </html>
