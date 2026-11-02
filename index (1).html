@@ -4,18 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Diagnóstico Feed Vitrine</title>
-<meta name="description" content="Diagnóstico Feed Vitrine · MMATTOS Assessoria de MKT">
+<meta name="description" content="Diagnóstico Feed Vitrine · M.Mattos · Assessoria de marketing 360">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/vendor/reveal/reset.css">
 <link rel="stylesheet" href="/vendor/reveal/reveal.css">
 <style>
 :root{
   color-scheme:dark;
-  --bg:#110D0A; --surface:#1C1612; --surface-2:#2A211B; --line:rgba(246,239,230,.14);
-  --text:#F6EFE6; --muted:#BCAD9F; --accent:#FF5A1F; --accent-soft:rgba(255,90,31,.16);
-  --gold:#F2B33D; --ok:#7BC47F; --bad:#E5534B; --zap:#25D366;
-  --display:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
+  --bg:#0E1016; --surface:#161B27; --surface-2:#1F2636; --line:rgba(226,232,245,.14);
+  --text:#F3F5FA; --muted:#A7AFC2; --accent:#F5A21B; --accent-soft:rgba(245,162,27,.16); --blue:#2F5BEA; --navy:#0B1B3F; --on-accent:#0E1016;
+  --gold:#FFC857; --ok:#7BC47F; --bad:#E5534B; --zap:#25D366;
+  --display:"Inter","Helvetica Neue",Arial,sans-serif;
   --body:"Inter","Helvetica Neue",Arial,sans-serif;
 }
 html,body{background:var(--bg)}
@@ -36,34 +36,35 @@ html,body{background:var(--bg)}
 .btn{font-family:var(--body);font-size:14px;font-weight:600;background:var(--surface-2);color:var(--text);border:1px solid var(--line);border-radius:999px;padding:8px 16px;cursor:pointer}
 .btn:hover{border-color:var(--accent)}
 .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
 .btn[disabled]{opacity:.5;cursor:default}
-.brand{position:absolute;left:72px;bottom:26px;font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(246,239,230,.55);z-index:2}
+.brand{position:absolute;left:72px;bottom:26px;font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(226,232,245,.55);z-index:2}
 
 /* Fotos de fundo com efeito Ken Burns */
 .bg{position:absolute;inset:0;overflow:hidden;z-index:0}
 .bg img{width:100%;height:100%;object-fit:cover;transform:scale(1.02)}
 .present .bg img{animation:kb 14s ease-out forwards}
 @keyframes kb{from{transform:scale(1.02)}to{transform:scale(1.12) translate(-1.5%,-1%)}}
-.shade-left{position:absolute;inset:0;background:linear-gradient(90deg,rgba(17,13,10,.96) 0%,rgba(17,13,10,.82) 38%,rgba(17,13,10,.15) 75%,rgba(17,13,10,.35) 100%)}
-.shade-full{position:absolute;inset:0;background:rgba(17,13,10,.72)}
-.shade-bottom{position:absolute;inset:0;background:linear-gradient(0deg,rgba(17,13,10,.97) 8%,rgba(17,13,10,.4) 60%,rgba(17,13,10,.2))}
+.shade-left{position:absolute;inset:0;background:linear-gradient(90deg,rgba(14,16,22,.96) 0%,rgba(14,16,22,.82) 38%,rgba(14,16,22,.15) 75%,rgba(14,16,22,.35) 100%)}
+.shade-full{position:absolute;inset:0;background:rgba(14,16,22,.72)}
+.shade-bottom{position:absolute;inset:0;background:linear-gradient(0deg,rgba(14,16,22,.97) 8%,rgba(14,16,22,.4) 60%,rgba(14,16,22,.2))}
 
 /* Capa */
+.logo{width:58px;height:auto;margin-bottom:16px;filter:drop-shadow(0 8px 20px rgba(0,0,0,.5))}
 .cover{justify-content:center}
 .cover h1 span{color:var(--accent)}
-.cover .sub{font-size:26px;color:#E6DAD0;max-width:640px;margin-top:22px}
-.client{margin-top:32px;align-self:flex-start;background:rgba(17,13,10,.62);border:1px solid var(--line);border-radius:20px;padding:16px 28px 16px 18px;backdrop-filter:blur(8px);max-width:680px}
+.cover .sub{font-size:26px;color:#D9DEEA;max-width:640px;margin-top:22px}
+.client{margin-top:32px;align-self:flex-start;background:rgba(14,16,22,.62);border:1px solid var(--line);border-radius:20px;padding:16px 28px 16px 18px;backdrop-filter:blur(8px);max-width:680px}
 .client .ck{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
 .client .crow{display:flex;gap:16px;align-items:center}
-.client .av{flex:none;width:62px;height:62px;border-radius:50%;background:var(--accent);display:grid;place-items:center;font-weight:800;font-family:var(--display);font-size:30px;color:#fff}
+.client .av{flex:none;width:62px;height:62px;border-radius:50%;background:var(--accent);display:grid;place-items:center;font-weight:800;font-family:var(--display);font-size:30px;color:var(--on-accent)}
 .cname{font-family:var(--display);font-weight:800;font-size:46px;line-height:1.05;letter-spacing:-.02em;outline:none;border-bottom:2px dashed transparent;overflow-wrap:anywhere;cursor:text}
 .cname:hover,.cname:focus,.cig span:hover,.cig span:focus{border-bottom-color:var(--accent)}
 .cig{font-size:19px;color:var(--muted);margin-top:4px}
 .cig span{outline:none;border-bottom:1px dashed transparent;cursor:text}
 .chint{font-size:12px;color:var(--muted);margin-top:10px}
-.for{display:inline-flex;gap:12px;align-items:center;margin-top:34px;background:rgba(17,13,10,.6);border:1px solid var(--line);border-radius:999px;padding:10px 20px 10px 10px;backdrop-filter:blur(6px);font-size:17px;align-self:flex-start}
-.for .av{width:38px;height:38px;border-radius:50%;background:var(--accent);display:grid;place-items:center;font-weight:800;font-family:var(--display)}
+.for{display:inline-flex;gap:12px;align-items:center;margin-top:34px;background:rgba(14,16,22,.6);border:1px solid var(--line);border-radius:999px;padding:10px 20px 10px 10px;backdrop-filter:blur(6px);font-size:17px;align-self:flex-start}
+.for .av{width:38px;height:38px;border-radius:50%;background:var(--accent);display:grid;place-items:center;font-weight:800;font-family:var(--display);color:var(--on-accent)}
 .for b{font-weight:700}
 
 /* 5 segundos */
@@ -85,7 +86,7 @@ html,body{background:var(--bg)}
 .notch{position:absolute;top:16px;left:50%;transform:translateX(-50%);width:82px;height:20px;border-radius:12px;background:#000;z-index:3}
 .ig-top{padding:40px 12px 6px;display:flex;gap:10px;align-items:center}
 .ig-av{width:54px;height:54px;border-radius:50%;flex:none;background:#ddd center/cover;border:2px solid #fff;box-shadow:0 0 0 2px #ddd}
-.good .ig-av{box-shadow:0 0 0 2px #FF5A1F}
+.good .ig-av{box-shadow:0 0 0 2px #F5A21B}
 .ig-stats{display:flex;justify-content:space-around;flex:1;text-align:center;font-size:9px}
 .ig-stats b{display:block;font-size:12px}
 .ig-bio{padding:0 12px 8px;font-size:9.5px}
@@ -93,7 +94,7 @@ html,body{background:var(--bg)}
 .ig-bio .lnk{color:#00376B;font-weight:600}
 .ig-cta{margin:0 12px 8px;display:flex;gap:5px}
 .ig-cta span{flex:1;text-align:center;background:#EFEFEF;border-radius:7px;padding:5px 0;font-weight:600;font-size:9.5px}
-.good .ig-cta span:first-child{background:#FF5A1F;color:#fff}
+.good .ig-cta span:first-child{background:#F5A21B;color:var(--on-accent)}
 .ig-hl{display:flex;gap:9px;padding:2px 12px 10px}
 .ig-hl div{text-align:center;font-size:8px;width:42px}
 .ig-hl i{display:block;width:40px;height:40px;border-radius:50%;background:#eee center/cover;border:2px solid #fff;box-shadow:0 0 0 1px #ccc;margin-bottom:3px}
@@ -102,33 +103,33 @@ html,body{background:var(--bg)}
 .bad .ig-grid div{filter:saturate(.35) brightness(.78) contrast(.9)}
 .ig-grid .txt{background:#C9B8A6;color:#5a4a3c;font-family:Georgia,serif;font-weight:400;font-style:italic;font-size:10px;padding:6px}
 .ig-grid .pin::after{content:"📌";position:absolute;top:3px;right:3px;font-size:9px}
-.ig-grid .badge{position:absolute;bottom:5px;left:5px;right:5px;background:#FF5A1F;color:#fff;border-radius:4px;font-size:7.5px;padding:2px 0;letter-spacing:.04em}
+.ig-grid .badge{position:absolute;bottom:5px;left:5px;right:5px;background:#F5A21B;color:var(--on-accent);border-radius:4px;font-size:7.5px;padding:2px 0;letter-spacing:.04em}
 .callouts{display:flex;flex-direction:column;gap:8px;font-size:15px;max-width:262px}
 .callouts div{display:flex;gap:8px;align-items:flex-start}
 .callouts .x{color:var(--bad);font-weight:800} .callouts .v{color:var(--ok);font-weight:800}
 
 /* Análise ao vivo */
 .live{display:grid;grid-template-columns:1fr 420px;gap:28px;flex:1;min-height:0}
-.drop{position:relative;border:2px dashed rgba(246,239,230,.25);border-radius:20px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:rgba(28,22,18,.75);cursor:crosshair}
+.drop{position:relative;border:2px dashed rgba(226,232,245,.25);border-radius:20px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:rgba(28,22,18,.75);cursor:crosshair}
 .drop.over{border-color:var(--accent);background:var(--accent-soft)}
 .drop .empty{text-align:center;color:var(--muted);font-size:18px;pointer-events:none;padding:0 30px}
 .drop .empty b{display:block;color:var(--text);font-family:var(--display);font-size:26px;margin-bottom:6px}
 .drop img.shot{max-width:100%;max-height:100%;object-fit:contain;display:block}
-.drop.scanning::after{content:"";position:absolute;left:0;right:0;height:90px;top:-90px;background:linear-gradient(180deg,transparent,rgba(255,90,31,.35),transparent);animation:scan 1.8s linear infinite;pointer-events:none}
+.drop.scanning::after{content:"";position:absolute;left:0;right:0;height:90px;top:-90px;background:linear-gradient(180deg,transparent,rgba(245,162,27,.35),transparent);animation:scan 1.8s linear infinite;pointer-events:none}
 @keyframes scan{to{top:100%}}
-.pinmark{position:absolute;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:800;font-family:var(--display);box-shadow:0 0 0 4px rgba(255,90,31,.35);animation:pop .35s cubic-bezier(.3,1.6,.5,1);z-index:2}
+.pinmark{position:absolute;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font-weight:800;font-family:var(--display);box-shadow:0 0 0 4px rgba(245,162,27,.35);animation:pop .35s cubic-bezier(.3,1.6,.5,1);z-index:2}
 @keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
 .side{display:flex;flex-direction:column;min-height:0;gap:10px}
 .status{display:flex;gap:10px;align-items:center;font-size:15px;color:var(--muted);min-height:22px}
 .status .dot{width:10px;height:10px;border-radius:50%;background:var(--muted);flex:none}
-.status.busy .dot{background:var(--accent);animation:blink 1s infinite}
+.status.busy .dot{background:var(--accent);animation:blink 1s infinite;color:var(--on-accent)}
 .status.done .dot{background:var(--ok)}
 .status.err .dot{background:var(--bad)}
 @keyframes blink{50%{opacity:.25}}
-.resumo{font-size:14px;line-height:1.38;background:var(--accent-soft);border:1px solid rgba(255,90,31,.4);border-radius:14px;padding:10px 14px}
+.resumo{font-size:14px;line-height:1.38;background:var(--accent-soft);border:1px solid rgba(245,162,27,.4);border-radius:14px;padding:10px 14px}
 .notes-list{display:flex;flex-direction:column;gap:6px;overflow:auto;flex:1;min-height:0;scrollbar-width:thin;scrollbar-color:var(--accent) transparent}
 .notes-list .n{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 10px;font-size:13.5px;line-height:1.32}
-.notes-list .n i{font-style:normal;flex:none;width:24px;height:24px;border-radius:50%;background:var(--accent);display:grid;place-items:center;font-weight:800;font-size:13px}
+.notes-list .n i{font-style:normal;flex:none;width:24px;height:24px;border-radius:50%;background:var(--accent);display:grid;place-items:center;font-weight:800;font-size:13px;color:var(--on-accent)}
 .notes-list .n span{flex:1;outline:none;min-height:20px}
 .notes-list .n span b{color:var(--gold)}
 .notes-list .n span:empty::before{content:attr(data-ph);color:var(--muted)}
@@ -163,19 +164,19 @@ html,body{background:var(--bg)}
 .calc .fat .k,.result .k{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
 .calc .fat .v{font-family:var(--display);font-weight:800;font-size:32px;white-space:nowrap;font-variant-numeric:tabular-nums}
 .calc .goal .fat .v{color:var(--ok)}
-.result{background:linear-gradient(160deg,rgba(255,90,31,.32),rgba(28,22,18,.9) 60%);border:1px solid rgba(255,90,31,.45);border-radius:22px;padding:28px 30px;backdrop-filter:blur(8px);display:flex;flex-direction:column}
+.result{background:linear-gradient(160deg,rgba(245,162,27,.32),rgba(28,22,18,.9) 60%);border:1px solid rgba(245,162,27,.45);border-radius:22px;padding:28px 30px;backdrop-filter:blur(8px);display:flex;flex-direction:column}
 .result .big{font-family:var(--display);font-weight:800;font-size:56px;white-space:nowrap;line-height:1;margin-top:6px;font-variant-numeric:tabular-nums}
 .result .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:auto}
 .result .v{font-family:var(--display);font-weight:800;font-size:26px;white-space:nowrap;font-variant-numeric:tabular-nums}
-.result .note{font-size:14px;color:#E6DAD0;margin-top:14px}
+.result .note{font-size:14px;color:#D9DEEA;margin-top:14px}
 
 /* Plano */
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;flex:1}
-.stepc{border-radius:22px;overflow:hidden;background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column}
+.stepc{position:relative;border-radius:22px;overflow:hidden;background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column}
 .stepc .im{height:230px;position:relative;overflow:hidden}
 .stepc .im img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
 .stepc:hover .im img{transform:scale(1.06)}
-.stepc .num{position:absolute;left:18px;bottom:-26px;width:58px;height:58px;border-radius:50%;background:var(--accent);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:28px;border:5px solid var(--surface)}
+.stepc .num{position:absolute;left:18px;top:201px;z-index:2;width:58px;height:58px;border-radius:50%;background:var(--accent);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:28px;border:5px solid var(--surface);color:var(--on-accent)}
 .stepc .tx{padding:36px 22px 22px}
 .stepc .tx p{color:var(--muted);font-size:17px;margin-top:8px}
 
@@ -192,8 +193,8 @@ html,body{background:var(--bg)}
 .pack .now{font-family:var(--display);font-weight:800;font-size:38px;line-height:1.1}
 .pack .now small{font-size:17px;font-weight:500;color:var(--muted)}
 .pack .fid{font-size:14px;color:var(--muted)}
-.pack.star{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 20px 60px -20px rgba(255,90,31,.6);position:relative}
-.pack.star::after{content:attr(data-badge);position:absolute;top:-13px;left:24px;background:var(--accent);color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;letter-spacing:.04em}
+.pack.star{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 20px 60px -20px rgba(245,162,27,.6);position:relative}
+.pack.star::after{content:attr(data-badge);position:absolute;top:-13px;left:24px;background:var(--accent);color:var(--on-accent);font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;letter-spacing:.04em}
 .pack.chosen{border-color:var(--ok);box-shadow:0 0 0 2px var(--ok),0 20px 60px -20px rgba(123,196,127,.7)}
 
 /* Diagnóstico completo */
@@ -211,28 +212,29 @@ html,body{background:var(--bg)}
 .dcol.today h3 .pill{background:rgba(229,83,75,.18);color:var(--bad)}
 .dcol.could h3 .pill{background:rgba(123,196,127,.18);color:var(--ok)}
 .dcol.tech h3 .pill{background:rgba(242,179,61,.18);color:var(--gold)}
-.dcol ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px;font-size:14px;line-height:1.34}
+.dcol ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:13.5px;line-height:1.32}
 .dcol li{padding-left:16px;position:relative}
 .dcol li::before{content:"";position:absolute;left:0;top:7px;width:7px;height:7px;border-radius:50%}
 .dcol.today li::before{background:var(--bad)} .dcol.could li::before{background:var(--ok)}
 .dcol.tech li{padding-left:0}
 .dcol.tech li::before{display:none}
 .dcol.tech li b{display:block;color:var(--gold);font-size:14.5px}
-.dcol.tech li em{font-style:normal;color:var(--muted);font-size:13px;display:block}
+.dcol.tech li em{font-style:normal;color:var(--muted);font-size:12.5px;display:block}
 .dcol .biob{margin-top:12px;font-size:13.5px;background:var(--surface-2);border-radius:12px;padding:10px 12px}
 .dcol .biob b{color:var(--ok);display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
-.projecao{margin-top:10px;font-size:14px;color:#E6DAD0}
+.projecao{margin-top:10px;font-size:14px;color:#D9DEEA}
 .projecao b{color:var(--ok)}
 
 /* Considerações finais */
 .final .wrap{justify-content:center;max-width:900px;padding-top:40px;padding-bottom:60px}
 .final h1{font-size:60px;line-height:1.02;max-width:760px}
 .final h1 span{color:var(--ok)}
-.phr{display:flex;flex-direction:column;gap:6px;margin-top:20px;font-size:19px;color:#E6DAD0;max-width:640px}
+.phr{display:flex;flex-direction:column;gap:6px;margin-top:20px;font-size:19px;color:#D9DEEA;max-width:640px}
 .phr div{display:flex;gap:12px;align-items:baseline}
 .phr div::before{content:"→";color:var(--accent);font-weight:800}
 .zaprow{display:flex;gap:18px;align-items:center;margin-top:26px}
 .zap{display:inline-flex;align-items:center;gap:12px;background:var(--zap);color:#062b14;font-family:var(--display);font-weight:800;font-size:24px;border-radius:999px;padding:16px 30px 16px 22px;text-decoration:none;box-shadow:0 18px 50px -14px rgba(37,211,102,.75);transition:transform .2s}
+.zap{border:0;cursor:pointer;font-family:var(--display)}
 .zap:hover{transform:translateY(-2px)}
 .zap:focus-visible{outline:3px solid var(--text);outline-offset:3px}
 .zap svg{width:30px;height:30px}
@@ -241,7 +243,7 @@ html,body{background:var(--bg)}
 .num-box{display:flex;flex-direction:column;font-size:14px;color:var(--muted)}
 .num-box b{font-family:var(--display);font-size:26px;color:var(--text);user-select:all;font-variant-numeric:tabular-nums}
 .chips{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
-.chip{background:rgba(17,13,10,.65);border:1px solid var(--line);border-radius:999px;padding:7px 16px;font-size:14px;backdrop-filter:blur(6px)}
+.chip{background:rgba(14,16,22,.65);border:1px solid var(--line);border-radius:999px;padding:7px 16px;font-size:14px;backdrop-filter:blur(6px)}
 .chip b{color:var(--gold)}
 .profit{position:absolute;right:30px;top:60px;width:440px;height:390px;z-index:1;pointer-events:none}
 .profit .line{fill:none;stroke:var(--ok);stroke-width:14;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1400;stroke-dashoffset:1400;filter:drop-shadow(0 0 18px rgba(123,196,127,.7))}
@@ -254,10 +256,80 @@ html,body{background:var(--bg)}
 @keyframes fadein{to{opacity:1}}
 
 [hidden]{display:none!important}
+.conclusao{position:fixed;inset:0;z-index:60;display:grid;place-items:center;overflow:auto;background:var(--bg);color:var(--text);font-family:var(--body);line-height:1.45;padding:28px max(16px,env(safe-area-inset-left,0px)) 28px max(16px,env(safe-area-inset-right,0px))}
+.conclusao .cc-bg{position:fixed;inset:0;overflow:hidden}
+.conclusao .cc-bg img{width:100%;height:100%;object-fit:cover;opacity:.32}
+.conclusao .cc-bg::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(14,16,22,.55),rgba(14,16,22,.96) 75%)}
+.conclusao .cc-in{position:relative;width:min(720px,100%);display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center}
+.conclusao .cc-logo{width:64px;height:auto}
+.conclusao h1{font-family:var(--display);font-weight:800;font-size:clamp(34px,7vw,64px);line-height:1.04;letter-spacing:-.025em;margin:6px 0 4px;text-wrap:balance}
+.conclusao h1 span{color:var(--accent)}
+.conclusao .cc-ok{display:flex;flex-direction:column;align-items:center;gap:14px}
+.conclusao .cc-msg{font-size:clamp(16px,2.2vw,19px);color:#D9DEEA;max-width:600px;margin:0}
+.conclusao .cc-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:560px;text-align:left;margin-top:6px}
+.conclusao .cc-cards div{background:rgba(22,27,39,.9);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.conclusao .cc-cards small{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.conclusao .cc-cards b{display:block;font-family:var(--display);font-weight:800;font-size:30px;line-height:1.1;margin:4px 0}
+.conclusao .cc-cards span{font-size:13px;color:var(--muted)}
+.conclusao .cc-sign{font-weight:700;color:var(--accent);letter-spacing:.02em;margin:8px 0 0}
+.conclusao .cc-load{display:flex;flex-direction:column;align-items:center;gap:14px;font-size:18px;padding:40px 0}
+.conclusao .cc-spin{width:44px;height:44px;border-radius:50%;border:4px solid var(--line);border-top-color:var(--accent);animation:ccgira .9s linear infinite}
+@keyframes ccgira{to{transform:rotate(360deg)}}
+.conclusao .cc-err{display:flex;flex-direction:column;align-items:center;gap:12px;color:var(--bad)}
+.conclusao .cc-back{margin-top:6px;opacity:.75}
+@media (max-width:520px){.conclusao .cc-cards{grid-template-columns:1fr}}
+
+/* ===== Celular em pé: slides verticais 720x1280 ===== */
+.vert .wrap{height:1280px;padding:72px 48px 64px}
+.vert .reveal h1{font-size:84px}
+.vert .reveal h2{font-size:44px}
+.vert .shade-left{background:linear-gradient(0deg,rgba(14,16,22,.97) 30%,rgba(14,16,22,.8) 58%,rgba(14,16,22,.25) 100%)}
+.vert .cover{justify-content:flex-end;padding-bottom:110px}
+.vert .cover .sub{font-size:24px}
+.vert .client{max-width:none;align-self:stretch}
+.vert .split{grid-template-columns:1fr;grid-template-rows:560px 720px;height:1280px}
+.vert .split .photo{order:-1}
+.vert .split .photo::after{background:linear-gradient(0deg,var(--bg),transparent 35%)}
+.vert .split .wrap{height:720px;padding:20px 48px 70px;justify-content:flex-start}
+.vert .giant{font-size:200px}
+.vert .phones{flex-wrap:wrap;gap:24px 36px;align-content:flex-start}
+.vert .phone-col{order:1}
+.vert .callouts{order:2;margin-top:0!important;max-width:300px;font-size:16px}
+.vert .live{grid-template-columns:1fr;grid-template-rows:600px minmax(0,1fr)}
+.vert .nv{grid-template-columns:1fr 1fr;grid-template-rows:auto;align-content:start}
+.vert .nv .gauge{grid-column:1/-1;grid-row:1;flex-direction:row;gap:24px;padding:14px 22px;text-align:left;flex-wrap:wrap;justify-content:center}
+.vert .nv .gauge svg{width:170px;height:170px}
+.vert .nv .item:nth-child(1),.vert .nv .item:nth-child(6){grid-row:2!important}
+.vert .nv .item:nth-child(2),.vert .nv .item:nth-child(7){grid-row:3!important}
+.vert .nv .item:nth-child(3),.vert .nv .item:nth-child(8){grid-row:4!important}
+.vert .nv .item:nth-child(4),.vert .nv .item:nth-child(9){grid-row:5!important}
+.vert .nv .item:nth-child(5),.vert .nv .item:nth-child(10){grid-row:6!important}
+.vert .calc{grid-template-columns:1fr 1fr;grid-template-rows:auto auto;align-content:start}
+.vert .calc .result{grid-column:1/-1}
+.vert .steps{grid-template-columns:1fr;gap:18px}
+.vert .stepc{flex-direction:row}
+.vert .stepc .im{height:auto;width:250px;flex:none;min-height:230px}
+.vert .stepc .num{top:auto;bottom:16px;left:221px}
+.vert .stepc .tx{padding:28px 26px 24px 46px;align-self:center}
+.vert .packs{grid-template-columns:1fr;gap:16px}
+.vert .pack{padding:18px 22px}
+.vert .pack h3{font-size:24px}
+.vert .pack ul{columns:2;column-gap:18px;font-size:14px;margin-top:8px}
+.vert .pack li{break-inside:avoid;padding:4px 0}
+.vert .pack .was{padding-top:8px}
+.vert .pack .now{font-size:32px}
+.vert .dhead{flex-direction:column;align-items:flex-start}
+.vert .dkpis{grid-template-columns:1fr 1fr}
+.vert .dcols{grid-template-columns:1fr;overflow:auto}
+.vert .dcol{overflow:visible}
+.vert .final .wrap{max-width:none;justify-content:flex-end;padding-bottom:90px}
+.vert .final h1{font-size:62px}
+.vert .profit{top:60px;right:40px;width:420px;height:380px}
+.vert .zaprow{flex-wrap:wrap}
 .lead-row{display:flex;gap:8px;margin-top:12px}
 .lead-row input{flex:1;min-width:0;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:10px;color:var(--text);font:500 14px var(--body);padding:8px 11px;outline:0}
 .lead-row input:focus{border-color:var(--accent)}
-.lead-modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.62);display:grid;place-items:center;padding:16px;font-family:var(--body);color:var(--text)}
+.lead-modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.62);display:grid;place-items:center;padding:16px;font-family:var(--body);color:var(--text);line-height:1.45}
 .lead-modal form{width:min(440px,100%);background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:12px;box-shadow:0 30px 80px -20px rgba(0,0,0,.8)}
 .lead-modal h3{font-family:var(--display);font-size:24px;margin:0;line-height:1.1}
 .lead-modal p{margin:0;color:var(--muted);font-size:14px}
@@ -267,6 +339,15 @@ html,body{background:var(--bg)}
 .lead-modal .lm-acts{display:flex;gap:8px;justify-content:flex-end;margin-top:4px;flex-wrap:wrap}
 .lead-modal .lm-status{font-size:14px;min-height:20px}
 .lead-modal .lm-status.err{color:var(--bad)} .lead-modal .lm-status.ok{color:var(--ok)}
+.lead-modal .lm-done{width:min(480px,100%);background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:26px;display:flex;flex-direction:column;gap:12px;box-shadow:0 30px 80px -20px rgba(0,0,0,.8);text-align:center}
+.lead-modal .lm-check{width:54px;height:54px;border-radius:50%;background:var(--ok);color:#062b14;font-size:28px;font-weight:800;display:grid;place-items:center;margin:0 auto}
+.lead-modal .lm-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:left}
+.lead-modal .lm-cards div{background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:12px}
+.lead-modal .lm-cards small{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.lead-modal .lm-cards b{display:block;font-family:var(--display);font-size:26px;line-height:1.1;margin:3px 0}
+.lead-modal .lm-cards span{font-size:12px;color:var(--muted)}
+.lead-modal .lm-cta-tx{color:var(--text);font-weight:600;margin-top:4px}
+.lead-modal .lm-done .lm-acts{justify-content:center}
 .lead-modal .lm-wa{display:block;text-align:center;background:var(--zap);color:#062b14;font-weight:800;border-radius:999px;padding:12px;text-decoration:none}
 .niche{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted)}
 .niche input{flex:1;min-width:0;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;color:var(--text);font:600 14px var(--body);padding:7px 10px;outline:0}
@@ -285,9 +366,10 @@ html,body{background:var(--bg)}
 <section>
   <div class="bg"><img src="/food/img/burger2.jpg" alt=""></div><div class="shade-left"></div>
   <div class="wrap cover">
-    <div class="eyebrow" data-fill="agencia">MMATTOS Assessoria de MKT</div>
+    <img class="logo" src="/assets/logo.png" alt="M.Mattos">
+    <div class="eyebrow" data-fill="agencia">M.Mattos · Assessoria de marketing 360</div>
     <h1>Diagnóstico<br>Feed <span>Vitrine</span></h1>
-    <p class="sub">Como um cliente com fome enxerga o seu Instagram nos primeiros 5 segundos.</p>
+    <p class="sub">Antes de criar, a gente diagnostica. É assim que o cliente com fome enxerga o seu Instagram nos primeiros 5 segundos.</p>
     <div class="client">
       <div class="ck">Restaurante avaliado</div>
       <div class="crow"><span class="av" data-fill="inicial">S</span>
@@ -315,7 +397,7 @@ html,body{background:var(--bg)}
     </div>
     <div class="photo"><img src="/food/img/mesa.jpg" alt=""></div>
   </div>
-  <div class="brand" data-fill="agencia">MMATTOS Assessoria de MKT</div>
+  <div class="brand" data-fill="agencia">M.Mattos · Assessoria de marketing 360</div>
   <aside class="notes">DESCOBERTA (7 min): aproveite este slide para fazer as perguntas. De onde vêm os pedidos? Quantos por dia? Ticket médio? Quem cuida do Instagram? O Instagram traz pedidos, como você sabe? Qual o prato de que mais se orgulha? Anote os números para a calculadora.</aside>
 </section>
 
@@ -398,14 +480,14 @@ html,body{background:var(--bg)}
 
 <!-- 5. NOTA VITRINE -->
 <section>
-  <div class="bg"><img src="/food/img/salao.jpg" alt=""></div><div class="shade-full" style="background:rgba(17,13,10,.9)"></div>
+  <div class="bg"><img src="/food/img/salao.jpg" alt=""></div><div class="shade-full" style="background:rgba(14,16,22,.9)"></div>
   <div class="wrap">
     <div class="eyebrow">Nota Vitrine</div>
     <h2 style="margin-bottom:12px">Como está a sua vitrine hoje</h2>
     <div class="nv" data-nv>
       <div class="gauge">
         <div class="src" data-nv-src>Preenchida pela análise do print</div>
-        <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(246,239,230,.1)" stroke-width="10"/><circle data-ring cx="60" cy="60" r="50" fill="none" stroke="var(--accent)" stroke-width="10" stroke-linecap="round" stroke-dasharray="314.16" stroke-dashoffset="314.16" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset .9s,stroke .6s"/><text data-total x="60" y="62" text-anchor="middle" dominant-baseline="middle" fill="var(--text)" style="font-family:var(--display);font-weight:800;font-size:34px">0</text><text x="60" y="86" text-anchor="middle" fill="var(--muted)" style="font-size:9px">de 100</text></svg>
+        <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(226,232,245,.1)" stroke-width="10"/><circle data-ring cx="60" cy="60" r="50" fill="none" stroke="var(--accent)" stroke-width="10" stroke-linecap="round" stroke-dasharray="314.16" stroke-dashoffset="314.16" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset .9s,stroke .6s"/><text data-total x="60" y="62" text-anchor="middle" dominant-baseline="middle" fill="var(--text)" style="font-family:var(--display);font-weight:800;font-size:34px">0</text><text x="60" y="86" text-anchor="middle" fill="var(--muted)" style="font-size:9px">de 100</text></svg>
         <div class="verdict" data-verdict>Cole o print na análise para gerar a nota</div>
         <button class="btn no-print" data-nv-reset>Zerar</button>
       </div>
@@ -416,7 +498,7 @@ html,body{background:var(--bg)}
 
 <!-- 6. DINHEIRO NA MESA -->
 <section>
-  <div class="bg"><img src="/food/img/pizza.jpg" alt=""></div><div class="shade-full" style="background:rgba(17,13,10,.82)"></div>
+  <div class="bg"><img src="/food/img/pizza.jpg" alt=""></div><div class="shade-full" style="background:rgba(14,16,22,.82)"></div>
   <div class="wrap">
     <div class="eyebrow">Dinheiro na mesa</div>
     <h2 style="margin-bottom:20px">Quanto um perfil que converte vale para você</h2>
@@ -456,24 +538,24 @@ html,body{background:var(--bg)}
 <!-- 7. PLANO -->
 <section>
   <div class="wrap">
-    <div class="eyebrow">O plano</div>
-    <h2>Três passos para o seu Instagram vender</h2>
+    <div class="eyebrow">Método Xeque-Mate</div>
+    <h2>Três movimentos para o seu Instagram vender</h2>
     <div class="steps">
-      <div class="stepc fragment fade-up"><div class="im"><img src="/food/img/burger.jpg" alt=""><div class="num">1</div></div><div class="tx"><h3>Arrumar a vitrine</h3><p>Bio, link de pedido, destaques e posts fixados que vendem.</p></div></div>
-      <div class="stepc fragment fade-up"><div class="im"><img src="/food/img/sushi.jpg" alt=""><div class="num">2</div></div><div class="tx"><h3>Cardápio que vende</h3><p>iFood organizado com nomes, descrições, combos e fotos que dão fome.</p></div></div>
-      <div class="stepc fragment fade-up"><div class="im"><img src="/food/img/chef2.jpg" alt=""><div class="num">3</div></div><div class="tx"><h3>Constância e alcance</h3><p>Conteúdo toda semana e anúncios para quem está perto de você.</p></div></div>
+      <div class="stepc fragment fade-up"><div class="im"><img src="/food/img/burger.jpg" alt=""></div><div class="num">1</div><div class="tx"><h3>Arrumar a vitrine</h3><p>Bio, link de pedido, destaques e posts fixados que vendem.</p></div></div>
+      <div class="stepc fragment fade-up"><div class="im"><img src="/food/img/sushi.jpg" alt=""></div><div class="num">2</div><div class="tx"><h3>Cardápio que vende</h3><p>iFood organizado com nomes, descrições, combos e fotos que dão fome.</p></div></div>
+      <div class="stepc fragment fade-up"><div class="im"><img src="/food/img/chef2.jpg" alt=""></div><div class="num">3</div><div class="tx"><h3>Constância e alcance</h3><p>Conteúdo toda semana e anúncios para quem está perto de você.</p></div></div>
     </div>
   </div>
-  <div class="brand" data-fill="agencia">MMATTOS Assessoria de MKT</div>
+  <div class="brand" data-fill="agencia">M.Mattos · Assessoria de marketing 360</div>
   <aside class="notes">PLANO (5 min): mostre o caminho sem detalhar o "como".</aside>
 </section>
 
 <!-- 8. PACOTES -->
 <section>
-  <div class="bg"><img src="/food/img/hero.jpg" alt=""></div><div class="shade-full" style="background:rgba(17,13,10,.86)"></div>
+  <div class="bg"><img src="/food/img/hero.jpg" alt=""></div><div class="shade-full" style="background:rgba(14,16,22,.86)"></div>
   <div class="wrap">
-    <div class="eyebrow">Como posso te ajudar</div>
-    <h2>Qual faz mais sentido para o seu momento?</h2>
+    <div class="eyebrow">Sua jogada</div>
+    <h2>Qual movimento faz sentido agora?</h2>
     <div class="packs" data-packs></div>
   </div>
   <aside class="notes">FECHAMENTO: comece pelo Domínio para ancorar. "A maioria dos restaurantes do seu tamanho começa pelo Crescimento. Se fechar até [data], o diagnóstico é abatido e o setup do rastreamento sai grátis." Pergunte QUAL, nunca SE. Fique em silêncio. Clique no pacote escolhido.</aside>
@@ -486,8 +568,6 @@ html,body{background:var(--bg)}
       <div><div class="eyebrow" style="margin-bottom:8px">Diagnóstico completo</div><h2 data-d="titulo">O retrato de <span class="accent" data-fill="ig">@seurestaurante</span></h2></div>
       <div class="tools no-print" style="align-items:center">
         <span class="status" data-dstatus style="font-size:13px"><span class="dot"></span><span data-dstatus-tx>Com os dados preenchidos</span></span>
-        <button class="btn" data-pdf>Baixar PDF</button>
-        <button class="btn primary" data-dgen>Gerar diagnóstico com IA</button>
       </div>
     </div>
     <div class="dkpis">
@@ -515,24 +595,23 @@ html,body{background:var(--bg)}
     <text class="cash" x="410" y="250" font-size="40">+</text>
   </svg>
   <div class="wrap">
-    <div class="eyebrow">Considerações finais</div>
+    <div class="eyebrow">Xeque-mate</div>
     <h1>Enquanto você está pensando, seu concorrente está <span>vendendo</span>.</h1>
     <div class="phr">
-      <div>Cada dia com o perfil parado é pedido indo para o vizinho.</div>
-      <div>Cliente com fome não espera: pede de quem aparece primeiro.</div>
-      <div>Vitrine arrumada hoje é faturamento no próximo mês.</div>
+      <div>Seu concorrente já mexeu a peça. Agora é a sua vez.</div>
+      <div>Não jogamos para empatar: jogamos para casa cheia.</div>
+      <div>Faça sua marca, conquiste resultados.</div>
     </div>
     <div class="zaprow">
-      <a class="zap" data-zap href="https://wa.me/5521967640607" target="_blank" rel="noopener">
-        <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 7L3 29l6.4-2c2 1.1 4.3 1.7 6.6 1.7 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.4c-2.1 0-4.2-.6-6-1.7l-.4-.3-3.8 1.2 1.2-3.7-.3-.4a10.4 10.4 0 0 1-1.7-5.7C5 10 9.9 5.3 16 5.3S27 10 27 15.8s-4.9 10.6-11 10.6zm6-7.9c-.3-.2-2-1-2.3-1.1-.3-.1-.5-.2-.8.2-.2.3-.9 1.1-1 1.3-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.7-1.6-1-.9-1.7-2-1.9-2.3-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.3.3-.6.1-.2 0-.4 0-.6l-1-2.5c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.2 1.4 3.5c.2.2 2.4 3.6 5.8 5 2.9 1.1 3.4.9 4.1.8.6-.1 2-.8 2.3-1.6.3-.8.3-1.5.2-1.6-.1-.2-.3-.3-.7-.4z"/></svg>
-        Falar no WhatsApp
-      </a>
+      <button class="zap" type="button" data-concluir>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>
+        Concluir diagnóstico
+      </button>
       <div class="num-box">Ou chame direto<b data-fill="telefone">(21) 96764-0607</b><button class="btn no-print" data-copy style="margin-top:6px;align-self:flex-start;padding:5px 12px;font-size:12px">Copiar número</button></div>
     </div>
     <div class="chips">
       <div class="chip">Condição especial até <b data-fill="data">[data]</b></div>
       <div class="chip">Diagnóstico abatido + setup de rastreamento grátis</div>
-      <button class="btn no-print" data-pdf>Baixar diagnóstico em PDF</button>
     </div>
   </div>
   <aside class="notes">ENCERRAMENTO: leia a frase principal devagar e fique em silêncio. Se ele não fechar na hora, mostre o botão do WhatsApp e combine o próximo contato.</aside>
@@ -542,15 +621,46 @@ html,body{background:var(--bg)}
 
 <div class="lead-modal" data-lead-modal hidden role="dialog" aria-modal="true" aria-labelledby="lm-titulo">
   <form novalidate>
-    <h3 id="lm-titulo">Para quem enviamos o diagnóstico?</h3>
-    <p>O PDF completo vai para o WhatsApp da MMATTOS e a gente te manda em seguida.</p>
+    <h3 id="lm-titulo">Último movimento</h3>
+    <p>Confirme seus dados. Um estrategista da M.Mattos te chama no WhatsApp com a jogada certa para o seu perfil vender mais.</p>
     <label for="lm-nome">Seu nome<input id="lm-nome" data-lm="nome" autocomplete="name" required></label>
     <label for="lm-tel">Seu WhatsApp com DDD<input id="lm-tel" data-lm="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="(21) 99999-9999" required></label>
     <label for="lm-empresa">Empresa<input id="lm-empresa" data-lm="empresa" autocomplete="organization"></label>
     <div class="lm-status" data-lm-status aria-live="polite"></div>
-    <a class="lm-wa" data-lm-wa href="#" target="_blank" rel="noopener" hidden>Abrir o WhatsApp e enviar</a>
-    <div class="lm-acts"><button type="button" class="btn" data-lm-cancel>Voltar</button><button type="submit" class="btn primary" data-lm-send>Enviar diagnóstico</button></div>
+    <div class="lm-acts"><button type="button" class="btn" data-lm-cancel>Voltar</button><button type="submit" class="btn primary" data-lm-send>Concluir diagnóstico</button></div>
   </form>
+  <div class="lm-done" data-lm-done hidden>
+    <div class="lm-check" aria-hidden="true">✓</div>
+    <h3 data-lm-done-tit>Recebemos o seu diagnóstico!</h3>
+    <p data-lm-done-msg></p>
+    <div class="lm-cards">
+      <div><small>Nota Vitrine</small><b data-lm-done-nota>0/100</b><span data-lm-done-verd></span></div>
+      <div><small>Condição especial até</small><b data-lm-done-data></b><span>Diagnóstico abatido + setup de rastreamento grátis</span></div>
+    </div>
+    <p class="lm-cta-tx">Não quer esperar? Bora garantir a sua condição especial agora.</p>
+    <a class="lm-wa" data-lm-wa href="#" target="_blank" rel="noopener">Quero garantir minha condição especial</a>
+    <div class="lm-acts"><button type="button" class="btn" data-lm-close>Fechar</button></div>
+  </div>
+</div>
+
+<div class="conclusao" data-conclusao hidden role="dialog" aria-modal="true" aria-labelledby="cc-tit">
+  <div class="cc-bg"><img src="/food/img/salao2.jpg" alt=""></div>
+  <div class="cc-in">
+    <img class="cc-logo" src="/assets/logo.png" alt="M.Mattos">
+    <div class="cc-load" data-cc-load><span class="cc-spin" aria-hidden="true"></span><p data-cc-load-tx aria-live="polite">Concluindo o seu diagnóstico…</p></div>
+    <div class="cc-ok" data-cc-ok hidden>
+      <div class="eyebrow">Diagnóstico concluído</div>
+      <h1 id="cc-tit">Parabéns, <span data-cc-empresa></span>!</h1>
+      <p class="cc-msg" data-cc-msg></p>
+      <div class="cc-cards">
+        <div><small>Nota Vitrine</small><b data-cc-nota>0/100</b><span data-cc-verd></span></div>
+        <div><small>Condição especial até</small><b data-cc-data></b><span>Diagnóstico abatido + setup de rastreamento grátis</span></div>
+      </div>
+      <p class="cc-sign">Faça sua marca, conquiste resultados.</p>
+    </div>
+    <div class="cc-err" data-cc-err hidden><p>Não conseguimos concluir agora. Confira a internet e tente de novo.</p><button type="button" class="btn primary" data-cc-retry>Tentar de novo</button></div>
+    <button type="button" class="btn cc-back no-print" data-cc-back>Voltar à apresentação</button>
+  </div>
 </div>
 
 <script src="/vendor/reveal/reveal.js"></script>
@@ -562,7 +672,7 @@ html,body{background:var(--bg)}
 // ?restaurante=Burger%20do%20Zé&ig=burgerdoze&data=30/11&destaque=dominio
 // Para ver suas falas no modo apresentador (tecla S), acrescente &apresentador=1
 const CONFIG = {
-  agencia: "MMATTOS Assessoria de MKT",
+  agencia: "M.Mattos · Assessoria de marketing 360",
   telefone: "(21) 96764-0607",
   whatsapp: "5521967640607",
   restaurante: "Seu Restaurante",
@@ -595,7 +705,7 @@ function fillAll() {
   const hint = document.querySelector("[data-chint]");
   if (hint) hint.hidden = CONFIG.restaurante !== DEF_NOME;
   const zap = document.querySelector("[data-zap]");
-  if (zap) zap.href = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(`Olá! Vi o Diagnóstico Feed Vitrine${CONFIG.restaurante !== DEF_NOME ? " do " + CONFIG.restaurante : ""} e quero saber mais.`)}`;
+  if (zap) zap.href = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(`Fala! Vi o Diagnóstico Feed Vitrine${CONFIG.restaurante !== DEF_NOME ? " do " + CONFIG.restaurante : ""} e quero saber mais.`)}`;
 }
 fillAll();
 document.querySelectorAll("[data-edit]").forEach(el => {
@@ -707,7 +817,7 @@ document.querySelectorAll("[data-packs]").forEach(box => {
     box.querySelectorAll(".pack").forEach(c => c.classList.toggle("chosen", c === card));
     const r = card.getBoundingClientRect();
     if (window.confetti) confetti({ particleCount: 160, spread: 85, origin: { x: (r.left + r.width / 2) / innerWidth, y: r.top / innerHeight },
-      colors: ["#FF5A1F", "#F2B33D", "#F6EFE6", "#7BC47F"] });
+      colors: ["#F5A21B", "#F2B33D", "#F6EFE6", "#7BC47F"] });
   });
 });
 
@@ -824,7 +934,7 @@ Se um item não aparece no print, dê nota baixa e diga isso no texto.
 
 "pontos": de 4 a 6 problemas que mais custam pedidos. x e y são a posição aproximada do problema na imagem, em porcentagem (0,0 é o canto superior esquerdo; 100,100 o inferior direito).
 "fortes": até 3. "tecnicas": de 4 a 5 técnicas de crescimento de faturamento específicas para este perfil.
-Português do Brasil, frases curtas e diretas, sem jargão.`;
+Escreva no tom da marca M.Mattos: estrategista, direto, confiante e próximo, frases curtas, verbos de ação e linguagem de jogo (jogada, movimento, resultado, casa cheia, agenda lotada). Sem promessa milagrosa e sem jargão como engajamento orgânico, sinergia ou viralizar. Português do Brasil, frases curtas e diretas, sem jargão.`;
 
 const LIVE = (() => {
   const drop = document.querySelector("[data-drop]"), list = document.querySelector("[data-notes]");
@@ -877,7 +987,7 @@ const LIVE = (() => {
     try {
       const a = await sample.json(PROMPT_ANALISE(), { images: [STATE.file], signal: ctl.signal });
       if (!a || typeof a !== "object") throw { code: "invalid_json" };
-      STATE.analise = a;
+      STATE.analise = a; STATE.diag = null;
       clear();
       resumo.hidden = !a.resumo; resumo.textContent = a.resumo || "";
       const img = drop.querySelector("img.shot");
@@ -997,11 +1107,11 @@ function renderDiag() {
   if (d?.titulo) q("titulo").textContent = d.titulo;
 }
 
-(() => {
-  const btn = document.querySelector("[data-dgen]"), st = document.querySelector("[data-dstatus]"), stx = document.querySelector("[data-dstatus-tx]");
+const DIAG = (() => {
+  let rodando = null;
+  const st = document.querySelector("[data-dstatus]"), stx = document.querySelector("[data-dstatus-tx]");
   const set = (cls, tx) => { st.className = "status " + cls; stx.textContent = tx; };
-  sampleP.then(s => { if (!s) btn.hidden = true; });
-  btn.addEventListener("click", async () => {
+  const gerar = () => rodando || (rodando = (async () => {
     const sample = await sampleP;
     if (!sample) return;
     const v = CALC.values(), a = STATE.analise;
@@ -1016,7 +1126,7 @@ function renderDiag() {
       diferenca_mes: Math.round(v.gap), crescimento_pct: Math.round(v.pct),
       plano_recomendado: destaque.nome
     };
-    btn.disabled = true; set("busy", "Montando o diagnóstico…");
+    set("busy", "Montando o diagnóstico com IA…");
     try {
       const d = await sample.json(`Você é consultor de marketing de restaurantes e delivery no Brasil. Com os dados abaixo, escreva o diagnóstico final do Instagram deste restaurante para mostrar ao dono numa reunião de venda.
 
@@ -1030,16 +1140,17 @@ Responda SOMENTE com JSON:
 "bio":"bio sugerida pronta, até 150 caracteres",
 "tecnicas":[{"nome":"técnica","acao":"o que fazer, 1 frase","efeito":"efeito no faturamento: mais pedidos, ticket maior ou recompra"}],
 "projecao":"1 frase ligando as técnicas à meta de faturamento, usando os números em reais"}
-Exatamente 5 técnicas para crescer o faturamento (ex.: bio e link de pedido, destaques, fixados, conteúdo que dá fome, prova social, combos e ancoragem de preço, tráfego no raio de entrega, remarketing, CRM e recompra pelo WhatsApp). Use os números informados. Português do Brasil, direto, sem jargão.`, { cache: false });
+Exatamente 5 técnicas para crescer o faturamento (ex.: bio e link de pedido, destaques, fixados, conteúdo que dá fome, prova social, combos e ancoragem de preço, tráfego no raio de entrega, remarketing, CRM e recompra pelo WhatsApp). Use os números informados. Escreva no tom da marca M.Mattos: estrategista, direto, confiante e próximo, frases curtas, verbos de ação e linguagem de jogo (jogada, movimento, resultado, casa cheia, agenda lotada). Sem promessa milagrosa e sem jargão como engajamento orgânico, sinergia ou viralizar. Português do Brasil, direto, sem jargão.`, { cache: false });
       if (!d || typeof d !== "object") throw { code: "invalid_json" };
       STATE.diag = d;
       renderDiag();
       set("done", "Diagnóstico gerado");
-      btn.textContent = "Gerar de novo";
     } catch (e) {
       set("err", e?.code === "rate_limited" ? "Muitas chamadas. Tente em instantes." : e?.code === "not_granted" ? "Uso da IA não autorizado." : e?.code === "need_code" || e?.code === "bad_code" ? "Digite o código de acesso no slide da análise." : e?.code === "no_key" ? "A chave da IA ainda não foi configurada no site." : "Não deu certo agora. Tente de novo.");
-    } finally { btn.disabled = false; }
-  });
+    } finally { rodando = null; }
+  })());
+  const auto = e => { if (e.currentSlide.contains(st) && STATE.analise && !STATE.diag) gerar(); };
+  return { gerar, auto };
 })();
 
 // ===== PDF do diagnóstico para entregar ao cliente =====
@@ -1067,12 +1178,12 @@ const PDF = (() => {
     c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
     const g = c.getContext("2d");
     g.drawImage(img, 0, 0, c.width, c.height);
-    const r = Math.max(14, Math.round(c.width * 0.028)), accent = css("--accent") || "#FF5A1F";
+    const r = Math.max(14, Math.round(c.width * 0.028)), accent = css("--accent") || "#F5A21B";
     (STATE.pins || []).forEach(p => {
       const x = p.x * c.width, y = p.y * c.height;
       g.beginPath(); g.arc(x, y, r + 5, 0, Math.PI * 2); g.fillStyle = "rgba(255,255,255,.75)"; g.fill();
       g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.fillStyle = accent; g.fill();
-      g.fillStyle = "#fff"; g.font = `800 ${Math.round(r * 1.1)}px Inter, Arial, sans-serif`;
+      g.fillStyle = "#0E1016"; g.font = `800 ${Math.round(r * 1.1)}px Inter, Arial, sans-serif`;
       g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(String(p.n), x, y + 1);
     });
     return c.toDataURL("image/jpeg", 0.88);
@@ -1080,7 +1191,7 @@ const PDF = (() => {
 
   const build = () => {
     renderDiag();
-    const A = css("--accent") || "#FF5A1F", D = css("--bg") || "#111";
+    const A = css("--accent") || "#F5A21B", D = css("--bg") || "#111";
     const v = CALC.values(), nota = NV.sum(), sc = NV.scores(), [vc, va, vb] = NV.verdictFor(nota);
     const vcol = { ok: "#2E9E5B", gold: "#C98A12", bad: "#D2423A" }[vc];
     const nome = CONFIG[DECK.key], data = hojeTxt();
@@ -1140,7 +1251,7 @@ const PDF = (() => {
       ${proj ? `<p class="rp-proj">${esc2(proj)}</p>` : ""}`));
 
     sections.push(`<section class="rp-end" style="background:${D}">
-      <div class="rp-ag" style="color:${A}">Próximo passo</div>
+      <div class="rp-ag" style="color:${A}">Próximo movimento</div>
       <h2>Enquanto você está pensando, seu concorrente está vendendo.</h2>
       <div class="rp-cond">
         <div><small>${escolhido ? "Plano escolhido" : "Plano recomendado"}</small><b>${esc2(packNome)}</b><span>${esc2(packPreco)}</span></div>
@@ -1154,22 +1265,22 @@ const PDF = (() => {
     box.innerHTML = `<style>
       .rp{position:fixed;left:-12000px;top:0;width:794px;background:#fff;color:#1A1C22;font-family:Inter,Arial,sans-serif;font-size:13px;line-height:1.45}
       .rp section{width:794px;box-sizing:border-box;padding:22px 46px;background:#fff}
-      .rp h1,.rp h2,.rp h3{font-family:"Bricolage Grotesque",Arial,sans-serif;margin:0;letter-spacing:-.01em}
+      .rp h1,.rp h2,.rp h3{font-family:"Inter",Arial,sans-serif;margin:0;letter-spacing:-.01em}
       .rp .rp-head{background:${D};color:#fff;padding:40px 46px 34px}
       .rp .rp-ag{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:${A};margin-bottom:10px}
       .rp .rp-head h1{font-size:34px;font-weight:800;margin-bottom:12px}
       .rp .rp-for{font-size:16px}.rp .rp-for b{color:${A}}
       .rp .rp-date{font-size:12px;opacity:.7;margin-top:6px}
-      .rp .rp-sec h2{font-size:19px;font-weight:800;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #EDEEF2}
+      .rp .rp-sec h2{color:#0B1B3F;font-size:19px;font-weight:800;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #EDEEF2}
       .rp .rp-mut{color:#6B7080;margin:0}
       .rp ul,.rp ol{margin:0;padding-left:18px}.rp li{margin:0 0 6px}
       .rp .rp-ana{display:flex;gap:20px;align-items:flex-start}
       .rp .rp-shot{width:260px;border-radius:10px;border:1px solid #E3E5EA;flex:none}
       .rp .rp-anatx{flex:1;min-width:0}
-      .rp .rp-box{background:#FFF4EE;border:1px solid #FFD9C7;border-radius:10px;padding:10px 12px;margin:0 0 12px}
+      .rp .rp-box{background:#FFF6E5;border:1px solid #FBD99A;border-radius:10px;padding:10px 12px;margin:0 0 12px}
       .rp .rp-nota{display:flex;gap:18px;align-items:center;margin-bottom:14px}
       .rp .rp-score{width:96px;height:96px;border-radius:50%;border:7px solid;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center;flex:none}
-      .rp .rp-score b{font-family:"Bricolage Grotesque",Arial;font-size:32px;line-height:1}.rp .rp-score small{font-size:10px;color:#6B7080}
+      .rp .rp-score b{font-family:"Inter",Arial;font-size:32px;line-height:1}.rp .rp-score small{font-size:10px;color:#6B7080}
       .rp .rp-verd{font-size:16px;margin:0 0 4px}
       .rp .rp-items{display:grid;grid-template-columns:1fr 1fr;gap:8px 28px}
       .rp .rp-it{display:grid;grid-template-columns:130px 1fr 22px;align-items:center;gap:8px}
@@ -1181,13 +1292,13 @@ const PDF = (() => {
       .rp .rp-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
       .rp .rp-kpis div{background:#F6F7F9;border-radius:10px;padding:10px 12px}
       .rp .rp-kpis small,.rp .rp-cond small,.rp .rp-bio small{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#6B7080}
-      .rp .rp-kpis b{font-family:"Bricolage Grotesque",Arial;font-size:22px}
-      .rp .rp-lead{font-family:"Bricolage Grotesque",Arial;font-size:17px;font-weight:700;margin:0 0 10px}
+      .rp .rp-kpis b{font-family:"Inter",Arial;font-size:22px}
+      .rp .rp-lead{font-family:"Inter",Arial;font-size:17px;font-weight:700;margin:0 0 10px}
       .rp .rp-cols{display:grid;grid-template-columns:1fr 1fr;gap:22px}.rp .rp-cols h3{font-size:14px;margin-bottom:8px}
       .rp .rp-bio{margin-top:12px;background:#EFF8F2;border-radius:10px;padding:10px 12px}
       .rp .rp-tec{display:flex;flex-direction:column;gap:10px}
       .rp .rp-tec div{display:flex;gap:12px;align-items:flex-start}
-      .rp .rp-tec span{flex:none;width:24px;height:24px;border-radius:50%;color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:12px}
+      .rp .rp-tec span{flex:none;width:24px;height:24px;border-radius:50%;color:#0E1016;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:12px}
       .rp .rp-tec p{margin:0}.rp .rp-tec b{display:block}.rp .rp-tec em{display:block;font-style:normal;color:#6B7080;font-size:12px}
       .rp .rp-proj{margin:14px 0 0;font-weight:600}
       .rp .rp-end{color:#fff;padding:32px 46px;margin-top:10px}
@@ -1212,7 +1323,7 @@ const PDF = (() => {
       let y = 0, page = 1;
       const footer = () => {
         doc.setFontSize(8); doc.setTextColor(120);
-        doc.text(`${CONFIG.agencia} · WhatsApp ${CONFIG.telefone}`, 12, H - 5);
+        doc.text(`${CONFIG.agencia} · Faça sua marca, conquiste resultados. · WhatsApp ${CONFIG.telefone}`, 12, H - 5);
         doc.text(String(page), W - 12, H - 5, { align: "right" });
       };
       for (const el of built.box.querySelectorAll(":scope > section")) {
@@ -1240,82 +1351,97 @@ const PDF = (() => {
     } finally { built?.box.remove(); }
   };
 
-  // Dentro do Claude: baixa o PDF. No site: abre o formulário e envia para o WhatsApp da agência.
-  const baixar = async btn => {
-    const old = btn.textContent;
-    btn.disabled = true; btn.textContent = "Gerando PDF…";
-    try {
-      const { blob, filename } = await makePdf();
-      const dl = await window.claude.use("downloads").catch(() => null);
-      if (!dl) throw { code: "unavailable" };
-      await dl.save({ filename, data: blob });
-      btn.textContent = "PDF pronto";
-    } catch (e) {
-      console.error(e);
-      btn.textContent = e?.code === "declined" ? "Download cancelado" : "Não deu certo. Tente de novo";
-    } finally { btn.disabled = false; setTimeout(() => btn.textContent = old, 2500); }
-  };
-
   const modal = document.querySelector("[data-lead-modal]");
   const mf = k => modal.querySelector(`[data-lm="${k}"]`);
   const mStatus = modal.querySelector("[data-lm-status]"), mSend = modal.querySelector("[data-lm-send]"), mForm = modal.querySelector("form");
-  const mWa = modal.querySelector("[data-lm-wa]");
   const abrir = () => {
     mf("nome").value = LEAD.nome || ""; mf("tel").value = LEAD.tel ? fmtTel(LEAD.tel) : "";
     mf("empresa").value = CONFIG[DECK.key] === DEF_NOME ? "" : CONFIG[DECK.key];
-    mStatus.textContent = ""; mStatus.className = "lm-status"; mSend.disabled = false; mSend.textContent = "Enviar diagnóstico";
-    mWa.hidden = true;
+    mStatus.textContent = ""; mStatus.className = "lm-status"; mSend.disabled = false; mSend.textContent = "Concluir diagnóstico";
+    mForm.hidden = false; modal.querySelector("[data-lm-done]").hidden = true;
     modal.hidden = false;
-    setTimeout(() => (LEAD.nome ? mf("tel") : mf("nome")).focus(), 50);
+    setTimeout(() => (!mf("nome").value ? mf("nome") : !mf("tel").value ? mf("tel") : mf("empresa")).focus(), 50);
   };
   const fechar = () => { modal.hidden = true; };
   modal.querySelector("[data-lm-cancel]").addEventListener("click", fechar);
   modal.addEventListener("keydown", e => { e.stopPropagation(); if (e.key === "Escape") fechar(); });
   const blobB64 = blob => new Promise((ok, bad) => { const r = new FileReader(); r.onload = () => ok(String(r.result).split(",")[1]); r.onerror = bad; r.readAsDataURL(blob); });
-  mForm.addEventListener("submit", async e => {
+
+  // Página de conclusão
+  const cc = document.querySelector("[data-conclusao]");
+  const q = s => cc.querySelector(s);
+  const fase = (nome, tx) => {
+    q("[data-cc-load]").hidden = nome !== "load"; q("[data-cc-ok]").hidden = nome !== "ok"; q("[data-cc-err]").hidden = nome !== "err";
+    if (tx) q("[data-cc-load-tx]").textContent = tx;
+    cc.hidden = false;
+  };
+  const preencherOk = tel => {
+    const nota = NV.sum(), [c, va] = NV.verdictFor(nota);
+    q("[data-cc-empresa]").textContent = CONFIG[DECK.key];
+    q("[data-cc-msg]").textContent = tel
+      ? `Você deu o primeiro movimento. O diagnóstico completo de ${CONFIG[DECK.key]} já está com o nosso time e, em breve, um estrategista da M.Mattos entra em contato pelo WhatsApp ${fmtTel(tel)} para mostrar a jogada que coloca o seu Instagram para vender.`
+      : `Você deu o primeiro movimento. O diagnóstico completo de ${CONFIG[DECK.key]} está pronto e, em breve, um estrategista da M.Mattos entra em contato para mostrar a jogada que coloca o seu Instagram para vender.`;
+    const nb = q("[data-cc-nota]"); nb.textContent = `${nota}/100`; nb.style.color = `var(--${c})`;
+    q("[data-cc-verd]").textContent = va.replace(/\.$/, "");
+    q("[data-cc-data]").textContent = CONFIG.data;
+    fase("ok");
+  };
+  let ultimo = null;
+  const enviar = async (nome, tel) => {
+    ultimo = [nome, tel];
+    fase("load", "Concluindo o seu diagnóstico…");
+    try {
+      if (STATE.analise && !STATE.diag) { fase("load", "Montando as recomendações…"); await DIAG.gerar(); }
+      fase("load", "Preparando o diagnóstico completo…");
+      const { blob, filename } = await makePdf();
+      if (window.claude?.use) {
+        // Dentro do Claude (uso da agência): baixa o PDF
+        const dl = await window.claude.use("downloads").catch(() => null);
+        if (dl) await dl.save({ filename, data: blob }).catch(e => { if (e?.code !== "declined") throw e; });
+      } else {
+        fase("load", "Enviando para o nosso time…");
+        const v = CALC.values();
+        const r = await fetch("/api/lead", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({
+          pdf: await blobB64(blob),
+          lead: { diagnostico: DECK.titulo, empresa: CONFIG[DECK.key], instagram: CONFIG.ig, nicho: document.querySelector("[data-nicho]")?.value || "",
+            nome, telefone: tel, nota: NV.sum(), faturamentoHoje: Math.round(v.hoje), faturamentoMeta: Math.round(v.meta),
+            plano: document.querySelector(".pack.chosen h3")?.textContent || "", validade: CONFIG.data }
+        }) });
+        const j = await r.json().catch(() => ({}));
+        if (!r.ok || !j.ok) throw new Error("envio " + r.status);
+      }
+      preencherOk(tel);
+    } catch (err) {
+      console.error(err);
+      fase("err");
+    }
+  };
+  q("[data-cc-retry]").addEventListener("click", () => ultimo && enviar(...ultimo));
+  q("[data-cc-back]").addEventListener("click", () => { cc.hidden = true; });
+  cc.addEventListener("keydown", e => e.stopPropagation());
+
+  mForm.addEventListener("submit", e => {
     e.preventDefault();
     const nome = mf("nome").value.trim(), tel = mf("tel").value.replace(/\D/g, ""), empresa = mf("empresa").value.trim();
     if (!nome) { mStatus.textContent = "Digite o seu nome."; mStatus.className = "lm-status err"; mf("nome").focus(); return; }
     if (tel.length < 10) { mStatus.textContent = "Digite o WhatsApp com DDD, por exemplo (21) 99999-9999."; mStatus.className = "lm-status err"; mf("tel").focus(); return; }
+    if (!empresa) { mStatus.textContent = "Digite o nome da empresa."; mStatus.className = "lm-status err"; mf("empresa").focus(); return; }
     setLead({ nome, tel });
-    if (empresa && empresa !== CONFIG[DECK.key]) {
+    if (empresa !== CONFIG[DECK.key]) {
       CONFIG[DECK.key] = empresa; fillAll();
       try { localStorage.setItem(LS_KEY, JSON.stringify({ nome: CONFIG[DECK.key], ig: CONFIG.ig })); } catch {}
     }
-    const janela = window.open("about:blank", "_blank");
-    mSend.disabled = true;
-    try {
-      mSend.textContent = "Gerando o PDF…"; mStatus.textContent = "Montando o seu diagnóstico."; mStatus.className = "lm-status";
-      const { blob } = await makePdf();
-      mSend.textContent = "Enviando…";
-      const v = CALC.values();
-      const r = await fetch("/api/lead", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({
-        pdf: await blobB64(blob),
-        lead: { diagnostico: DECK.titulo, empresa: CONFIG[DECK.key], instagram: CONFIG.ig, nicho: document.querySelector("[data-nicho]")?.value || "",
-          nome, telefone: tel, nota: NV.sum(), faturamentoHoje: Math.round(v.hoje), faturamentoMeta: Math.round(v.meta),
-          plano: document.querySelector(".pack.chosen h3")?.textContent || "", validade: CONFIG.data }
-      }) });
-      const j = await r.json().catch(() => ({}));
-      if (!r.ok || !j.pdfUrl) throw new Error("envio " + r.status);
-      const msg = [`*${DECK.titulo}*`, `Empresa: ${CONFIG[DECK.key]} (${CONFIG.ig})`, `Responsável: ${nome}`, `WhatsApp: ${fmtTel(tel)}`,
-        `Nota Vitrine: ${NV.sum()}/100`, `Condição especial até ${CONFIG.data}`, "", `PDF do diagnóstico: ${j.pdfUrl}`].join("\n");
-      const wa = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`;
-      mWa.href = wa; mWa.hidden = false;
-      if (janela) janela.location.href = wa;
-      mStatus.textContent = janela ? "Pronto! O WhatsApp abriu com a mensagem: é só tocar em enviar. Se não abriu, use o botão verde." : "Pronto! Toque no botão verde para enviar pelo WhatsApp.";
-      mStatus.className = "lm-status ok"; mSend.textContent = "Enviado";
-    } catch (err) {
-      console.error(err);
-      janela?.close();
-      mStatus.textContent = "Não conseguimos enviar agora. Confira a internet e tente de novo."; mStatus.className = "lm-status err";
-      mSend.disabled = false; mSend.textContent = "Tentar de novo";
-    }
+    fechar();
+    enviar(nome, tel);
   });
 
-  document.querySelectorAll("[data-pdf]").forEach(b => {
-    if (!window.claude?.use) b.textContent = "Enviar diagnóstico pelo WhatsApp";
-    b.addEventListener("click", () => window.claude?.use ? baixar(b) : abrir());
-  });
+  // Concluir: com nome, WhatsApp e empresa já preenchidos na capa, envia direto. Senão, pede os dados.
+  const concluir = () => {
+    if (window.claude?.use) return enviar(LEAD.nome, LEAD.tel);
+    const completo = LEAD.nome && String(LEAD.tel || "").length >= 10 && CONFIG[DECK.key] !== DEF_NOME;
+    completo ? enviar(LEAD.nome, LEAD.tel) : abrir();
+  };
+  document.querySelectorAll("[data-concluir]").forEach(b => b.addEventListener("click", concluir));
   return { makePdf };
 })();
 
@@ -1323,8 +1449,13 @@ READY = true;
 NV.update();
 CALC.update();
 
+// Celular em pé abre na vertical; computador e celular deitado, na horizontal.
+const vertMQ = window.matchMedia("(orientation: portrait) and (max-width: 900px)");
+const tamanho = () => vertMQ.matches ? { width: 720, height: 1280 } : { width: 1280, height: 720 };
+document.documentElement.classList.toggle("vert", vertMQ.matches);
+vertMQ.addEventListener?.("change", () => { document.documentElement.classList.toggle("vert", vertMQ.matches); Reveal.configure(tamanho()); Reveal.layout(); });
 Reveal.initialize({
-  width: 1280, height: 720, margin: 0, center: false, hash: true,
+  ...tamanho(), margin: 0, scrollActivationWidth: 0, center: false, hash: true,
   transition: "fade", transitionSpeed: "slow", backgroundTransition: "fade",
   controls: true, progress: true, slideNumber: "c/t",
   plugins: [RevealNotes]
@@ -1332,6 +1463,7 @@ Reveal.initialize({
   VanillaTilt.init(document.querySelectorAll(".pack"), { max: 5, speed: 600, glare: true, "max-glare": .12 });
 });
 Reveal.on("slidechanged", renderDiag);
+Reveal.on("slidechanged", e => DIAG.auto(e));
 </script>
 </body>
 </html>
