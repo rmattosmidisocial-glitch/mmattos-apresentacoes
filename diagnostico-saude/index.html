@@ -720,11 +720,11 @@ const CONFIG = {
   data: new Date(Date.now() + 20 * 864e5).toLocaleDateString("pt-BR"), // condição especial: sempre 20 dias após o diagnóstico
   destaque: "crescimento",
   pacotes: [
-    { id: "essencial", nome: "Essencial", fid: "6 meses", avulso: "R$ 2.000/mês", preco: "R$ 2.000", mensal: 2000, obs: "/mês",
+    { id: "essencial", nome: "Essencial", fid: "6 meses", avulso: "", preco: "R$ 2.500", mensal: 2500, obs: "/mês",
       itens: [["Social media + audiovisual",1],["Arrumação da vitrine do perfil",1],["Tráfego pago",0],["Trackeamento",0],["CRM",0],["Gravações com a persona",0]] },
-    { id: "crescimento", nome: "Crescimento", fid: "6 meses", avulso: "R$ 3.500/mês", preco: "R$ 3.300", mensal: 3300, obs: "/mês",
+    { id: "crescimento", nome: "Crescimento", fid: "6 meses", avulso: "", preco: "R$ 3.800", mensal: 3800, obs: "/mês",
       itens: [["Social media + audiovisual",1],["Arrumação da vitrine do perfil",1],["Tráfego pago",1],["Trackeamento (setup grátis)",1],["CRM",0],["Gravações com a persona",0]] },
-    { id: "dominio", nome: "Domínio", fid: "12 meses", avulso: "R$ 6.100/mês", preco: "R$ 5.490", mensal: 5490, obs: "/mês",
+    { id: "dominio", nome: "Domínio", fid: "12 meses", avulso: "", preco: "R$ 6.000", mensal: 6000, obs: "/mês",
       itens: [["Social media + audiovisual",1],["Arrumação da vitrine do perfil",1],["Tráfego + trackeamento",1],["CRM (implantação grátis)",1],["Gravações com a persona (4/mês)",1],["Posicionamento com 50% off",1]] }
   ]
 };
@@ -848,7 +848,7 @@ document.querySelectorAll("[data-packs]").forEach(box => {
     <div class="pack${p === destaque ? " star" : ""}" data-badge="${p === destaque ? "Recomendado para você" : ""}">
       <h3>${p.nome}</h3>
       <ul>${p.itens.map(([t, on]) => `<li class="${on ? "" : "off"}">${t}</li>`).join("")}</ul>
-      <div class="was">Avulso: ${p.avulso}</div>
+      ${p.avulso ? `<div class="was">Avulso: ${p.avulso}</div>` : `<div class="was" style="text-decoration:none"></div>`}
       <div class="now">${p.preco} <small>${p.obs}</small></div>
       ${p.extra ? `<div class="fid" style="color:var(--text)">${p.extra}</div>` : ""}
       <div class="fid">Fidelidade de ${p.fid}</div>
