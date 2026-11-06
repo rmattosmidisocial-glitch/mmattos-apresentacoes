@@ -50,6 +50,19 @@ html,body{background:var(--bg)}
 .orb{position:absolute;border-radius:50%;filter:blur(2px)}
 @keyframes drift{to{transform:translate(-30px,20px) scale(1.06)}}
 
+/* Capa em mosaico: dentista, médico, sorriso, clínica e consulta juntos */
+.mosaic{position:absolute;inset:0;display:grid;grid-template-columns:1.25fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:8px;padding:8px 8px 8px 47%;z-index:0}
+.mosaic div{overflow:hidden;border-radius:16px;position:relative;background:var(--surface)}
+.mosaic .m1{grid-row:1/span 2}
+.mosaic img{width:100%;height:100%;object-fit:cover;transform:scale(1.04);opacity:0}
+.present .mosaic img{animation:mosin .9s ease-out forwards, kb 16s ease-out forwards}
+.present .mosaic .m2 img{animation-delay:.15s,.15s}.present .mosaic .m3 img{animation-delay:.3s,.3s}.present .mosaic .m4 img{animation-delay:.45s,.45s}.present .mosaic .m5 img{animation-delay:.6s,.6s}
+@keyframes mosin{to{opacity:1}}
+.mosaic-shade{position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(90deg,var(--bg) 0%,var(--bg) 46%,rgba(6,20,40,.7) 52%,rgba(6,20,40,0) 64%)}
+.vert .mosaic{padding:8px 8px 46% 8px;grid-template-columns:1fr 1fr;grid-template-rows:1.3fr 1fr 1fr}
+.vert .mosaic .m1{grid-row:auto;grid-column:1/span 2}
+.vert .mosaic-shade{background:linear-gradient(0deg,var(--bg) 0%,var(--bg) 44%,rgba(6,20,40,.55) 54%,rgba(6,20,40,0) 70%)}
+@media (prefers-reduced-motion: reduce){.mosaic img{opacity:1}}
 /* Capa */
 .logo{width:58px;height:auto;margin-bottom:16px;filter:drop-shadow(0 8px 20px rgba(0,0,0,.5))}
 .cover{justify-content:center}
@@ -395,7 +408,13 @@ html,body{background:var(--bg)}
 
 <!-- 1. CAPA -->
 <section>
-  <div class="bg"><img src="/diagnostico-saude/img/cover.jpg" alt=""></div><div class="shade-left"></div>
+  <div class="mosaic" aria-hidden="true">
+    <div class="m1"><img src="/diagnostico-saude/img/cover.jpg" alt=""></div>
+    <div class="m2"><img src="/diagnostico-saude/img/medico.jpg" alt=""></div>
+    <div class="m3"><img src="/diagnostico-saude/img/sorriso.jpg" alt=""></div>
+    <div class="m4"><img src="/diagnostico-saude/img/clinica.jpg" alt=""></div>
+    <div class="m5"><img src="/diagnostico-saude/img/consulta.jpg" alt=""></div>
+  </div><div class="mosaic-shade"></div>
   <div class="wrap cover">
     <img class="logo" src="/assets/logo.png" alt="M.Mattos">
     <div class="eyebrow" data-fill="agencia">M.Mattos · Assessoria de marketing 360</div>
