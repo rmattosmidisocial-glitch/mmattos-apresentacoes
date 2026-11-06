@@ -370,7 +370,7 @@ html,body{background:var(--bg)}
     <div class="eyebrow" data-fill="agencia">M.Mattos · Assessoria de marketing 360</div>
     <h1>Diagnóstico<br>Feed <span>Vitrine</span></h1>
     <p class="sub">Antes de criar, a gente diagnostica. É assim que o cliente com fome enxerga o seu Instagram nos primeiros 5 segundos.</p>
-    <div class="client">
+    <div class="client" data-prevent-swipe>
       <div class="ck">Restaurante avaliado</div>
       <div class="crow"><span class="av" data-fill="inicial">S</span>
         <div style="min-width:0"><div class="cname" contenteditable="true" spellcheck="false" role="textbox" aria-label="Nome da empresa avaliada" data-edit="restaurante">Seu Restaurante</div>
@@ -457,7 +457,7 @@ html,body{background:var(--bg)}
   <div class="wrap">
     <div class="eyebrow">Análise ao vivo</div>
     <h2 style="margin-bottom:18px">O perfil de <span class="accent" data-fill="ig">@seurestaurante</span> hoje</h2>
-    <div class="live">
+    <div class="live" data-prevent-swipe>
       <div class="drop" data-drop>
         <div class="empty"><b>Cole ou arraste o print do Instagram</b>Ctrl/Cmd + V, arraste o arquivo ou use o botão ao lado.<br>A análise começa sozinha e marca cada problema no print.<br>Clique no print para marcar um ponto à mão.</div>
       </div>
@@ -484,7 +484,7 @@ html,body{background:var(--bg)}
   <div class="wrap">
     <div class="eyebrow">Nota Vitrine</div>
     <h2 style="margin-bottom:12px">Como está a sua vitrine hoje</h2>
-    <div class="nv" data-nv>
+    <div class="nv" data-nv data-prevent-swipe>
       <div class="gauge">
         <div class="src" data-nv-src>Preenchida pela análise do print</div>
         <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(226,232,245,.1)" stroke-width="10"/><circle data-ring cx="60" cy="60" r="50" fill="none" stroke="var(--accent)" stroke-width="10" stroke-linecap="round" stroke-dasharray="314.16" stroke-dashoffset="314.16" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset .9s,stroke .6s"/><text data-total x="60" y="62" text-anchor="middle" dominant-baseline="middle" fill="var(--text)" style="font-family:var(--display);font-weight:800;font-size:34px">0</text><text x="60" y="86" text-anchor="middle" fill="var(--muted)" style="font-size:9px">de 100</text></svg>
@@ -502,7 +502,7 @@ html,body{background:var(--bg)}
   <div class="wrap">
     <div class="eyebrow">Dinheiro na mesa</div>
     <h2 style="margin-bottom:20px">Quanto um perfil que converte vale para você</h2>
-    <div class="calc" data-calc>
+    <div class="calc" data-calc data-prevent-swipe>
       <div class="col">
         <h3>Como está hoje</h3>
         <div class="tag">O que você me contou</div>
@@ -576,7 +576,7 @@ html,body{background:var(--bg)}
       <div class="kpi"><div class="k">Meta de faturamento</div><div class="v" style="color:var(--ok)" data-d="meta">R$ 0</div></div>
       <div class="kpi"><div class="k">Na mesa por mês</div><div class="v" style="color:var(--gold)" data-d="gap">R$ 0</div></div>
     </div>
-    <div class="dcols">
+    <div class="dcols" data-prevent-swipe>
       <div class="dcol today"><h3>Como está <span class="pill">Hoje</span></h3><ul data-d="hojeList"></ul></div>
       <div class="dcol could"><h3>Como pode ficar <span class="pill">Vitrine</span></h3><ul data-d="podeList"></ul><div class="biob" data-d="bio" hidden></div></div>
       <div class="dcol tech"><h3>Técnicas de crescimento <span class="pill">Faturamento</span></h3><ul data-d="tecList"></ul><div class="projecao" data-d="projecao"></div></div>
@@ -1450,10 +1450,22 @@ NV.update();
 CALC.update();
 
 // Celular em pé abre na vertical; computador e celular deitado, na horizontal.
-const vertMQ = window.matchMedia("(orientation: portrait) and (max-width: 900px)");
-const tamanho = () => vertMQ.matches ? { width: 720, height: 1280 } : { width: 1280, height: 720 };
-document.documentElement.classList.toggle("vert", vertMQ.matches);
-vertMQ.addEventListener?.("change", () => { document.documentElement.classList.toggle("vert", vertMQ.matches); Reveal.configure(tamanho()); Reveal.layout(); });
+const ehCelularEmPe = () => {
+  const curto = Math.min(screen.width, screen.height) <= 900;
+  const tipo = screen.orientation?.type || "";
+  const emPe = tipo ? tipo.startsWith("portrait") : (window.orientation === undefined ? innerHeight > innerWidth : Math.abs(window.orientation) !== 90);
+  return curto && emPe;
+};
+let vertical = ehCelularEmPe();
+const tamanho = () => vertical ? { width: 720, height: 1280 } : { width: 1280, height: 720 };
+document.documentElement.classList.toggle("vert", vertical);
+const girou = () => setTimeout(() => {
+  const v = ehCelularEmPe();
+  if (v === vertical) return;
+  vertical = v; document.documentElement.classList.toggle("vert", v); Reveal.configure(tamanho()); Reveal.layout();
+}, 250);
+screen.orientation?.addEventListener?.("change", girou);
+window.addEventListener("orientationchange", girou);
 Reveal.initialize({
   ...tamanho(), margin: 0, scrollActivationWidth: 0, center: false, hash: true,
   transition: "fade", transitionSpeed: "slow", backgroundTransition: "fade",
